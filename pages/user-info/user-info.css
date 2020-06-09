@@ -1,0 +1,86 @@
+.user-info-window {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #587983;
+}
+
+.user-info-block {
+    background-color: white;
+    margin: auto;
+    padding: 32px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.user-avatar-and-info-block {
+    display: flex;
+    flex-direction: row;
+}
+
+.user-avatar-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+}
+
+.user-avatar-block__avatar {
+    height: 200px;
+    border-radius: 50%;
+}
+
+.info-block {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    padding: 8px;
+    margin-left: 8px;
+}
+
+.info-block__validation-error-text {
+    color: red;
+    font-size: smaller;
+}
+
+.info-block__input__has-error {
+    border-color: red !important;
+}
+
+.info-block__inputs-container {
+    display: flex;
+    flex-direction: column;
+}
+.info-block > .info-block__input-with-errors-container:not(:last-child) {
+    margin-bottom: 8px;
+}
+
+.info-block__input-with-errors-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-block__input {
+    height: 32px;
+    padding: 8px 8px 8px 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    /*margin-bottom: -1px;*/
+}
+
+.user-info-block__button {
+    padding: 16px;
+    border: 1px solid #ced4da;
+    margin-top: 4px;
+    border-radius: 4px;
+    font-size: medium;
+}
+
+.user-info-block__primary-button {
+    /*background-color: #fae8da;*/
+    background-color: dodgerblue;
+    color: white;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User info</title>
+    <link rel="stylesheet" href="../../index.css">
+    <link rel="stylesheet" href="user-info.css">
+</head>
+<body>
+<div class="user-info-window">
+    <div class="user-info-block">
+        <h1>Информация о пользователе</h1>
+        <div class="user-avatar-and-info-block">
+            <div class="user-avatar-block">
+                <img class="user-avatar-block__avatar" src="https://placekitten.com/500/500">
+                <a href="http://google.com">Изменить аватар</a>
+            </div>
+            <div class="info-block">
+                <div class="info-block__input-with-errors-container">
+                    <input class="info-block__input info-block__input__has-error" type="text" placeholder="ФИО"/>
+                    <div class="info-block__validation-error-text">Сообщение об ошибке один!</div>
+                    <div class="info-block__validation-error-text">Сообщение об ошибке два!</div>
+                </div>
+
+                <div class="info-block__input-with-errors-container">
+                    <input class="info-block__input" type="text" placeholder="Логин"/>
+                </div>
+
+                <div class="info-block__input-with-errors-container">
+                    <input class="info-block__input" type="password" placeholder="Старый пароль"/>
+                </div>
+
+                <div class="info-block__input-with-errors-container">
+                    <input class="info-block__input" type="password" placeholder="Новый пароль"/>
+                </div>
+
+                <div class="info-block__input-with-errors-container">
+                    <input class="info-block__input" type="password" placeholder="Новый пароль еще раз"/>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; flex-direction: column">
+            <button class="user-info-block__button user-info-block__primary-button">Сохранить</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
