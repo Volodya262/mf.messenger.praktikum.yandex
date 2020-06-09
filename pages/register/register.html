@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="register.css">
     <link rel="stylesheet" href="../../index.css">
     <link rel="stylesheet" href="../login-register-common.css">
 </head>
@@ -31,12 +31,27 @@
             <path d='M54.457,40.377h3.059V55.26H54.457Zm4.791,9.786a5.4,5.4,0,1,1,5.4,5.383A5.343,5.343,0,0,1,59.248,50.163Zm7.748,0a2.345,2.345,0,1,0-2.345,2.406A2.287,2.287,0,0,0,67,50.163Zm15.249-5.1v9.685c0,3.425-2.671,4.872-5.382,4.872a5.212,5.212,0,0,1-4.832-2.467l2.609-1.509a2.331,2.331,0,0,0,2.325,1.285,2.032,2.032,0,0,0,2.3-2.181v-.938a3.622,3.622,0,0,1-2.977,1.325,5.181,5.181,0,0,1,0-10.357,3.622,3.622,0,0,1,2.977,1.325v-1.04Zm-2.976,4.893A2.47,2.47,0,1,0,76.8,52.325,2.308,2.308,0,0,0,79.269,49.959Zm4.708.2a5.4,5.4,0,1,1,5.4,5.383A5.343,5.343,0,0,1,83.977,50.163Zm7.748,0a2.346,2.346,0,1,0-2.345,2.406A2.287,2.287,0,0,0,91.725,50.163Z'
                   fill='#001a49'/>
         </svg>
-        <h1>Представься, мразь!</h1>
-        <input class="auth-block__input login-block__login-input" type="text" placeholder="Логин"/>
-        <input class="auth-block__input login-block__login-password" type="password" placeholder="Пароль"/>
+        <h1>Зарегистрируйся, мразь!</h1>
+        <div class="auth-block__inputs-container">
+            <div class="auth-block__input-with-errors-container">
+                <input class="auth-block__input auth-block__input__has-error" type="text" placeholder="Почта"/>
+                <div class="auth-block__validation-error-text">Сообщение об ошибке один!</div>
+                <div class="auth-block__validation-error-text">Сообщение об ошибке два!</div>
+            </div>
+            <div class="auth-block__input-with-errors-container">
+                <input class="auth-block__input login-block__login-input" type="text" placeholder="Логин"/>
+            </div>
+            <div class="auth-block__input-with-errors-container">
+                <input class="auth-block__input login-block__login-password" type="password" placeholder="Пароль"/>
+            </div>
+            <div class="auth-block__input-with-errors-container">
+                <input class="auth-block__input login-block__login-password" type="password" placeholder="Пароль еще раз"/>
+                <div class="auth-block__validation-error-text">А-а-а-а! Пароли не совпадают!!!</div>
+            </div>
+        </div>
         <div class="login-block__buttons-container">
-            <button class="auth-block__button auth-block__primary-button">Войти</button>
-            <button class="auth-block__button auth-block__secondary-button">Зарегистрироваться</button>
+            <button class="auth-block__button auth-block__primary-button">Зарегистрироваться</button>
+            <button class="auth-block__button auth-block__secondary-button">Войти</button>
         </div>
     </div>
 </div>

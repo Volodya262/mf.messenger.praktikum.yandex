@@ -1,0 +1,27 @@
+.auth-block__inputs-container {
+    display: flex;
+    flex-direction: column;
+}
+.auth-block__inputs-container > .auth-block__input-with-errors-container:not(:last-child) {
+    margin-bottom: 8px;
+}
+
+.auth-block__input-with-errors-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-block__buttons-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+}
+
+.auth-block__validation-error-text {
+    color: red;
+    font-size: smaller;
+}
+
+.auth-block__input__has-error {
+    border-color: red !important;
+}
