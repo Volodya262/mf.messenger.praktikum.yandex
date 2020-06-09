@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link rel="stylesheet" href="chat.css">
+    <link rel="stylesheet" href="chat-list.css">
+    <link rel="stylesheet" href="messages-list.css">
+    <link rel="stylesheet" href="input-main.css">
+    <link rel="stylesheet" href="search.css">
+    <link rel="stylesheet" href="../../index.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="chat-window">
+        <div class="chat-list-and-search-input-container">
+            <div class="search-container">
+                <input class="search-container__input" type="text"/>
+<!--                <textarea class="input-main__input"></textarea>-->
+                <div class="search-container__send-button-container">
+                    <button class="search__send-button">
+                        <i class="fas fa-search fa-2x"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="chat-list-container-wrapper">
+                <div class="chat-list-container">
+                    <div class="chat-item chat-item__selected">
+                        <img src=https://placekitten.com/100/100 class="chat-item__logo" alt="logo"/>
+                        <div class="chat-item__all-text-container">
+                            <div class="chat-item__title-and-date-container">
+                                <span class="chat-item__title">Выделенный чат</span>
+                                <span class="chat-item__date">10.06.2020</span>
+                            </div>
+                            <div class="chat-item__author-and-message-container">
+                                <span class="chat-item__author">Владимир:</span>
+                                <span class="chat-item__message">Всем привет!</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-item">
+                        <img src=https://placekitten.com/100/100 class="chat-item__logo" alt="logo"/>
+                        <div class="chat-item__all-text-container">
+                            <div class="chat-item__title-and-date-container">
+                                <span class="chat-item__title">Чат без выделения</span>
+                                <span class="chat-item__date">10.06.2020</span>
+                            </div>
+                            <div class="chat-item__author-and-message-container">
+                                <span class="chat-item__author">Вася:</span>
+                                <span class="chat-item__message">Всем привет! Это очень длинное сообщение, которое должно вылезти за пределы экрана</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-item">
+                        <img src=https://placekitten.com/100/100 class="chat-item__logo" alt="logo"/>
+                        <div class="chat-item__all-text-container">
+                            <div class="chat-item__title-and-date-container">
+                                <span class="chat-item__title">Клуб любителей ресайзить</span>
+                                <span class="chat-item__date">10.06.2020</span>
+                            </div>
+                            <div class="chat-item__author-and-message-container">
+                                <span class="chat-item__author">Аня:</span>
+                                <span class="chat-item__message">Ребята! А вы уже пробовали ресайзить окно? Всё такое адаптивное!</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color: aquamarine; height: 300px">
+                        Занимаем много места чтобы проверить скролл
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="messages-list-and-input-container">
+            <div class="messages-list-container-wrapper">
+                <div class="messages-list-container">
+                    <div>
+                        <div class="date">09.06.2020</div>
+                        <div class="message-user-group">
+                            <img src=https://placekitten.com/100/100 class="message-user-group__avatar" alt="user avatar"/>
+                            <div class="message-user-group__all-text-container">
+                                <div class="message-user-group__author-container">
+                                    <span class="message-user-group__author">Вася</span>
+                                </div>
+                                <div class="message-user-group__messages-container">
+                                    <div class="message-user-group__message-row">
+                                        <div class="message-user-group__message-text">блаблабла</div>
+                                        <div>21:21</div>
+                                    </div>
+
+                                    <div class="message-user-group__message-row">
+                                        <div class="message-user-group__message-text">бубубу</div>
+                                        <div>21:22</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="message-user-group">
+                            <img src=https://placekitten.com/100/100 class="message-user-group__avatar" alt="user avatar"/>
+                            <div class="message-user-group__all-text-container">
+                                <div class="message-user-group__author-container">
+                                    <span class="message-user-group__author">Ольга</span>
+                                </div>
+                                <div class="message-user-group__messages-container">
+                                    <div class="message-user-group__message-row">
+                                        <div class="message-user-group__message-text">блаблабла</div>
+                                        <div>21:21</div>
+                                    </div>
+
+                                    <div class="message-user-group__message-row">
+                                        <div class="message-user-group__message-text">бубубу</div>
+                                        <div>21:22</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="date">10.06.2020</div>
+                        <div class="message-user-group">
+                            <img src=https://placekitten.com/100/100 class="message-user-group__avatar" alt="user avatar"/>
+                            <div class="message-user-group__all-text-container">
+                                <div class="message-user-group__author-container">
+                                    <span class="message-user-group__author">Владимир</span>
+                                </div>
+                                <div class="message-user-group__messages-container">
+                                    <div class="message-user-group__message-row">
+                                        <div class="message-user-group__message-text">блаблабла</div>
+                                        <div>21:21</div>
+                                    </div>
+
+                                    <div class="message-user-group__message-row">
+                                        <div class="message-user-group__message-text">Всем привет!</div>
+                                        <div>21:22</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="input-main-container">
+                <textarea class="input-main__input"></textarea>
+                <div class="input-main__send-button-container">
+                    <button class="input__send-button">
+                        <i class="fas fa-paper-plane fa-3x"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

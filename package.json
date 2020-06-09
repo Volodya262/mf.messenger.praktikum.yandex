@@ -18,6 +18,10 @@
   },
   "homepage": "https://github.com/yandex-praktikum/mf.messenger.praktikum.yandex#readme",
   "devDependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "node-dev": "^4.0.0"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.0"
   }
 }

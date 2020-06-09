@@ -1,0 +1,64 @@
+.date {
+    width: min-content;
+    background-color: white;
+    margin: auto;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 1.5em;
+    margin-block-start: 0.67em;
+    box-shadow: 5px 5px 5px -2px rgba(0, 0, 0, 0.2);
+}
+
+.message-user-group {
+    display: flex;
+    margin: 8px;
+    background: white;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 5px 5px 5px -2px rgba(0, 0, 0, 0.2);
+}
+
+.message-user-group__avatar {
+    height: 50px;
+    border-radius: 50%;
+}
+
+.message-user-group__all-text-container,
+.message-user-group__author-container,
+.message-user-group__messages-container {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.message-user-group__all-text-container {
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.message-user-group__author-container {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 8px;
+}
+
+.message-user-group__messages-container {
+    padding: 0 8px;
+    flex-direction: column;
+}
+
+.message-user-group__author {
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.message-user-group__message-row {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 8px;
+}
+
+.message-user-group__message-text {
+    text-align: start;
+    white-space: pre-wrap; /* Фикс для отрисовки новой строки через \n */
+}

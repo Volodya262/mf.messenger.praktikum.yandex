@@ -1,0 +1,40 @@
+.input-main-container {
+    display: flex;
+    flex-shrink: 1;
+    flex-direction: row;
+    padding: 8px;
+    background-color: white;
+}
+
+.input-main__input {
+    padding: 8px;
+    border-radius: 8px;
+    flex: 1 1 500px;
+    outline-style: none;
+    box-shadow: none;
+    margin-right: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.input-main__send-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.input__send-button {
+    background-color: DodgerBlue; /* Blue background */
+    outline-style: none;
+    border-radius: 8px;
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 8px; /* Some padding */
+    cursor: pointer; /* Mouse pointer on hover */
+}
+
+/* Darker background on mouse-over */
+.input__send-button:hover {
+    background-color: RoyalBlue;
+}

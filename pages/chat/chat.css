@@ -1,0 +1,46 @@
+.chat-window {
+    display: flex;
+    flex: 1 1 800px;
+    min-width: 600px;
+    max-width: 100vw;
+    height: 100vh;
+}
+
+.chat-list-and-search-input-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 500px;
+    min-width: 400px;
+    max-width: 50vw;
+    /*min-height: 100%;*/
+}
+
+.chat-list-container-wrapper {
+    overflow: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 3px 0 5px -2px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    height: 100%;
+}
+
+.chat-list-container {
+}
+
+.messages-list-and-input-container {
+    flex: 5 1 500px;
+    min-width: 300px;
+    max-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    background-color: #587983;
+}
+
+.messages-list-container {
+}
+
+.messages-list-container-wrapper {
+    overflow: auto;
+    flex-grow: 1;
+}
