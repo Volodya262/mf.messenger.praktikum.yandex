@@ -1,0 +1,19 @@
+.window {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #587983;
+}
+
+.error-card-block {
+    background-color: white;
+    margin: auto;
+    padding: 32px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.
