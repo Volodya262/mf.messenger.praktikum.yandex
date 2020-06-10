@@ -21,7 +21,6 @@
     padding: 8px 8px 8px 8px;
     border: 1px solid #ced4da;
     border-radius: 4px;
-    /*margin-bottom: -1px;*/
 }
 
 .auth-block__button {
@@ -33,7 +32,6 @@
 }
 
 .auth-block__primary-button {
-    /*background-color: #fae8da;*/
     background-color: dodgerblue;
     color: white;
 }
