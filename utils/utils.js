@@ -1,12 +1,8 @@
 // когда будет вебпак - разобью на файлы))
 
-if (document.utils == null) {
-    document.utils = {};
-}
-
 // [1, 2, 3, 4] => 1
 
-function first(list) {
+export function first(list) {
     if (list == null || !Array.isArray(list)) {
         return undefined;
     }
@@ -18,14 +14,12 @@ function first(list) {
     return list[0]
 }
 
-document.utils.first = first;
-
 /**
  * Группировка данных по ключу. Ключ сравниваются через ===. Возвращает js Map.
  * @param arr Данные
  * @param keySelector Селектор ключа
  */
-function groupBy(arr, keySelector) {
+export function groupBy(arr, keySelector) {
     const groups = new Map();
 
     for (const item of arr) {
@@ -44,29 +38,23 @@ function groupBy(arr, keySelector) {
     return groups;
 }
 
-document.utils.groupBy = groupBy;
-
 /**
  * Группировка данных по ключу. Ключ сравниваются через ===. Возвращает массив объектов {ключ, значения}.
  * @param arr Данные
  * @param keySelector Селектор ключа
  */
-function groupByAsArray(arr, keySelector) {
+export function groupByAsArray(arr, keySelector) {
     const map = groupBy(arr, keySelector);
     const res = [];
     map.forEach((values, key) => res.push({key: key, items: values}));
     return res;
 }
 
-document.utils.groupByAsArray = groupByAsArray;
-
-function identity(value) {
+export function identity(value) {
     return value;
 }
 
-document.utils.identity = identity;
-
-function isEmpty(value) {
+export function isEmpty(value) {
     if (value == null) {
         return true;
     }
@@ -84,9 +72,7 @@ function isEmpty(value) {
     return true;
 }
 
-document.utils.isEmpty = isEmpty;
-
-function last(list) {
+export function last(list) {
     if (list == null || !Array.isArray(list)) {
         return undefined;
     }
@@ -98,15 +84,11 @@ function last(list) {
     return list[list.length - 1]
 }
 
-document.utils.last = last;
-
-function rangeRight(start, end, step) {
+export function rangeRight(start, end, step) {
     return range(start, end, step, true);
 }
 
-document.utils.rangeRight = rangeRight;
-
-function range(start, end, step, isRight) {
+export function range(start, end, step, isRight) {
     const res = [];
 
     if (start == null) {
@@ -145,15 +127,13 @@ function range(start, end, step, isRight) {
     return res;
 }
 
-document.utils.range = range;
-
 /**
  * Сортировка массива объектов по ключу
  * @param arr Массив
  * @param keySelector Селектор ключа
  * @param compareFn Функция сравнения ключей
  */
-function sortBy(arr, keySelector, compareFn) {
+export function sortBy(arr, keySelector, compareFn) {
     // не паримся за сложность алгоритма, надеемся на маленькие объемы С=
     const res = [];
     const sortedKeys = arr.map(keySelector).sort(compareFn);
@@ -168,8 +148,6 @@ function sortBy(arr, keySelector, compareFn) {
     return res;
 }
 
-document.utils.sortBy = sortBy;
-
 /**
  * Делит массив на массив массивов в соответствии с предикатом.
  * Например, можно разделить [1,2,3,-1,2,2,-1] на [1,2,3],[-1,2,2],[-1] если предикат currEl => currEl === -1
@@ -178,7 +156,7 @@ document.utils.sortBy = sortBy;
  * @param arr Исходный массив
  * @param splitPredicate Предикат разделения. Если выполняется, то текущий элемент будет положен в следующую коллекцию.
  */
-function splitByPredicate(arr, splitPredicate) {
+export function splitByPredicate(arr, splitPredicate) {
     if (arr.length === 0) {
         return [];
     }
@@ -197,13 +175,11 @@ function splitByPredicate(arr, splitPredicate) {
     return res;
 }
 
-document.utils.splitByPredicate = splitByPredicate;
-
 /**
  * Пытается спарсить Number. Если получается NaN, то возвращает null
  * @param src
  */
-function tryParseNumber(src) {
+export function tryParseNumber(src) {
     if (typeof src === "number") {
         return src;
     }
@@ -220,9 +196,7 @@ function tryParseNumber(src) {
     return null;
 }
 
-document.utils.tryParseNumber = tryParseNumber;
-
-function maxBy(arr, keySelector, compareFn) {
+export function maxBy(arr, keySelector, compareFn) {
     if (arr.length === 0) {
         throw new Error('Expected non-empty array')
     }
@@ -238,5 +212,3 @@ function maxBy(arr, keySelector, compareFn) {
 
     return currMax;
 }
-
-document.utils.maxBy = maxBy;

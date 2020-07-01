@@ -1,8 +1,4 @@
-if (document.templates == null) {
-    document.templates = {}
-}
-
-document.templates.chatItemTemplate = `<div class="chat-item {{#if isSelected}}chat-item__selected {{/if}}">
+export const chatItemTemplate = `<div class="chat-item {{#if isSelected}}chat-item__selected {{/if}}">
                         <img src=https://placekitten.com/100/100 class="chat-item__logo" alt="logo"/>
                         <div class="chat-item__all-text-container">
                             <div class="chat-item__title-and-date-container">
@@ -16,10 +12,10 @@ document.templates.chatItemTemplate = `<div class="chat-item {{#if isSelected}}c
                         </div>
                     </div>`;
 
-Handlebars.registerPartial('chatItem', document.templates.chatItemTemplate);
+Handlebars.registerPartial('chatItem', chatItemTemplate);
 
-document.templates.chatList =
+export const chatListTemplate =
     `{{#each chats}}
         {{> chatItem}}
     {{/each}}
-    `
+    `;
