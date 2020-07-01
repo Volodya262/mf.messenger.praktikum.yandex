@@ -22,6 +22,8 @@
     "node-dev": "^4.0.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.13.0"
+    "@fortawesome/fontawesome-free": "^5.13.0",
+    "date-fns": "^2.14.0",
+    "handlebars": "^4.7.6"
   }
 }

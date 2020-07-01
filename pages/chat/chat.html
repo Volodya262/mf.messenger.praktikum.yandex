@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link href="chat.css" rel="stylesheet">
+    <link href="chat-list.css" rel="stylesheet">
+    <link href="messages-list.css" rel="stylesheet">
+    <link href="input-main.css" rel="stylesheet">
+    <link href="search.css" rel="stylesheet">
+    <link href="../../index.css" rel="stylesheet">
+
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-wCBClaCr6pJ7sGU5kfb3gQMOOcIZNzaWpWcj/lD9Vfk="
+            src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
+
+    <script src="templates/chat-item.tmpl.js"></script>
+    <script src="../../utils/handlebars-custom-helpers.js"></script>
+    <script src="../../api/messages-api-stub.js"></script>
+    <script src="../../utils/utils.js"></script>
+    <script src="chat.js"></script>
+</head>
+
+<body>
+
+<div class="chat-window">
+    <div class="chat-list-and-search-input-container">
+        <div class="search-container">
+            <input class="search-container__input" type="text"/>
+            <div class="search-container__send-button-container">
+                <button class="search__send-button">
+                    <i class="fas fa-search fa-2x"></i>
+                </button>
+            </div>
+        </div>
+        <div class="chat-list-container-wrapper">
+            <div id="chat-list-container">
+
+            </div>
+        </div>
+    </div>
+    <div class="messages-list-and-input-container">
+        <div class="messages-list-container-wrapper">
+            <div class="messages-list-container">
+                <div>
+                    <div class="date">09.06.2020</div>
+                    <div class="message-user-group">
+                        <img alt="user avatar" class="message-user-group__avatar" src=https://placekitten.com/100/100/>
+                        <div class="message-user-group__all-text-container">
+                            <div class="message-user-group__author-container">
+                                <span class="message-user-group__author">Вася</span>
+                            </div>
+                            <div class="message-user-group__messages-container">
+                                <div class="message-user-group__message-row">
+                                    <div class="message-user-group__message-text">блаблабла</div>
+                                    <div>21:21</div>
+                                </div>
+
+                                <div class="message-user-group__message-row">
+                                    <div class="message-user-group__message-text">бубубу</div>
+                                    <div>21:22</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message-user-group">
+                        <img alt="user avatar" class="message-user-group__avatar" src=https://placekitten.com/100/100/>
+                        <div class="message-user-group__all-text-container">
+                            <div class="message-user-group__author-container">
+                                <span class="message-user-group__author">Ольга</span>
+                            </div>
+                            <div class="message-user-group__messages-container">
+                                <div class="message-user-group__message-row">
+                                    <div class="message-user-group__message-text">блаблабла</div>
+                                    <div>21:21</div>
+                                </div>
+
+                                <div class="message-user-group__message-row">
+                                    <div class="message-user-group__message-text">бубубу</div>
+                                    <div>21:22</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="date">10.06.2020</div>
+                    <div class="message-user-group">
+                        <img alt="user avatar" class="message-user-group__avatar" src=https://placekitten.com/100/100/>
+                        <div class="message-user-group__all-text-container">
+                            <div class="message-user-group__author-container">
+                                <span class="message-user-group__author">Владимир</span>
+                            </div>
+                            <div class="message-user-group__messages-container">
+                                <div class="message-user-group__message-row">
+                                    <div class="message-user-group__message-text">блаблабла</div>
+                                    <div>21:21</div>
+                                </div>
+
+                                <div class="message-user-group__message-row">
+                                    <div class="message-user-group__message-text">Всем привет!</div>
+                                    <div>21:22</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="input-main-container">
+            <textarea class="input-main__input"></textarea>
+            <div class="input-main__send-button-container">
+                <button class="input__send-button">
+                    <i class="fas fa-paper-plane fa-3x"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
