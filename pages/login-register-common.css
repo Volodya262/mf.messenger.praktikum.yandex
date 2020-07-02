@@ -14,6 +14,11 @@
     display: flex;
     flex-direction: column;
     box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+    min-width: 300px;
+}
+
+.auth-block__title {
+    text-align: center;
 }
 
 .auth-block__input {
