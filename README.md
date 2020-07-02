@@ -4,4 +4,7 @@
 
 Для запуска express надо набрать npm start. Приложение хостится на порте 4000.
 
-Также актуальная версия всегда доступна по адресу <https://suspicious-shaw-7ee247.netlify.app/>
+Актуальная версия всегда доступна по адресу <https://suspicious-shaw-7ee247.netlify.app/>
+
+Используется шаблонизатор Handlebars https://handlebarsjs.com/, шаблоны хранятся 
+в файлах с расширением .tmpl.js.
