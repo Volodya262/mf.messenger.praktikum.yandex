@@ -1,6 +1,6 @@
 import {ChatApiStub} from "../../api/messages-api-stub.js";
 import {chatListTemplate} from "./templates/chat-list.tmpl.js";
-import {groupByAsArray, sortBy, splitByPredicate} from "../../utils/utils.js";
+import {groupByAsArray, sortBy, splitByPredicate} from "../../utils/collections-utils.js";
 import {messagesListTemplate} from "./templates/messages-list-tmpl.js";
 
 document.addEventListener("DOMContentLoaded", function () {

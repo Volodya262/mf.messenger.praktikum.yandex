@@ -1,12 +1,15 @@
 import {
+    addValidationEventListener,
     clearNode,
-    PASSWORD_LENGTH_MAX,
-    PASSWORD_LENGTH_MIN,
+    escapeXss,
+    hasNoErrors,
     requiredField,
-    showErrorsInContainer,
-    toggleInputValid,
-    validateEmail
-} from "../login-register-common.js";
+    showValidateRes,
+    validateEmail,
+    validateLogin,
+    validatePassword,
+    validatePasswordConfirmation
+} from "../validation-common.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.forms.register;
@@ -16,55 +19,40 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     const mailElement = form.elements.mail;
-    mailElement.addEventListener('blur', () => {
-        const mail = mailElement.value;
-        const res = validateMail(mail);
-        showValidateRes(res, mailElement, mailErrorsContainerId)
-    });
+    addValidationEventListener(mailElement, validateMail, mailErrorsContainerId);
 
     const loginElement = form.elements.login;
-    loginElement.addEventListener('blur', () => {
-        const value = loginElement.value;
-        const res = validateLogin(value);
-        showValidateRes(res, loginElement, loginErrorsContainerId)
-    });
+    addValidationEventListener(loginElement, validateLogin, loginErrorsContainerId);
 
     const passwordElement = form.elements.password;
-    passwordElement.addEventListener('blur', () => {
-        const value = passwordElement.value;
-        const res = validatePassword(value);
-        showValidateRes(res, passwordElement, passwordErrorsContainerId)
-    });
+    addValidationEventListener(passwordElement, validatePassword, passwordErrorsContainerId);
 
     const passwordConfirmationElement = form.elements['password-confirmation'];
-    passwordConfirmationElement.addEventListener('blur', () => {
-        const value = passwordConfirmationElement.value;
-        const res = validatePasswordConfirmation(passwordElement.value, value);
-        showValidateRes(res, passwordConfirmationElement, passwordConfirmationErrorsContainerId)
-    });
-
+    addValidationEventListener(passwordConfirmationElement,
+        (passwordConfirmation) => validatePasswordConfirmation(escape(passwordElement.value), passwordConfirmation),
+        passwordConfirmationErrorsContainerId);
 })
 
 function onSubmit() {
     clearErrors();
-    const form = document.forms.register;
+    const form = document.forms.register; // todo вынести в переменные файла по аналогии с user-info.js
 
     const mailElement = form.elements.mail;
-    const mail = mailElement.value;
+    const mail = escapeXss(mailElement.value);
 
     const loginElement = form.elements.login;
-    const login = loginElement.value;
+    const login = escapeXss(loginElement.value);
 
     const passwordElement = form.elements.password;
-    const password = passwordElement.value;
+    const password = escapeXss(passwordElement.value);
 
     const passwordConfirmationElement = form.elements['password-confirmation'];
-    const passwordConfirmation = passwordConfirmationElement.value;
+    const passwordConfirmation = escapeXss(passwordConfirmationElement.value);
 
-    const validateRes = validate(mail, login, password, passwordConfirmation);
+    const validateRes = validateAll(mail, login, password, passwordConfirmation);
     showValidateResAll(validateRes, mailElement, loginElement, passwordElement, passwordConfirmationElement);
 
-    if (hasNoErrors(validateRes.mail) && hasNoErrors(validateRes.login) && hasNoErrors(validateRes.password) && hasNoErrors(validateRes.passwordConfirmation)) {
+    if (Object.values(validateRes).every(hasNoErrors)) {
         console.log({
             mail: mail,
             login: login,
@@ -74,10 +62,6 @@ function onSubmit() {
     }
 }
 
-function hasNoErrors(arr) {
-    return arr == null || arr.length === 0;
-}
-
 function showValidateResAll(validateRes, mailElement, loginElement, passwordElement, passwordConfirmationElement) {
     showValidateRes(validateRes.mail, mailElement, mailErrorsContainerId)
     showValidateRes(validateRes.login, loginElement, loginErrorsContainerId)
@@ -85,12 +69,7 @@ function showValidateResAll(validateRes, mailElement, loginElement, passwordElem
     showValidateRes(validateRes.passwordConfirmation, passwordConfirmationElement, passwordConfirmationErrorsContainerId)
 }
 
-function showValidateRes(errors, inputElement, errorsContainerId) {
-    showErrorsInContainer(errorsContainerId, errors);
-    toggleInputValid(inputElement, errors);
-}
-
-function validate(mail, login, password, passwordConfirmation) {
+function validateAll(mail, login, password, passwordConfirmation) {
     return ({
         mail: validateMail(mail),
         login: validateLogin(login),
@@ -106,36 +85,6 @@ function validateMail(mail) {
 
     if (!validateEmail(mail)) {
         return ["Некорректный email"]
-    }
-}
-
-function validateLogin(login) {
-    if (login == null || login.length === 0) {
-        return [requiredField]
-    }
-}
-
-function validatePassword(password) {
-    if (password == null || password.length === 0) {
-        return [requiredField]
-    }
-
-    if (password.length < PASSWORD_LENGTH_MIN) {
-        return [`Пароль должен быть длиннее ${PASSWORD_LENGTH_MIN} символов`]
-    }
-
-    if (password.length > PASSWORD_LENGTH_MAX) {
-        return [`Пароль должен быть длиннее ${PASSWORD_LENGTH_MAX} символов`]
-    }
-}
-
-function validatePasswordConfirmation(password, passwordConfirmation) {
-    if (passwordConfirmation == null || passwordConfirmation.length === 0) {
-        return [requiredField]
-    }
-
-    if (passwordConfirmation !== password) {
-        return ["Пароли не совпадают"];
     }
 }
 

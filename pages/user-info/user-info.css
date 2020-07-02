@@ -41,15 +41,6 @@
     margin-left: 8px;
 }
 
-.info-block__validation-error-text {
-    color: red;
-    font-size: smaller;
-}
-
-.info-block__input__has-error {
-    border-color: red !important;
-}
-
 .info-block__inputs-container {
     display: flex;
     flex-direction: column;

@@ -6,3 +6,12 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.validation-error-text {
+    color: red;
+    font-size: smaller;
+}
+
+.input__has-error {
+    border-color: red !important;
+}

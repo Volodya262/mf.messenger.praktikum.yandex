@@ -1,4 +1,4 @@
-import {maxBy} from "../utils/utils.js";
+import {maxBy} from "../utils/collections-utils.js";
 
 export class ChatApiStub {
     chatNames = chatNames;

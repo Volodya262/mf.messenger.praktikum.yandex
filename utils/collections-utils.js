@@ -1,5 +1,6 @@
-// [1, 2, 3, 4] => 1
-
+/**
+ * [1, 2, 3, 4] => 1
+ */
 export function first(list) {
     if (list == null || !Array.isArray(list)) {
         return undefined;
@@ -61,8 +62,8 @@ export function isEmpty(value) {
         return !value.length;
     }
 
-    for (var key in value) {
-        if (hasOwnProperty.call(value, key)) {
+    for (const key in value) {
+        if (Object.hasOwnProperty.call(value, key)) {
             return false;
         }
     }
