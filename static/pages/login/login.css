@@ -10,3 +10,8 @@
     flex-direction: column;
     margin-top: 16px;
 }
+
+.auth-block__form {
+    display: flex;
+    flex-direction: column;
+}
