@@ -26,6 +26,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    margin-left: 4px;
 }
 
 .chat-item__all-text-container {

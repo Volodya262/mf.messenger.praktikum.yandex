@@ -10,7 +10,7 @@ Handlebars.registerPartial('messageItem', messageItemTemplate);
 // language=Handlebars
 const messagesUserGroupTemplate = `
     <div class="message-user-group">
-        <img alt="user avatar" class="message-user-group__avatar" src=https://placekitten.com/100/100/>
+        <img alt="user avatar" class="message-user-group__avatar" src={{user.avatarUrl}}>
         <div class="message-user-group__all-text-container">
             <div class="message-user-group__author-container">
                 <span class="message-user-group__author">{{user.authorName}}</span>
