@@ -9,6 +9,8 @@ import {
     validatePassword
 } from "../validation-common.js";
 
+// переменные объявлены на уровне модуля потому что используются в 2-х функциях:
+// document.addEventListener("DOMContentLoaded", ...) и onSubmit
 let form;
 let loginElement;
 let passwordElement;

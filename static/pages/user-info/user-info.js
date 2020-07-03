@@ -77,17 +77,12 @@ function showValidateResAll(validateRes) {
     showValidateRes(validateRes.passwordConfirmation, passwordConfirmationElement, passwordConfirmationErrorsContainerId);
 }
 
-function validateName(login) {
-    if (login == null || login.length === 0) {
+function validateName(name) {
+    if (name == null || name.length === 0) {
         return [requiredField]
-    }
-
-    if (login.indexOf(' ') > -1) {
-        return ["Логин не может содержать пробелы"]
     }
 }
 
-const mailErrorsContainerId = 'mail-errors-container';
 const nameErrorsContainerId = 'name-errors-container';
 const loginErrorsContainerId = 'login-errors-container';
 const oldPasswordErrorsContainerId = 'old-password-errors-container';

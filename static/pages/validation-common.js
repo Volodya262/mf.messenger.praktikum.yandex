@@ -46,6 +46,10 @@ export function validateLogin(login) {
     if (login == null || login.length === 0) {
         return [requiredField]
     }
+
+    if (login.indexOf(' ') > -1) {
+        return ["Логин не может содержать пробелы"]
+    }
 }
 
 export function validatePassword(password) {

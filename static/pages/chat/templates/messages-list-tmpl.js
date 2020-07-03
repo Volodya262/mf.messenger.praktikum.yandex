@@ -7,6 +7,7 @@ const messageItemTemplate = `
 
 Handlebars.registerPartial('messageItem', messageItemTemplate);
 
+// не могу воспроизвести поехавшую верстку. Chrome 83.
 // language=Handlebars
 const messagesUserGroupTemplate = `
     <div class="message-user-group">
