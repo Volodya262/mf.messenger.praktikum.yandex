@@ -18,7 +18,9 @@ let loginElement;
 let passwordElement;
 
 document.addEventListener("DOMContentLoaded", function () {
-    const form = document.forms.login;
+    // такой подход взял отсюда https://learn.javascript.ru/form-elements
+    // очень похожий на w3c https://www.w3schools.com/js/js_validation.asp
+    const form = document.forms['login']
     const elements = form.elements;
     loginElement = elements['login'];
     passwordElement = elements['password'];

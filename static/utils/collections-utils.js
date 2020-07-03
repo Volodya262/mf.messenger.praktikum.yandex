@@ -109,7 +109,7 @@ export function range(start, end, step, isRight) {
  * @param compareFn Функция сравнения ключей
  */
 export function sortBy(arr, keySelector, compareFn) {
-    // не паримся за сложность алгоритма, надеемся на маленькие объемы С=
+    // todo подумать над уменьшением сложности алгоритма
     const res = [];
     const sortedKeys = arr.map(keySelector).sort(compareFn);
     for (const key of sortedKeys) {

@@ -16,6 +16,11 @@ const loginErrorsContainerId = 'login-errors-container';
 const passwordErrorsContainerId = 'password-errors-container';
 const passwordConfirmationErrorsContainerId = 'password-confirmation-errors-container';
 
+let mailElement;
+let loginElement;
+let passwordElement;
+let passwordConfirmationElement;
+
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.forms.register;
     form.addEventListener('submit', e => {
@@ -23,16 +28,16 @@ document.addEventListener("DOMContentLoaded", function () {
         onSubmit();
     });
 
-    const mailElement = form.elements.mail;
+    mailElement = form.elements.mail;
     addValidationEventListener(mailElement, validateMail, mailErrorsContainerId);
 
-    const loginElement = form.elements.login;
+    loginElement = form.elements.login;
     addValidationEventListener(loginElement, validateLogin, loginErrorsContainerId);
 
-    const passwordElement = form.elements.password;
+    passwordElement = form.elements.password;
     addValidationEventListener(passwordElement, validatePassword, passwordErrorsContainerId);
 
-    const passwordConfirmationElement = form.elements['password-confirmation'];
+    passwordConfirmationElement = form.elements['password-confirmation'];
     addValidationEventListener(passwordConfirmationElement,
         (passwordConfirmation) => validatePasswordConfirmation(escape(passwordElement.value), passwordConfirmation),
         passwordConfirmationErrorsContainerId);
@@ -40,18 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function onSubmit() {
     clearErrors();
-    const form = document.forms.register; // todo вынести в переменные файла по аналогии с user-info.js
-
-    const mailElement = form.elements.mail;
     const mail = escapeXss(mailElement.value);
-
-    const loginElement = form.elements.login;
     const login = escapeXss(loginElement.value);
-
-    const passwordElement = form.elements.password;
     const password = escapeXss(passwordElement.value);
-
-    const passwordConfirmationElement = form.elements['password-confirmation'];
     const passwordConfirmation = escapeXss(passwordConfirmationElement.value);
 
     const validateRes = validateAll(mail, login, password, passwordConfirmation);
