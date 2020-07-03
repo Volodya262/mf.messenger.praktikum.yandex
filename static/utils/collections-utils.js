@@ -2,7 +2,7 @@
  * [1, 2, 3, 4] => 1
  */
 export function first(list) {
-    if (list == null || !Array.isArray(list)) {
+    if (list == null || !Array.isArray(list)) { // о проверках на null описано в "О проверках на null.md"
         return undefined;
     }
 
