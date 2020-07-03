@@ -19,9 +19,7 @@ export function first(list) {
  * @param keySelector Селектор ключа
  */
 export function groupBy(arr, keySelector) {
-    const groups = new Map();
-
-    for (const item of arr) {
+    return arr.reduce((groups, item) => {
         const key = keySelector(item);
         if (groups.has(key)) {
             const groupItem = groups.get(key);
@@ -32,9 +30,9 @@ export function groupBy(arr, keySelector) {
         } else {
             groups.set(key, [item]);
         }
-    }
 
-    return groups;
+        return groups;
+    }, new Map())
 }
 
 /**
@@ -47,28 +45,6 @@ export function groupByAsArray(arr, keySelector) {
     const res = [];
     map.forEach((values, key) => res.push({key: key, items: values}));
     return res;
-}
-
-export function identity(value) {
-    return value;
-}
-
-export function isEmpty(value) {
-    if (value == null) {
-        return true;
-    }
-
-    if (Array.isArray(value) || typeof value == 'string' || typeof value.splice == 'function') {
-        return !value.length;
-    }
-
-    for (const key in value) {
-        if (Object.hasOwnProperty.call(value, key)) {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 export function last(list) {
@@ -137,11 +113,12 @@ export function sortBy(arr, keySelector, compareFn) {
     const res = [];
     const sortedKeys = arr.map(keySelector).sort(compareFn);
     for (const key of sortedKeys) {
-        const items = arr.find(item => keySelector(item) === key);
+        // ловим ситуацию, когда у элементов одинаковый ключ, например два сообщения пришли в одну секунду
+        const items = arr.filter(item => keySelector(item) === key);
         if (items == null) {
             throw new Error('Unexpected error occured');
         }
-        res.push(items);
+        res.push(...items);
     }
 
     return res;
