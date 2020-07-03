@@ -9,7 +9,6 @@ import {
     validatePasswordConfirmation
 } from "../validation-common.js";
 
-let form;
 let loginElement;
 let nameElement;
 let oldPasswordElement;
@@ -17,7 +16,7 @@ let passwordElement;
 let passwordConfirmationElement;
 
 document.addEventListener("DOMContentLoaded", function () {
-    form = document.forms['user-info'];
+    const form = document.forms['user-info'];
     const elements = form.elements;
 
     loginElement = elements['login'];

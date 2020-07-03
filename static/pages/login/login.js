@@ -9,14 +9,16 @@ import {
     validatePassword
 } from "../validation-common.js";
 
+const loginErrorsContainerId = 'login-errors-container';
+const passwordErrorsContainerId = 'password-errors-container';
+
 // переменные объявлены на уровне модуля потому что используются в 2-х функциях:
 // document.addEventListener("DOMContentLoaded", ...) и onSubmit
-let form;
 let loginElement;
 let passwordElement;
 
 document.addEventListener("DOMContentLoaded", function () {
-    form = document.forms.login;
+    const form = document.forms.login;
     const elements = form.elements;
     loginElement = elements['login'];
     passwordElement = elements['password'];
@@ -55,6 +57,3 @@ function showValidateResAll(validateRes) {
     showValidateRes(validateRes.login, loginElement, loginErrorsContainerId)
     showValidateRes(validateRes.password, passwordElement, passwordErrorsContainerId)
 }
-
-const loginErrorsContainerId = 'login-errors-container';
-const passwordErrorsContainerId = 'password-errors-container';

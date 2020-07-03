@@ -11,6 +11,11 @@ import {
     validatePasswordConfirmation
 } from "../validation-common.js";
 
+const mailErrorsContainerId = 'mail-errors-container';
+const loginErrorsContainerId = 'login-errors-container';
+const passwordErrorsContainerId = 'password-errors-container';
+const passwordConfirmationErrorsContainerId = 'password-confirmation-errors-container';
+
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.forms.register;
     form.addEventListener('submit', e => {
@@ -94,8 +99,3 @@ function clearErrors() {
     clearNode(passwordErrorsContainerId);
     clearNode(passwordConfirmationErrorsContainerId);
 }
-
-const mailErrorsContainerId = 'mail-errors-container';
-const loginErrorsContainerId = 'login-errors-container';
-const passwordErrorsContainerId = 'password-errors-container';
-const passwordConfirmationErrorsContainerId = 'password-confirmation-errors-container';
