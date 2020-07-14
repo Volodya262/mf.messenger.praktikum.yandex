@@ -1,7 +1,3 @@
-import { hello } from "./bla.js";
-export function foo() {
-    return hello;
-}
 /**
  * [1, 2, 3, 4] => 1
  */
@@ -9,11 +5,14 @@ export function first(list) {
     if (list == null || !Array.isArray(list)) { // о проверках на null описано в "О проверках на null.md"
         return undefined;
     }
+
     if (list.length === 0) {
         return undefined;
     }
-    return list[0];
+
+    return list[0]
 }
+
 /**
  * Группировка данных по ключу. Ключ сравниваются через ===. Возвращает js Map.
  * @param arr Данные
@@ -28,13 +27,14 @@ export function groupBy(arr, keySelector) {
                 throw new Error('Unexpected error occured');
             }
             groupItem.push(item);
-        }
-        else {
+        } else {
             groups.set(key, [item]);
         }
+
         return groups;
-    }, new Map());
+    }, new Map())
 }
+
 /**
  * Группировка данных по ключу. Ключ сравниваются через ===. Возвращает массив объектов {ключ, значения}.
  * @param arr Данные
@@ -43,52 +43,65 @@ export function groupBy(arr, keySelector) {
 export function groupByAsArray(arr, keySelector) {
     const map = groupBy(arr, keySelector);
     const res = [];
-    map.forEach((values, key) => res.push({ key: key, items: values }));
+    map.forEach((values, key) => res.push({key: key, items: values}));
     return res;
 }
+
 export function last(list) {
     if (list == null || !Array.isArray(list)) {
         return undefined;
     }
+
     if (list.length === 0) {
         return undefined;
     }
-    return list[list.length - 1];
+
+    return list[list.length - 1]
 }
+
 export function rangeRight(start, end, step) {
     return range(start, end, step, true);
 }
+
 export function range(start, end, step, isRight) {
     const res = [];
+
     if (start == null) {
         return [];
     }
+
     if (end == null) {
         end = start;
         start = 0;
     }
+
     if (step == null) {
         step = end > start ? 1 : -1;
     }
+
     if (isRight == null) {
         isRight = false;
     }
+
     if (step === 0) {
         for (let counter = start; Math.abs(end - counter) > 0; ++counter) {
             res.push(start);
         }
+
         return res;
     }
+
     for (let i = start; Math.abs(end - i) > 0; i += step) {
         if (!isRight) {
             res.push(i);
-        }
-        else {
+        } else {
             res.unshift(i);
         }
     }
+
     return res;
 }
+
 /**
  * Сортировка массива объектов по ключу
  * @param arr Массив
@@ -107,8 +120,10 @@ export function sortBy(arr, keySelector, compareFn) {
         }
         res.push(...items);
     }
+
     return res;
 }
+
 /**
  * Делит массив на массив массивов в соответствии с предикатом.
  * Например, можно разделить [1,2,3,-1,2,2,-1] на [1,2,3],[-1,2,2],[-1] если предикат currEl => currEl === -1
@@ -121,19 +136,21 @@ export function splitByPredicate(arr, splitPredicate) {
     if (arr.length === 0) {
         return [];
     }
+
     let currGroup = [arr[0]];
     const res = [currGroup];
     for (let i = 1; i < arr.length; ++i) {
         if (splitPredicate(arr[i], arr[i - 1])) {
             currGroup = [arr[i]];
             res.push(currGroup);
-        }
-        else {
+        } else {
             currGroup.push(arr[i]);
         }
     }
+
     return res;
 }
+
 /**
  * Пытается спарсить Number. Если получается NaN, то возвращает null
  * @param src
@@ -142,20 +159,22 @@ export function tryParseNumber(src) {
     if (typeof src === "number") {
         return src;
     }
+
     try {
         if (src != null) {
             const res = Number(src);
             return isNaN(res) ? null : res;
         }
-    }
-    catch (_a) {
+    } catch {
         return null;
     }
+
     return null;
 }
+
 export function maxBy(arr, keySelector, compareFn) {
     if (arr.length === 0) {
-        throw new Error('Expected non-empty array');
+        throw new Error('Expected non-empty array')
     }
     let currMax = arr[0];
     let currMaxKey = keySelector(currMax);
@@ -166,6 +185,6 @@ export function maxBy(arr, keySelector, compareFn) {
             currMaxKey = currKey;
         }
     }
+
     return currMax;
 }
-//# sourceMappingURL=collections-utils.js.map
