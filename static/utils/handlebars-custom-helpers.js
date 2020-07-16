@@ -1,8 +1,7 @@
 Handlebars.registerHelper('dateFormat', function (date) {
-    return dateFns.format(date, 'DD.MM.YYYY')
-})
-
+    return dateFns.format(date, 'DD.MM.YYYY');
+});
 Handlebars.registerHelper('timeFormat', function (date) {
-    return dateFns.format(date, 'HH:mm')
-})
-
+    return dateFns.format(date, 'HH:mm');
+});
+//# sourceMappingURL=handlebars-custom-helpers.js.map

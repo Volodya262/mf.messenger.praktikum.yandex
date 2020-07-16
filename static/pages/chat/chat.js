@@ -1,6 +1,6 @@
 import { ChatApiStub } from "../../api/messages-api-stub.js";
 import { chatListTemplate } from "./templates/chat-list.tmpl.js";
-import { foo, groupByAsArray, sortBy, splitByPredicate } from "../../utils/collections-utils.js";
+import { groupByAsArray, sortBy, splitByPredicate } from "../../utils/collections-utils.js";
 import { messagesListTemplate } from "./templates/messages-list-tmpl.js";
 document.addEventListener("DOMContentLoaded", function () {
     const api = new ChatApiStub();
@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
     loadMessages(api, 2);
 });
 export function loadChats(api) {
-    // @ts-ignore
     const template = Handlebars.compile(chatListTemplate);
     api.getChats().then(chats => {
         if (chats.length > 0) {
@@ -21,7 +20,6 @@ export function loadChats(api) {
 export function loadMessages(api, chatId) {
     api.getChatMessages(chatId).then(messages => {
         const convertedMessages = convertMessagesToViewModel(messages);
-        // @ts-ignore
         const template = Handlebars.compile(messagesListTemplate);
         const context = { messageDayGroups: convertedMessages };
         document.getElementById('messages-list-container').innerHTML = template(context);
@@ -29,7 +27,6 @@ export function loadMessages(api, chatId) {
 }
 function convertMessagesToViewModel(messages) {
     // в реакте эта стена кода смотрелась гораздо органичнее. Если мы засидимся на шаблонизаторах, то придется это переписать
-    // @ts-ignore
     const groupedMessagesArray = groupByAsArray(messages || [], msg => dateFns.startOfDay(msg.date).getTime());
     const res = sortBy(groupedMessagesArray, group => group.key, (a, b) => a - b)
         .map(group => {

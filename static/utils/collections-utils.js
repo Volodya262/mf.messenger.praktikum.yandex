@@ -1,12 +1,8 @@
-import { hello } from "./bla.js";
-export function foo() {
-    return hello;
-}
 /**
  * [1, 2, 3, 4] => 1
  */
 export function first(list) {
-    if (list == null || !Array.isArray(list)) { // о проверках на null описано в "О проверках на null.md"
+    if (list == null || !Array.isArray(list)) {
         return undefined;
     }
     if (list.length === 0) {
@@ -96,11 +92,10 @@ export function range(start, end, step, isRight) {
  * @param compareFn Функция сравнения ключей
  */
 export function sortBy(arr, keySelector, compareFn) {
-    // todo подумать над уменьшением сложности алгоритма
+    // TODO уменьшить сложность
     const res = [];
     const sortedKeys = arr.map(keySelector).sort(compareFn);
     for (const key of sortedKeys) {
-        // ловим ситуацию, когда у элементов одинаковый ключ, например два сообщения пришли в одну секунду
         const items = arr.filter(item => keySelector(item) === key);
         if (items == null) {
             throw new Error('Unexpected error occured');
@@ -153,6 +148,12 @@ export function tryParseNumber(src) {
     }
     return null;
 }
+/**
+ * Возвращает первый элемент с максимальным ключом
+ * @param arr Массив элементов
+ * @param keySelector Селектор ключей
+ * @param compareFn Функция сравнения вида b-a
+ */
 export function maxBy(arr, keySelector, compareFn) {
     if (arr.length === 0) {
         throw new Error('Expected non-empty array');

@@ -2,7 +2,7 @@
  * [1, 2, 3, 4] => 1
  */
 export function first(list) {
-    if (list == null || !Array.isArray(list)) { // о проверках на null описано в "О проверках на null.md"
+    if (list == null || !Array.isArray(list)) {
         return undefined;
     }
 
@@ -18,7 +18,7 @@ export function first(list) {
  * @param arr Данные
  * @param keySelector Селектор ключа
  */
-export function groupBy(arr, keySelector) {
+export function groupBy<TData, TKey>(arr: TData[], keySelector: (item: TData) => TKey): Map<TKey, TData[]> {
     return arr.reduce((groups, item) => {
         const key = keySelector(item);
         if (groups.has(key)) {
@@ -40,11 +40,16 @@ export function groupBy(arr, keySelector) {
  * @param arr Данные
  * @param keySelector Селектор ключа
  */
-export function groupByAsArray(arr, keySelector) {
+export function groupByAsArray<TData, TKey>(arr: TData[], keySelector: (item: TData) => TKey): Group<TData, TKey>[] {
     const map = groupBy(arr, keySelector);
     const res = [];
     map.forEach((values, key) => res.push({key: key, items: values}));
     return res;
+}
+
+export interface Group<TData, TKey> {
+    key: TKey,
+    items: TData[]
 }
 
 export function last(list) {
@@ -108,12 +113,13 @@ export function range(start, end, step, isRight) {
  * @param keySelector Селектор ключа
  * @param compareFn Функция сравнения ключей
  */
-export function sortBy(arr, keySelector, compareFn) {
-    // todo подумать над уменьшением сложности алгоритма
+export function sortBy<TData, TKey>(arr: TData[],
+                                    keySelector: (item: TData) => TKey,
+                                    compareFn?: ((a: TKey, b: TKey) => number)): TData[] {
+    // TODO уменьшить сложность
     const res = [];
     const sortedKeys = arr.map(keySelector).sort(compareFn);
     for (const key of sortedKeys) {
-        // ловим ситуацию, когда у элементов одинаковый ключ, например два сообщения пришли в одну секунду
         const items = arr.filter(item => keySelector(item) === key);
         if (items == null) {
             throw new Error('Unexpected error occured');
@@ -132,7 +138,7 @@ export function sortBy(arr, keySelector, compareFn) {
  * @param arr Исходный массив
  * @param splitPredicate Предикат разделения. Если выполняется, то текущий элемент будет положен в следующую коллекцию.
  */
-export function splitByPredicate(arr, splitPredicate) {
+export function splitByPredicate<TData>(arr: TData[], splitPredicate: (currEl: TData, prevEl: TData) => boolean): TData[][] {
     if (arr.length === 0) {
         return [];
     }
@@ -172,7 +178,14 @@ export function tryParseNumber(src) {
     return null;
 }
 
-export function maxBy(arr, keySelector, compareFn) {
+/**
+ * Возвращает первый элемент с максимальным ключом
+ * @param arr Массив элементов
+ * @param keySelector Селектор ключей
+ * @param compareFn Функция сравнения вида b-a
+ */
+export function maxBy<TData, TKey>(arr: TData[], keySelector: (item: TData) => TKey,
+                                   compareFn: ((a: TKey, b: TKey) => number)): TData {
     if (arr.length === 0) {
         throw new Error('Expected non-empty array')
     }

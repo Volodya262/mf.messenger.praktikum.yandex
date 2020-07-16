@@ -1,4 +1,4 @@
-import { queryStringify } from "./query-stringify";
+import { queryStringify } from "./query-stringify.js";
 const METHODS = {
     GET: 'GET',
     POST: 'POST',
@@ -7,12 +7,10 @@ const METHODS = {
 };
 // если честно, я кроме get в этом классе ничего не проверял.
 // честного хождения в сеть в проекте пока нет
+/**
+ * Http транспорт из говна и палок. Использовать на свой страх и риск.
+ */
 export class vFetch {
-    /**
-     *
-     * @param url
-     * @param queryParams
-     */
     vGet(url, queryParams = null) {
         return new Promise((resolve, reject) => {
             const xhr = this.createDefaultXhr(resolve, reject);

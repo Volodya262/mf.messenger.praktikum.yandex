@@ -1,52 +1,67 @@
-import { maxBy } from "../utils/collections-utils.js";
-export class ChatApiStub {
-    constructor() {
-        this.chatNames = chatNames;
-        this.chatsMessages = chatMessages;
-    }
-    getChatMessages(chatId) {
+import {maxBy} from "../utils/collections-utils.js";
+import {IChatCoreInfo, IChatMessages, IChatPreview, ISingleMessage} from "../types/types.js";
+
+export interface IChatApi {
+    getChats(): Promise<IChatPreview[]>;
+
+    getChatMessages(chatId: number): Promise<ISingleMessage[]>;
+
+    sendMessage(chatId: number, messageText: string, userId: number, userName: string): Promise<void>;
+}
+
+export class ChatApiStub implements IChatApi {
+    chatNames = chatNames;
+    chatsMessages = chatMessages;
+
+    public getChatMessages(chatId: number): Promise<ISingleMessage[]> {
         const res = this.chatsMessages.find(msgs => msgs.chatId === chatId);
+
         return new Promise(resolve => {
-            setTimeout(() => resolve((res === null || res === void 0 ? void 0 : res.messages) || []), 100);
+            setTimeout(() => resolve(res?.messages || []), 100);
         });
     }
-    getChats() {
-        const chats = this.makeChatPreviews(this.chatNames, this.chatsMessages);
+
+    public getChats(): Promise<IChatPreview[]> {
+        const chats = this.makeChatPreviews(this.chatNames, this.chatsMessages)
         return new Promise(resolve => {
             setTimeout(() => resolve(chats), 100);
-        });
+        })
     }
-    sendMessage(chatId, messageText, userId, userName) {
+
+    public sendMessage(chatId: number, messageText: string, userId: number, userName: string): Promise<void> {
         const newMsg = {
             date: new Date(),
             avatarUrl: imgUrl3,
             authorId: userId,
             authorName: userName,
             message: messageText
-        };
+        }
+
         // const newChatsMessages = _.cloneDeep(this.chatsMessages);
         const newChatsMessages = this.chatsMessages;
         const chatMessagesIndex = newChatsMessages.findIndex(chatMsgs => chatMsgs.chatId === chatId);
+
         let chatMessages;
         if (chatMessagesIndex === -1) {
-            chatMessages = { chatId: chatId, messages: [] };
-        }
-        else {
+            chatMessages = {chatId: chatId, messages: []};
+        } else {
             chatMessages = newChatsMessages[chatMessagesIndex];
             newChatsMessages.splice(chatMessagesIndex, 1);
         }
         chatMessages.messages.push(newMsg);
         newChatsMessages.push(chatMessages);
+
         this.chatsMessages = newChatsMessages;
+
         return new Promise(resolve => {
             setTimeout(() => resolve(), 500);
-        });
+        })
     }
-    makeChatPreviews(chatNames, allChatsMessages) {
-        var _a;
+
+    private makeChatPreviews(chatNames: IChatCoreInfo[], allChatsMessages: IChatMessages[]): IChatPreview[] {
         const previews = [];
         for (const chat of chatNames) {
-            const chatMessages = (_a = allChatsMessages.find(msgs => msgs.chatId === chat.id)) === null || _a === void 0 ? void 0 : _a.messages;
+            const chatMessages = allChatsMessages.find(msgs => msgs.chatId === chat.id)?.messages;
             if (chatMessages == null || chatMessages.length === 0) {
                 const preview = {
                     id: chat.id,
@@ -57,8 +72,7 @@ export class ChatApiStub {
                     logoUrl: imgUrl3
                 };
                 previews.push(preview);
-            }
-            else {
+            } else {
                 const lastMessage = maxBy(chatMessages, msgs => msgs.date, (a, b) => b.getTime() - a.getTime());
                 const preview = {
                     id: chat.id,
@@ -67,17 +81,19 @@ export class ChatApiStub {
                     message: lastMessage.message,
                     author: lastMessage.authorName,
                     date: lastMessage.date
-                };
+                }
                 previews.push(preview);
             }
         }
         return previews;
     }
 }
+
 const ipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua';
 const imgUrl1 = 'https://placekitten.com/200/200';
 const imgUrl2 = 'https://placekitten.com/250/250';
 const imgUrl3 = 'https://placekitten.com/300/300';
+
 const chatNames = [
     {
         id: 1,
@@ -95,7 +111,8 @@ const chatNames = [
         id: 4,
         title: 'Пустой чатик'
     },
-];
+]
+
 const chatMessages = [
     {
         chatId: 1,
@@ -182,5 +199,4 @@ const chatMessages = [
             }
         ]
     },
-];
-//# sourceMappingURL=messages-api-stub.js.map
+]

@@ -9,12 +9,10 @@ const METHODS = {
 
 // если честно, я кроме get в этом классе ничего не проверял.
 // честного хождения в сеть в проекте пока нет
+/**
+ * Http транспорт из говна и палок. Использовать на свой страх и риск.
+ */
 export class vFetch {
-    /**
-     *
-     * @param url
-     * @param queryParams
-     */
     vGet<T>(url: string, queryParams: object = null): Promise<T> { // TODO добавить функционал хедеров и опционального таймаута
         return new Promise<T>((resolve, reject) => {
             const xhr = this.createDefaultXhr(resolve, reject);
