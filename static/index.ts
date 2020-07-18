@@ -1,4 +1,4 @@
-import {VFunctionalComponent} from "./core/v-react/v-functional-component.js";
+import {VComponent} from "./core/v-react/v-functional-component.js";
 import {ComponentEventHandler} from "./core/v-react/types/component-event-handler";
 
 interface MyProps {
@@ -11,7 +11,7 @@ interface BlockProps {
     }[]
 }
 
-class MyBlock extends VFunctionalComponent<BlockProps> {
+class MyBlock extends VComponent<BlockProps> {
     render(props: Readonly<BlockProps>): { template: string; context: object, eventListeners?: ComponentEventHandler[] } {
         const template = `
         <h1>Контейнер для других компонентов</h1>
@@ -38,7 +38,7 @@ class MyBlock extends VFunctionalComponent<BlockProps> {
     }
 }
 
-class MyComponent extends VFunctionalComponent<MyProps> {
+class MyComponent extends VComponent<MyProps> {
     render(props): { template: string; context: object, eventListeners?: ComponentEventHandler[] } {
         const context = {
             name: props.name

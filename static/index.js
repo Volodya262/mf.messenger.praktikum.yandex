@@ -1,5 +1,5 @@
-import { VFunctionalComponent } from "./core/v-react/v-functional-component.js";
-class MyBlock extends VFunctionalComponent {
+import { VComponent } from "./core/v-react/v-functional-component.js";
+class MyBlock extends VComponent {
     render(props) {
         const template = `
         <h1>Контейнер для других компонентов</h1>
@@ -14,11 +14,15 @@ class MyBlock extends VFunctionalComponent {
             component: MyComponent,
             registerChildEventListeners: this.registerChildEventListeners
         };
-        const eventListeners = [{ querySelector: 'h1', event: 'click', func: () => alert('h1 clicked') }];
+        const eventListeners = [{
+                querySelector: 'h1',
+                event: 'click',
+                func: () => alert('h1 clicked')
+            }];
         return { context: context, template: template, eventListeners: eventListeners };
     }
 }
-class MyComponent extends VFunctionalComponent {
+class MyComponent extends VComponent {
     render(props) {
         const context = {
             name: props.name
@@ -27,7 +31,11 @@ class MyComponent extends VFunctionalComponent {
             alert('1234');
         };
         const template = `<div><p>Привет, {{name}}</p><button class="my-button">Кнопочка</button></div>`;
-        return { context: context, template: template, eventListeners: [{ querySelector: '.my-button', event: 'click', func: handler }] };
+        return {
+            context: context,
+            template: template,
+            eventListeners: [{ querySelector: '.my-button', event: 'click', func: handler }]
+        };
     }
 }
 document.addEventListener("DOMContentLoaded", function () {

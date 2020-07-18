@@ -6,9 +6,12 @@
       "dom"
     ],
     "module": "es6",
-    "sourceMap": true
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.test.ts"
   ]
 }
