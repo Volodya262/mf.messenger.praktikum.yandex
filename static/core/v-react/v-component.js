@@ -85,7 +85,7 @@ export class VComponent {
         this.renderInternal = () => {
             this.childEventListeners = []; // каждый рендер DOM "обнуляется" и приходится заново вешать обработчики.
             const {context, template, eventListeners} = this.render(this.props);
-            const compiledTemplate = window.Handlebars.compile(template, context);
+            const compiledTemplate = window.Handlebars.compile(template);
             this.element.innerHTML = compiledTemplate(context);
             this.registerEventListeners(eventListeners);
             this.registerChildEventListenersInternal();
@@ -110,20 +110,16 @@ export class VComponent {
         this.setState.bind(this);
         this.init.bind(this);
     }
-
     init() {
         this.eventBus.emit(VfcEvents.initComplete); // будет вызван render
-        this.eventBus.emit(VfcEvents.componentMounted); // будет вызван пользовательский
+        this.eventBus.emit(VfcEvents.componentMounted); // будет вызван пользовательский componentDidMount()
     }
-
     getElement() {
         return this.element;
     }
-
     getElementHtml() {
         return this.element.innerHTML;
     }
-
     setProps(newProps) {
         const oldProps = this.props;
         this.props = newProps;
@@ -131,7 +127,6 @@ export class VComponent {
             this.eventBus.emit(VfcEvents.propsUpdated);
         }
     }
-
     /**
      * Оператор сравнения пропсов. Опционально определяется пользователем.
      * @param oldProps
@@ -140,7 +135,6 @@ export class VComponent {
     componentShouldUpdate(oldProps, newProps) {
         return oldProps !== newProps;
     }
-
     /**
      * Создать дочерний компонент со всеми привязками
      * @param componentClass Класс компонента
@@ -151,20 +145,16 @@ export class VComponent {
         component.init();
         return component;
     }
-
     setState(newState) {
         this.state = Object.assign(Object.assign({}, this.state), newState);
         this.eventBus.emit(VfcEvents.stateUpdated);
     }
-
     getState() {
         return this.state;
     }
-
     getProps() {
         return this.props;
     }
-
     registerEvents(eventBus) {
         eventBus.on(VfcEvents.initComplete, this.renderInternal.bind(this)); // сразу после инициализации вызываем рендер
         eventBus.on(VfcEvents.componentMounted, () => this.componentDidMount()); // после маунта вызываем пользовательский componentDidMount

@@ -197,8 +197,8 @@ export abstract class VComponent<TProps extends object, TState extends object> {
         this.childEventListeners = []; // каждый рендер DOM "обнуляется" и приходится заново вешать обработчики.
 
         const {context, template, eventListeners} = this.render(this.props);
-        const compiledTemplate = window.Handlebars.compile(template, context);
-        this.element.innerHTML = compiledTemplate(context)
+        const compiledTemplate = window.Handlebars.compile(template);
+        this.element.innerHTML = compiledTemplate(context || {})
         this.registerEventListeners(eventListeners);
         this.registerChildEventListenersInternal();
         this.eventBus.emit(VfcEvents.rendered);
