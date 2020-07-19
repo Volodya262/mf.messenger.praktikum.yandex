@@ -21,7 +21,6 @@ class MyBlock extends VComponent<BlockProps, object> { // родительски
     }
 
     render(props: Readonly<BlockProps>): { template: string; context: object, eventListeners?: ComponentEventHandler[] } {
-        // TODO suppress first child render! Будет вызван render и componentDidMount, а должен только после рендера родителя.
         if (this.component == null) {
             this.component = this.createChildComponent(MyComponent, {name: ''});
         }

@@ -1,11 +1,8 @@
 import { VComponent } from "./core/v-react/v-component.js";
-import { ChatWindowComponent } from "./pages/chat/components/ChatWindowComponent.js";
-import { ChatApiStub } from "./api/messages-api-stub.js";
 class MyBlock extends VComponent {
     componentDidMount() {
     }
     render(props) {
-        // TODO suppress first child render! Будет вызван render и componentDidMount, а должен только после рендера родителя.
         if (this.component == null) {
             this.component = this.createChildComponent(MyComponent, { name: '' });
         }
@@ -94,11 +91,9 @@ class MyComponent extends VComponent {
 document.addEventListener("DOMContentLoaded", function () {
     const users = { users: [{ name: 'vasua' }] };
     const myBlock = new MyBlock(users);
-    const chat = new ChatWindowComponent({}, new ChatApiStub());
-    chat.init();
     // setTimeout(() => {
     //     myBlock.setProps({users: [{name: 'olga'}]})
     // }, 3000);
-    document.getElementById('root').appendChild(chat.getElement());
+    document.getElementById('root').appendChild(myBlock.getElement());
 });
 //# sourceMappingURL=index.js.map
