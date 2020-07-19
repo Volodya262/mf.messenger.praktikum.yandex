@@ -1,4 +1,6 @@
 import { VComponent } from "./core/v-react/v-component.js";
+import { ChatWindowComponent } from "./pages/chat/components/ChatWindowComponent.js";
+import { ChatApiStub } from "./api/messages-api-stub.js";
 class MyBlock extends VComponent {
     componentDidMount() {
     }
@@ -92,9 +94,11 @@ class MyComponent extends VComponent {
 document.addEventListener("DOMContentLoaded", function () {
     const users = { users: [{ name: 'vasua' }] };
     const myBlock = new MyBlock(users);
-    setTimeout(() => {
-        myBlock.setProps({ users: [{ name: 'olga' }] });
-    }, 3000);
-    document.getElementById('root').appendChild(myBlock.getElement());
+    const chat = new ChatWindowComponent({}, new ChatApiStub());
+    chat.init();
+    // setTimeout(() => {
+    //     myBlock.setProps({users: [{name: 'olga'}]})
+    // }, 3000);
+    document.getElementById('root').appendChild(chat.getElement());
 });
 //# sourceMappingURL=index.js.map

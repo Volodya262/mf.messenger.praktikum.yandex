@@ -128,8 +128,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const users = {users: [{name: 'vasua'}]};
     const myBlock = new MyBlock(users);
 
-    setTimeout(() => {
-        myBlock.setProps({users: [{name: 'olga'}]})
-    }, 3000);
+    // setTimeout(() => {
+    //     myBlock.setProps({users: [{name: 'olga'}]})
+    // }, 3000);
     document.getElementById('root').appendChild(myBlock.getElement());
 });
