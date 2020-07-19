@@ -165,6 +165,7 @@ export class VComponent {
     getProps() {
         return this.props;
     }
+
     registerEvents(eventBus) {
         eventBus.on(VfcEvents.initComplete, this.renderInternal.bind(this)); // сразу после инициализации вызываем рендер
         eventBus.on(VfcEvents.componentMounted, () => this.componentDidMount()); // после маунта вызываем пользовательский componentDidMount
@@ -173,6 +174,14 @@ export class VComponent {
         eventBus.on(VfcEvents.stateUpdated, this.stateUpdatedHandler.bind(this));
         eventBus.on(VfcEvents.childStateUpdated, this.stateUpdatedHandler.bind(this));
         eventBus.on(VfcEvents.childStateUpdatedRoot, this.renderInternal.bind(this));
+    }
+
+    show() {
+        this.element.style.display = 'block';
+    }
+
+    hide() {
+        this.element.style.display = 'none';
     }
 }
 //# sourceMappingURL=v-component.js.map

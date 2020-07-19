@@ -16,7 +16,7 @@ export interface IChatState {
     isLoading: boolean;
 }
 
-export class ChatWindowComponent extends VComponent<IChatProps, IChatState> {
+export class ChatPageComponent extends VComponent<IChatProps, IChatState> {
     private readonly chatApi;
     private chatListComponent: ChatListComponent;
     private messageListComponent: MessageListComponent;

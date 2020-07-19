@@ -78,6 +78,12 @@ describe('VComponentTests: single component', function () {
     })
 })
 
-describe('VComponentTests: parent and child component', function () {
-
+describe('VComponentTests: nested components', function () {
+    // TODO тест что компонент в компоненте рендерится
+    // TODO тест что у дочернего компонента componentDidMount вызывается только 1 раз
+    // TODO тест что пропсы добрасываются до дочернего компонента
+    // TODO тест что при обновлении стейта дочернего компонента обновляется содержимое элемента
+    // TODO тест что навешиваются event handlerы на дочерний компонент
+    // TODO тест что event handlerы дочернего компонента не теряются после перерендера
+    // TODO тест что event handlerы не задваиваются после каждого рендера
 })

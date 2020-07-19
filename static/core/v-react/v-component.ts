@@ -229,4 +229,12 @@ export abstract class VComponent<TProps extends object, TState extends object> {
             this.eventBus.emit(VfcEvents.childStateUpdatedRoot);
         }
     }
+
+    public show() {
+        this.element.style.display = 'block';
+    }
+
+    public hide() {
+        this.element.style.display = 'none'
+    }
 }
