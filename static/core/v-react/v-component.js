@@ -86,7 +86,7 @@ export class VComponent {
             this.childEventListeners = []; // каждый рендер DOM "обнуляется" и приходится заново вешать обработчики.
             const {context, template, eventListeners} = this.render(this.props);
             const compiledTemplate = window.Handlebars.compile(template);
-            this.element.innerHTML = compiledTemplate(context);
+            this.element.innerHTML = compiledTemplate(context || {});
             this.registerEventListeners(eventListeners);
             this.registerChildEventListenersInternal();
             this.eventBus.emit(VfcEvents.rendered);
@@ -94,7 +94,7 @@ export class VComponent {
         this.dispatchChildUpdatedEvent = () => {
             this.eventBus.emit(VfcEvents.childStateUpdated);
         };
-        this.childStateUpdatedHandler = () => {
+        this.stateUpdatedHandler = () => {
             if (this.notifyParentChildStateUpdated != null) {
                 this.notifyParentChildStateUpdated();
             } else {
@@ -110,16 +110,30 @@ export class VComponent {
         this.setState.bind(this);
         this.init.bind(this);
     }
+
     init() {
+        // TODO добавить абстрактную функцию initChildComponents
         this.eventBus.emit(VfcEvents.initComplete); // будет вызван render
         this.eventBus.emit(VfcEvents.componentMounted); // будет вызван пользовательский componentDidMount()
     }
+
+    /**
+     * Получить ноду компонента
+     */
     getElement() {
         return this.element;
     }
+
+    /**
+     * Получить HTML компонента. Внимание! Все обработчики событий будут потеряны.
+     */
     getElementHtml() {
         return this.element.innerHTML;
     }
+
+    /**
+     * Установить новые пропсы компонента. Предназначено для вызова снаружи.
+     */
     setProps(newProps) {
         const oldProps = this.props;
         this.props = newProps;
@@ -127,6 +141,7 @@ export class VComponent {
             this.eventBus.emit(VfcEvents.propsUpdated);
         }
     }
+
     /**
      * Оператор сравнения пропсов. Опционально определяется пользователем.
      * @param oldProps
@@ -160,8 +175,8 @@ export class VComponent {
         eventBus.on(VfcEvents.componentMounted, () => this.componentDidMount()); // после маунта вызываем пользовательский componentDidMount
         eventBus.on(VfcEvents.rendered, this.componentAfterViewInit.bind(this)); // хз нужен ли этот ивент
         eventBus.on(VfcEvents.propsUpdated, this.renderInternal.bind(this));
-        eventBus.on(VfcEvents.stateUpdated, this.renderInternal.bind(this));
-        eventBus.on(VfcEvents.childStateUpdated, this.childStateUpdatedHandler.bind(this));
+        eventBus.on(VfcEvents.stateUpdated, this.stateUpdatedHandler.bind(this));
+        eventBus.on(VfcEvents.childStateUpdated, this.stateUpdatedHandler.bind(this));
         eventBus.on(VfcEvents.childStateUpdatedRoot, this.renderInternal.bind(this));
     }
 }

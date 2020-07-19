@@ -29,7 +29,8 @@ export abstract class VComponent<TProps extends object, TState extends object> {
     private readonly eventBus = new EventBus<VfcEvents>();
     private readonly element: HTMLElement;
     private props: TProps;
-    private state: TState;
+    /** Состояние компонента. Вызывать только в конструкторе! */
+    protected state: TState; // TODO можно инициализировать state в конструкторе VComponent
     private readonly parentEventHandlerRegistrar: InternalEventHandlersRegistrar = null;
     private childEventListeners: ComponentEventHandlerInternal[] = [];
     private readonly notifyParentChildStateUpdated: () => void;
@@ -58,6 +59,7 @@ export abstract class VComponent<TProps extends object, TState extends object> {
     }
 
     public init() {
+        // TODO добавить абстрактную функцию initChildComponents
         this.eventBus.emit(VfcEvents.initComplete); // будет вызван render
         this.eventBus.emit(VfcEvents.componentMounted); // будет вызван пользовательский componentDidMount()
     }
@@ -69,14 +71,23 @@ export abstract class VComponent<TProps extends object, TState extends object> {
      */
     public abstract render(props: Readonly<TProps>): { template: string, context: object, eventListeners?: ComponentEventHandler[] };
 
-    public getElement() {
+    /**
+     * Получить ноду компонента
+     */
+    public getElement(): HTMLElement {
         return this.element;
     }
 
-    public getElementHtml() {
+    /**
+     * Получить HTML компонента. Внимание! Все обработчики событий будут потеряны.
+     */
+    public getElementHtml(): string {
         return this.element.innerHTML;
     }
 
+    /**
+     * Установить новые пропсы компонента. Предназначено для вызова снаружи.
+     */
     public setProps(newProps: TProps) {
         const oldProps = this.props;
         this.props = newProps;
@@ -123,7 +134,10 @@ export abstract class VComponent<TProps extends object, TState extends object> {
      * @param props Default props
      */
     protected createChildComponent<TComponent extends VComponent<TProps, any>, TProps extends object>(
-        componentClass: new (...args: any) => TComponent, props: TProps): TComponent {
+        componentClass: new (props: TProps,
+                             parentEventHandlerRegistrar: InternalEventHandlersRegistrar,
+                             notifyParentChildStateUpdated: () => void) => TComponent,
+        props: TProps): TComponent {
         const component = new componentClass(props, this.registerChildEventListeners, this.dispatchChildUpdatedEvent);
         component.init();
         return component;
@@ -148,8 +162,8 @@ export abstract class VComponent<TProps extends object, TState extends object> {
         eventBus.on(VfcEvents.componentMounted, () => this.componentDidMount()); // после маунта вызываем пользовательский componentDidMount
         eventBus.on(VfcEvents.rendered, this.componentAfterViewInit.bind(this)); // хз нужен ли этот ивент
         eventBus.on(VfcEvents.propsUpdated, this.renderInternal.bind(this));
-        eventBus.on(VfcEvents.stateUpdated, this.renderInternal.bind(this));
-        eventBus.on(VfcEvents.childStateUpdated, this.childStateUpdatedHandler.bind(this));
+        eventBus.on(VfcEvents.stateUpdated, this.stateUpdatedHandler.bind(this));
+        eventBus.on(VfcEvents.childStateUpdated, this.stateUpdatedHandler.bind(this));
         eventBus.on(VfcEvents.childStateUpdatedRoot, this.renderInternal.bind(this));
     }
 
@@ -208,7 +222,7 @@ export abstract class VComponent<TProps extends object, TState extends object> {
         this.eventBus.emit(VfcEvents.childStateUpdated);
     }
 
-    private childStateUpdatedHandler = () => {
+    private stateUpdatedHandler = () => {
         if (this.notifyParentChildStateUpdated != null) {
             this.notifyParentChildStateUpdated();
         } else {
