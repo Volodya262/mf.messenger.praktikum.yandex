@@ -36,25 +36,33 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
     }
 
     handleLoginBlur = (e: InputEvent) => {
-        const value = (e.target as HTMLInputElement).value;
-        const loginValidateRes = validateLogin(value);
+        const value = escapeXss((e.target as HTMLInputElement).value);
+        this.validateLoginAndUpdateState(value);
+    }
+
+    validateLoginAndUpdateState(login: string) {
+        const loginValidateRes = validateLogin(login);
 
         this.setState({
-            login: value,
+            login: login,
             loginHasErrors: hasErrors(loginValidateRes),
             loginErrors: loginValidateRes
         })
     }
 
-    handlePasswordBlur = (e: InputEvent) => {
-        const value = (e.target as HTMLInputElement).value;
-        const passwordErrors = validatePassword(value);
+    validatePasswordAndUpdateState(password: string) {
+        const passwordErrors = validatePassword(password);
 
         this.setState({
-            password: value,
+            password: password,
             passwordErrors: passwordErrors,
             passwordHasErrors: hasErrors(passwordErrors)
         })
+    }
+
+    handlePasswordBlur = (e: InputEvent) => {
+        const value = escapeXss((e.target as HTMLInputElement).value);
+        this.validatePasswordAndUpdateState(value);
     }
 
     handleFormSubmit = (e) => {
@@ -62,6 +70,8 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
         const password = escapeXss(this.getState()?.password)
         const loginErrors = validateLogin(login);
         const passwordErrors = validatePassword(password);
+        this.validateLoginAndUpdateState(login);
+        this.validatePasswordAndUpdateState(password);
 
         if (hasNoErrors(loginErrors) && hasNoErrors(passwordErrors)) {
             console.log({

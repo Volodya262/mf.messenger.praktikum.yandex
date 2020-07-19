@@ -6,22 +6,12 @@ export class LoginBlockComponent extends VComponent {
     constructor(props, parentEventHandlerRegistrar, notifyParentChildStateUpdated) {
         super(props, parentEventHandlerRegistrar, notifyParentChildStateUpdated);
         this.handleLoginBlur = (e) => {
-            const value = e.target.value;
-            const loginValidateRes = validateLogin(value);
-            this.setState({
-                login: value,
-                loginHasErrors: hasErrors(loginValidateRes),
-                loginErrors: loginValidateRes
-            });
+            const value = escapeXss(e.target.value);
+            this.validateLoginAndUpdateState(value);
         };
         this.handlePasswordBlur = (e) => {
-            const value = e.target.value;
-            const passwordErrors = validatePassword(value);
-            this.setState({
-                password: value,
-                passwordErrors: passwordErrors,
-                passwordHasErrors: hasErrors(passwordErrors)
-            });
+            const value = escapeXss(e.target.value);
+            this.validatePasswordAndUpdateState(value);
         };
         this.handleFormSubmit = (e) => {
             var _a, _b;
@@ -29,12 +19,14 @@ export class LoginBlockComponent extends VComponent {
             const password = escapeXss((_b = this.getState()) === null || _b === void 0 ? void 0 : _b.password);
             const loginErrors = validateLogin(login);
             const passwordErrors = validatePassword(password);
+            this.validateLoginAndUpdateState(login);
+            this.validatePasswordAndUpdateState(password);
             if (hasNoErrors(loginErrors) && hasNoErrors(passwordErrors)) {
                 console.log({
                     login: login,
                     password: password,
                 });
-                alert(`login: ${login}, password: ${password}`);
+                alert(`Принято! login: ${login}, password: ${password}`);
             }
             e.preventDefault();
         };
@@ -44,6 +36,22 @@ export class LoginBlockComponent extends VComponent {
         };
     }
     componentDidMount() {
+    }
+    validateLoginAndUpdateState(login) {
+        const loginValidateRes = validateLogin(login);
+        this.setState({
+            login: login,
+            loginHasErrors: hasErrors(loginValidateRes),
+            loginErrors: loginValidateRes
+        });
+    }
+    validatePasswordAndUpdateState(password) {
+        const passwordErrors = validatePassword(password);
+        this.setState({
+            password: password,
+            passwordErrors: passwordErrors,
+            passwordHasErrors: hasErrors(passwordErrors)
+        });
     }
     render(props) {
         var _a, _b, _c, _d, _e, _f;
@@ -66,7 +74,7 @@ export class LoginBlockComponent extends VComponent {
                            name="login" placeholder="Логин" type="text" value="{{login}}"/>
                     {{{renderComponentInstance validationErrorsComponent loginErrorsProps}}}
                     <input class="auth-block__input login-block__login-password {{#if
-                            passwordInvalid}}input__has-error{{/if}}" 
+                            passwordInvalid}}input__has-error{{/if}}"
                            name="password" placeholder="Пароль"
                            type="password" value="{{password}}"/>
                     {{{renderComponentInstance validationErrorsComponent passwordErrorsProps}}}
