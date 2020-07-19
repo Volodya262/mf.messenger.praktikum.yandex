@@ -14,7 +14,7 @@ export const chatItemTemplate = `
         </div>
     </div>`;
 
-Handlebars.registerPartial('chatItem', chatItemTemplate);
+window.Handlebars.registerPartial('chatItem', chatItemTemplate);
 
 export const chatListTemplate =
     `{{#each chats}}

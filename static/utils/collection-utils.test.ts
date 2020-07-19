@@ -22,7 +22,7 @@ describe('collection-utils: first', function () {
         const res = first(input);
 
         // verify
-        expect(res != null).toBeTruthy();
+        expect(res == null).toBeTruthy();
     })
 })
 

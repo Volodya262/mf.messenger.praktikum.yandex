@@ -5,7 +5,7 @@ const messageItemTemplate = `
         <div>{{timeFormat date}}</div>
     </div>`;
 
-Handlebars.registerPartial('messageItem', messageItemTemplate);
+window.Handlebars.registerPartial('messageItem', messageItemTemplate);
 
 // не могу воспроизвести поехавшую верстку. Chrome 83.
 // language=Handlebars
@@ -24,7 +24,7 @@ const messagesUserGroupTemplate = `
         </div>
     </div>`;
 
-Handlebars.registerPartial('messagesUserGroup', messagesUserGroupTemplate);
+window.Handlebars.registerPartial('messagesUserGroup', messagesUserGroupTemplate);
 
 // language=Handlebars
 const messagesDayGroupTemplate = `
@@ -35,7 +35,7 @@ const messagesDayGroupTemplate = `
         {{/each}}
     </div>`;
 
-Handlebars.registerPartial('messagesDayGroup', messagesDayGroupTemplate);
+window.Handlebars.registerPartial('messagesDayGroup', messagesDayGroupTemplate);
 
 export const messagesListTemplate =
     `

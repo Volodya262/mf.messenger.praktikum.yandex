@@ -4,7 +4,7 @@
   "description": "Messenger v2",
   "main": "server.js",
   "scripts": {
-    "test": "jest",
+    "test": "tsc && jest",
     "start": "node server.js"
   },
   "repository": {
@@ -21,10 +21,12 @@
     "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
+    "@trust/webcrypto": "^0.9.2",
     "@types/jest": "^26.0.5",
     "babel-jest": "^26.1.0",
     "express": "^4.17.1",
     "jest": "^26.1.0",
+    "jest-config": "^26.1.0",
     "node-dev": "^4.0.0",
     "typescript": "^3.9.7"
   },

@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 export function loadChats(api: IChatApi) {
-    const template = Handlebars.compile(chatListTemplate);
+    const template = window.Handlebars.compile(chatListTemplate);
     api.getChats().then(
         chats => {
             if (chats.length > 0) {
@@ -27,7 +27,7 @@ export function loadChats(api: IChatApi) {
 export function loadMessages(api: IChatApi, chatId: number): void {
     api.getChatMessages(chatId).then(messages => {
         const convertedMessages = convertMessagesToViewModel(messages);
-        const template = Handlebars.compile(messagesListTemplate);
+        const template = window.Handlebars.compile(messagesListTemplate);
         const context = {messageDayGroups: convertedMessages};
         document.getElementById('messages-list-container').innerHTML = template(context);
     })

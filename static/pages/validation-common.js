@@ -32,7 +32,7 @@ export function showErrorsInContainer(containerId, errors) {
         return;
     }
 
-    const template = Handlebars.compile(inputErrorMessagesListTemplate);
+    const template = window.Handlebars.compile(inputErrorMessagesListTemplate);
     const context = {errors: errors};
 
     document.getElementById(containerId).innerHTML = template(context);

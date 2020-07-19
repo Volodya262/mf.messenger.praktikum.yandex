@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadMessages(api, 2);
 });
 export function loadChats(api) {
-    const template = Handlebars.compile(chatListTemplate);
+    const template = window.Handlebars.compile(chatListTemplate);
     api.getChats().then(chats => {
         if (chats.length > 0) {
             chats[1].isSelected = true;
@@ -20,7 +20,7 @@ export function loadChats(api) {
 export function loadMessages(api, chatId) {
     api.getChatMessages(chatId).then(messages => {
         const convertedMessages = convertMessagesToViewModel(messages);
-        const template = Handlebars.compile(messagesListTemplate);
+        const template = window.Handlebars.compile(messagesListTemplate);
         const context = { messageDayGroups: convertedMessages };
         document.getElementById('messages-list-container').innerHTML = template(context);
     });

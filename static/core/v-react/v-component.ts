@@ -1,116 +1,199 @@
-// import {EventBus} from "./event-bus";
-//
-// export abstract class VComponent {
-//     static EVENTS = {
-//         INIT: "init",
-//         FLOW_CDM: "flow:component-did-mount",
-//         FLOW_CDU: "flow:component-did-update",
-//         FLOW_RENDER: "flow:render"
-//     };
-//
-//     private _element = null;
-//     private _meta: {
-//         tagname: string,
-//         props: object
-//     }
-//
-//     /** JSDoc
-//      * @param {string} tagName
-//      * @param {Object} props
-//      *
-//      * @returns {void}
-//      */
-//     constructor(tagName = "div", props = {}) {
-//         const eventBus = new EventBus();
-//         this._meta = {
-//             tagName,
-//             props
-//         };
-//
-//         this.props = this._makePropsProxy(props);
-//
-//         this.eventBus = () => eventBus;
-//
-//         this._registerEvents(eventBus);
-//         eventBus.emit(VComponent.EVENTS.INIT);
-//     }
-//
-//     _registerEvents(eventBus) {
-//         eventBus.on(VComponent.EVENTS.INIT, this.init.bind(this));
-//         eventBus.on(VComponent.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
-//         eventBus.on(VComponent.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
-//         eventBus.on(VComponent.EVENTS.FLOW_RENDER, this._render.bind(this));
-//     }
-//
-//     _createResources() {
-//         const { tagName } = this._meta;
-//         this._element = this.createDocumentElement(tagName);
-//     }
-//
-//     init() {
-//         this._createResources();
-//         this.eventBus().emit(VComponent.EVENTS.FLOW_CDM);
-//     }
-//
-//     _componentDidMount() {
-//         this.componentDidMount();
-//         this.eventBus().emit(VComponent.EVENTS.FLOW_RENDER);
-//     }
-//
-//     // Может переопределять пользователь, необязательно трогать
-//     componentDidMount(oldProps) { }
-//
-//     _componentDidUpdate(oldProps, newProps) {
-//         const response = this.componentDidUpdate(oldProps, newProps);
-//         if (response) {
-//             this.eventBus().emit(VComponent.EVENTS.FLOW_RENDER);
-//         }
-//     }
-//
-//     // Может переопределять пользователь, необязательно трогать
-//     componentDidUpdate(oldProps, newProps) {
-//         return true;
-//     }
-//
-//     setProps = nextProps => {
-//         if (!nextProps) {
-//             return;
-//         }
-//
-//         const oldProps = this.props;
-//         Object.assign(this.props, nextProps);
-//         this.eventBus().emit(VComponent.EVENTS.FLOW_CDU, oldProps, nextProps)
-//     };
-//
-//     get element() {
-//         return this._element;
-//     }
-//
-//     _render() {
-//         const block = this.render();
-//         // Этот небезопасный метод для упрощения логики
-//         // Используйте шаблонизатор из npm или напиши свой безопасный
-//         // Нужно не в строку компилировать (или делать это правильно),
-//         // либо сразу в DOM-элементы превращать из возвращать из compile DOM-ноду
-//         this._element.innerHTML = block;
-//     }
-//
-//     // Может переопределять пользователь, необязательно трогать
-//     render() { }
-//
-//     getContent() {
-//         return this.element;
-//     }
-//
-//     private createDocumentElement(tagName) {
-//         return document.createElement(tagName);
-//     }
-//
-//     public show = () => {
-//         this.element.style.display = 'block'
-//     }
-//
-//     public hide = () => {
-//         this.element.style.display = 'none'
-//     }
-// }
+import {EventBus} from "./event-bus.js";
+import {ComponentEventHandler} from "./types/component-event-handler";
+import {ComponentEventHandlerInternal} from "./types/internal-component-event-handler";
+import {InternalEventHandlersRegistrar} from "./types/internal-event-handlers-registrar";
+import {uuidv4} from "../../utils/uuid.js";
+
+enum VfcEvents {
+    /** Все поля компонента проинициализированы */
+    initComplete,
+    /** Компонент вставлен во внутренний element */
+    componentMounted,
+    /** Был произведен render */
+    rendered,
+    /** Были обновлены props, componentShouldUpdate вернуло true */
+    propsUpdated,
+    /** Был обновлен state */
+    stateUpdated,
+    /** У одного из детей обновился state */
+    childStateUpdated,
+    /** У одного из детей обновился state, стреляет в корневом компоненте */
+    childStateUpdatedRoot
+}
+
+/**
+ * Компонент
+ */
+export abstract class VComponent<TProps extends object, TState extends object> {
+    private readonly tagName: string;
+    private readonly eventBus = new EventBus<VfcEvents>();
+    private readonly element: HTMLElement;
+    private props: TProps;
+    private state: TState;
+    private readonly parentEventHandlerRegistrar: InternalEventHandlersRegistrar = null;
+    private childEventListeners: ComponentEventHandlerInternal[] = [];
+    private readonly notifyParentChildStateUpdated: () => void;
+
+    /**
+     * Создать компонент
+     * @param props Первоначальные пропсы
+     * @param parentEventHandlerRegistrar Родительский регистратор событий
+     * @param notifyParentChildStateUpdated Уведомить родителя об изменении своего состояния или одного из дочерних
+     * @param tagName
+     */
+    constructor(props: TProps,
+                parentEventHandlerRegistrar: InternalEventHandlersRegistrar = null,
+                notifyParentChildStateUpdated: () => void = null,
+                tagName: string = 'v-functional-component') {
+        this.tagName = tagName;
+        this.props = {...props}
+        this.parentEventHandlerRegistrar = parentEventHandlerRegistrar;
+        this.notifyParentChildStateUpdated = notifyParentChildStateUpdated;
+
+        this.registerEvents(this.eventBus);
+        this.element = document.createElement(this.tagName);
+        this.eventBus.emit(VfcEvents.initComplete); // будет вызван render
+        this.eventBus.emit(VfcEvents.componentMounted); // будет вызван пользовательский
+    }
+
+    /**
+     * Пользовательский render. Должен вернуть Handlebars-шаблон, context для него и список обработчиков
+     */
+    public abstract render(props: Readonly<TProps>): { template: string, context: object, eventListeners?: ComponentEventHandler[] };
+
+    public getElement() {
+        return this.element;
+    }
+
+    public getElementHtml() {
+        return this.element.innerHTML;
+    }
+
+    public setProps(newProps: TProps) {
+        const oldProps = this.props;
+        this.props = newProps;
+        if (this.componentShouldUpdate(oldProps, newProps)) {
+            this.eventBus.emit(VfcEvents.propsUpdated)
+        }
+    }
+
+    /**
+     * Вызывается после первого монтирования компонента в element
+     */
+    abstract componentDidMount(): void;
+
+    protected registerChildEventListeners = (handlers: ComponentEventHandlerInternal[]) => {
+        if (handlers == null) {
+            return;
+        }
+
+        if (this.parentEventHandlerRegistrar != null) { // если у этого компонента есть родитель, то прокидываем ему
+            this.parentEventHandlerRegistrar(handlers);
+        } else {
+            this.childEventListeners.push(...handlers);
+        }
+    }
+
+    /**
+     * Оператор сравнения пропсов. Опционально определяется пользователем.
+     * @param oldProps
+     * @param newProps
+     */
+    protected componentShouldUpdate(oldProps: TProps, newProps: TProps) {
+        return oldProps !== newProps;
+    }
+
+    /**
+     * Вызывается после каждого render (пригодится!)
+     */
+    protected componentAfterViewInit = () => {
+    }
+
+    protected createChildComponent<TComponent extends VComponent<TProps, any>, TProps extends object>(
+        componentClass: new (...args: any) => TComponent, props: TProps): TComponent {
+        return new componentClass(props, this.registerChildEventListeners, this.dispatchChildUpdatedEvent);
+    }
+
+    protected setState(newState: TState) {
+        this.state = {...newState};
+        this.eventBus.emit(VfcEvents.stateUpdated);
+    }
+
+    protected getState(): Readonly<TState> {
+        return this.state;
+    }
+
+    private registerEvents(eventBus: EventBus<VfcEvents>) {
+
+        eventBus.on(VfcEvents.initComplete, this.renderInternal.bind(this)); // сразу после инициализации вызываем рендер
+        eventBus.on(VfcEvents.componentMounted, this.componentDidMount.bind(this)); // после маунта вызываем пользовательский componentDidMount
+        eventBus.on(VfcEvents.rendered, this.componentAfterViewInit.bind(this)); // хз нужен ли этот ивент
+        eventBus.on(VfcEvents.propsUpdated, this.renderInternal.bind(this));
+        eventBus.on(VfcEvents.stateUpdated, this.renderInternal.bind(this));
+        eventBus.on(VfcEvents.childStateUpdated, this.childStateUpdatedHandler.bind(this));
+        eventBus.on(VfcEvents.childStateUpdatedRoot, this.renderInternal.bind(this));
+    }
+
+    private registerChildEventListenersInternal = () => {
+        if (this.childEventListeners == null || this.childEventListeners.length === 0) {
+            return;
+        }
+        // TODO вынести всю эту логику с добавлением/удалением dataset в отдельную утилитку и покрыть тестами
+        const idQuerySelector = `[data-v-event-handler-id]`;
+        const elements = Array.from(this.element.querySelectorAll(idQuerySelector)); // нашли все ноды, которым надо будет что-то присвоить
+
+        for (let {event, func, id} of this.childEventListeners) {
+            const targetElements = elements.filter(item => (item as HTMLElement).dataset.vEventHandlerId === id);
+            targetElements.forEach(item => item.addEventListener(event, func));
+        }
+    }
+
+    private registerEventListeners = (handlers: ComponentEventHandler[]) => {
+        if (handlers == null) {
+            return;
+        }
+
+        if (this.parentEventHandlerRegistrar != null) {
+            const internalHandlers: ComponentEventHandlerInternal[] = [];
+
+            for (let {event, func, querySelector} of handlers) {
+                const id = uuidv4();
+                const elements = this.element.querySelectorAll(querySelector);
+                // TODO сейчас поддерживается только один event handler на один объект
+                // TODO вынести всю эту логику с добавлением/удалением dataset в отдельную утилитку и покрыть тестами
+                elements.forEach(item => (item as HTMLElement).dataset.vEventHandlerId = id);
+                internalHandlers.push({id: id, event: event, func: func});
+            }
+
+            this.parentEventHandlerRegistrar(internalHandlers);
+        } else {
+            for (let {event, func, querySelector} of handlers) {
+                const elements = this.element.querySelectorAll(querySelector);
+                elements.forEach(item => item.addEventListener(event, func))
+            }
+        }
+    }
+
+    private renderInternal = () => {
+        this.childEventListeners = [];
+
+        const {context, template, eventListeners} = this.render(this.props);
+        const compiledTemplate = window.Handlebars.compile(template, context);
+        this.element.innerHTML = compiledTemplate(context)
+        this.registerEventListeners(eventListeners);
+        this.registerChildEventListenersInternal();
+        this.eventBus.emit(VfcEvents.rendered);
+    }
+
+    private dispatchChildUpdatedEvent = () => {
+        this.eventBus.emit(VfcEvents.childStateUpdated);
+    }
+
+    private childStateUpdatedHandler = () => {
+        if (this.notifyParentChildStateUpdated != null) {
+            this.notifyParentChildStateUpdated();
+        } else {
+            this.eventBus.emit(VfcEvents.childStateUpdatedRoot);
+        }
+    }
+}
