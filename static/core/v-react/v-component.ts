@@ -35,7 +35,7 @@ export abstract class VComponent<TProps extends object, TState extends object> {
     private readonly notifyParentChildStateUpdated: () => void;
 
     /**
-     * Создать компонент
+     * Создать компонент. Обязательно вызвать init() после!!!
      * @param props Первоначальные пропсы
      * @param parentEventHandlerRegistrar Родительский регистратор событий
      * @param notifyParentChildStateUpdated Уведомить родителя об изменении своего состояния или одного из дочерних
@@ -44,7 +44,7 @@ export abstract class VComponent<TProps extends object, TState extends object> {
     constructor(props: TProps,
                 parentEventHandlerRegistrar: InternalEventHandlersRegistrar = null,
                 notifyParentChildStateUpdated: () => void = null,
-                tagName: string = 'v-functional-component') {
+                tagName: string = 'v-component') {
         this.tagName = tagName;
         this.props = {...props}
         this.parentEventHandlerRegistrar = parentEventHandlerRegistrar;
@@ -52,9 +52,17 @@ export abstract class VComponent<TProps extends object, TState extends object> {
 
         this.registerEvents(this.eventBus);
         this.element = document.createElement(this.tagName);
-        this.eventBus.emit(VfcEvents.initComplete); // будет вызван render
-        this.eventBus.emit(VfcEvents.componentMounted); // будет вызван пользовательский
+
+        this.setState.bind(this);
+        this.init.bind(this);
     }
+
+    public init() {
+        this.eventBus.emit(VfcEvents.initComplete); // будет вызван render
+        this.eventBus.emit(VfcEvents.componentMounted); // будет вызван пользовательский componentDidMount()
+    }
+
+    //TODO ААААААА я забыл про ComponentDidUpdate
 
     /**
      * Пользовательский render. Должен вернуть Handlebars-шаблон, context для него и список обработчиков
@@ -109,13 +117,20 @@ export abstract class VComponent<TProps extends object, TState extends object> {
     protected componentAfterViewInit = () => {
     }
 
+    /**
+     * Создать дочерний компонент со всеми привязками
+     * @param componentClass Класс компонента
+     * @param props Default props
+     */
     protected createChildComponent<TComponent extends VComponent<TProps, any>, TProps extends object>(
         componentClass: new (...args: any) => TComponent, props: TProps): TComponent {
-        return new componentClass(props, this.registerChildEventListeners, this.dispatchChildUpdatedEvent);
+        const component = new componentClass(props, this.registerChildEventListeners, this.dispatchChildUpdatedEvent);
+        component.init();
+        return component;
     }
 
-    protected setState(newState: TState) {
-        this.state = {...newState};
+    protected setState(newState: Partial<TState>) {
+        this.state = {...this.state, ...newState};
         this.eventBus.emit(VfcEvents.stateUpdated);
     }
 
@@ -123,10 +138,14 @@ export abstract class VComponent<TProps extends object, TState extends object> {
         return this.state;
     }
 
+    protected getProps(): Readonly<TProps> {
+        return this.props;
+    }
+
     private registerEvents(eventBus: EventBus<VfcEvents>) {
 
         eventBus.on(VfcEvents.initComplete, this.renderInternal.bind(this)); // сразу после инициализации вызываем рендер
-        eventBus.on(VfcEvents.componentMounted, this.componentDidMount.bind(this)); // после маунта вызываем пользовательский componentDidMount
+        eventBus.on(VfcEvents.componentMounted, () => this.componentDidMount()); // после маунта вызываем пользовательский componentDidMount
         eventBus.on(VfcEvents.rendered, this.componentAfterViewInit.bind(this)); // хз нужен ли этот ивент
         eventBus.on(VfcEvents.propsUpdated, this.renderInternal.bind(this));
         eventBus.on(VfcEvents.stateUpdated, this.renderInternal.bind(this));
@@ -159,7 +178,7 @@ export abstract class VComponent<TProps extends object, TState extends object> {
             for (let {event, func, querySelector} of handlers) {
                 const id = uuidv4();
                 const elements = this.element.querySelectorAll(querySelector);
-                // TODO сейчас поддерживается только один event handler на один объект
+                // TODO добавить поддержку нескольких event handler на один объект
                 // TODO вынести всю эту логику с добавлением/удалением dataset в отдельную утилитку и покрыть тестами
                 elements.forEach(item => (item as HTMLElement).dataset.vEventHandlerId = id);
                 internalHandlers.push({id: id, event: event, func: func});
@@ -175,7 +194,7 @@ export abstract class VComponent<TProps extends object, TState extends object> {
     }
 
     private renderInternal = () => {
-        this.childEventListeners = [];
+        this.childEventListeners = []; // каждый рендер DOM "обнуляется" и приходится заново вешать обработчики.
 
         const {context, template, eventListeners} = this.render(this.props);
         const compiledTemplate = window.Handlebars.compile(template, context);

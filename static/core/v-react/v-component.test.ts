@@ -32,6 +32,7 @@ describe('VComponentTests: single component', function () {
     test('It should render simple template', function () {
         // setup
         const myComponent = new TestableComponent({name: 'vasya'});
+        myComponent.init();
 
         // act
         const element = myComponent.getElement();
@@ -43,6 +44,7 @@ describe('VComponentTests: single component', function () {
     test('It should update template after setProps', function () {
         // setup
         const myComponent = new TestableComponent({name: 'vasya'});
+        myComponent.init();
         myComponent.setProps({name: 'vova'})
 
         // act
@@ -66,6 +68,7 @@ describe('VComponentTests: single component', function () {
         }
 
         const myComponent = new TestableComponent2({name: ''});
+        myComponent.init();
 
         // act
         myComponent.setProps({name: 'vova'})

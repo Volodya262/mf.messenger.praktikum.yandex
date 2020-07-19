@@ -18,19 +18,18 @@ var VfcEvents;
     /** У одного из детей обновился state, стреляет в корневом компоненте */
     VfcEvents[VfcEvents["childStateUpdatedRoot"] = 6] = "childStateUpdatedRoot";
 })(VfcEvents || (VfcEvents = {}));
-
 /**
  * Компонент
  */
 export class VComponent {
     /**
-     * Создать компонент
+     * Создать компонент. Обязательно вызвать init() после!!!
      * @param props Первоначальные пропсы
      * @param parentEventHandlerRegistrar Родительский регистратор событий
      * @param notifyParentChildStateUpdated Уведомить родителя об изменении своего состояния или одного из дочерних
      * @param tagName
      */
-    constructor(props, parentEventHandlerRegistrar = null, notifyParentChildStateUpdated = null, tagName = 'v-functional-component') {
+    constructor(props, parentEventHandlerRegistrar = null, notifyParentChildStateUpdated = null, tagName = 'v-component') {
         this.eventBus = new EventBus();
         this.parentEventHandlerRegistrar = null;
         this.childEventListeners = [];
@@ -70,7 +69,7 @@ export class VComponent {
                 for (let {event, func, querySelector} of handlers) {
                     const id = uuidv4();
                     const elements = this.element.querySelectorAll(querySelector);
-                    // TODO сейчас поддерживается только один event handler на один объект
+                    // TODO добавить поддержку нескольких event handler на один объект
                     // TODO вынести всю эту логику с добавлением/удалением dataset в отдельную утилитку и покрыть тестами
                     elements.forEach(item => item.dataset.vEventHandlerId = id);
                     internalHandlers.push({id: id, event: event, func: func});
@@ -84,7 +83,7 @@ export class VComponent {
             }
         };
         this.renderInternal = () => {
-            this.childEventListeners = [];
+            this.childEventListeners = []; // каждый рендер DOM "обнуляется" и приходится заново вешать обработчики.
             const {context, template, eventListeners} = this.render(this.props);
             const compiledTemplate = window.Handlebars.compile(template, context);
             this.element.innerHTML = compiledTemplate(context);
@@ -108,6 +107,11 @@ export class VComponent {
         this.notifyParentChildStateUpdated = notifyParentChildStateUpdated;
         this.registerEvents(this.eventBus);
         this.element = document.createElement(this.tagName);
+        this.setState.bind(this);
+        this.init.bind(this);
+    }
+
+    init() {
         this.eventBus.emit(VfcEvents.initComplete); // будет вызван render
         this.eventBus.emit(VfcEvents.componentMounted); // будет вызван пользовательский
     }
@@ -137,12 +141,19 @@ export class VComponent {
         return oldProps !== newProps;
     }
 
+    /**
+     * Создать дочерний компонент со всеми привязками
+     * @param componentClass Класс компонента
+     * @param props Default props
+     */
     createChildComponent(componentClass, props) {
-        return new componentClass(props, this.registerChildEventListeners, this.dispatchChildUpdatedEvent);
+        const component = new componentClass(props, this.registerChildEventListeners, this.dispatchChildUpdatedEvent);
+        component.init();
+        return component;
     }
 
     setState(newState) {
-        this.state = Object.assign({}, newState);
+        this.state = Object.assign(Object.assign({}, this.state), newState);
         this.eventBus.emit(VfcEvents.stateUpdated);
     }
 
@@ -150,9 +161,13 @@ export class VComponent {
         return this.state;
     }
 
+    getProps() {
+        return this.props;
+    }
+
     registerEvents(eventBus) {
         eventBus.on(VfcEvents.initComplete, this.renderInternal.bind(this)); // сразу после инициализации вызываем рендер
-        eventBus.on(VfcEvents.componentMounted, this.componentDidMount.bind(this)); // после маунта вызываем пользовательский componentDidMount
+        eventBus.on(VfcEvents.componentMounted, () => this.componentDidMount()); // после маунта вызываем пользовательский componentDidMount
         eventBus.on(VfcEvents.rendered, this.componentAfterViewInit.bind(this)); // хз нужен ли этот ивент
         eventBus.on(VfcEvents.propsUpdated, this.renderInternal.bind(this));
         eventBus.on(VfcEvents.stateUpdated, this.renderInternal.bind(this));
@@ -160,5 +175,4 @@ export class VComponent {
         eventBus.on(VfcEvents.childStateUpdatedRoot, this.renderInternal.bind(this));
     }
 }
-
 //# sourceMappingURL=v-component.js.map
