@@ -110,27 +110,23 @@ export class VComponent {
         this.setState.bind(this);
         this.init.bind(this);
     }
-
     init() {
         // TODO добавить абстрактную функцию initChildComponents
         this.eventBus.emit(VfcEvents.initComplete); // будет вызван render
         this.eventBus.emit(VfcEvents.componentMounted); // будет вызван пользовательский componentDidMount()
     }
-
     /**
      * Получить ноду компонента
      */
     getElement() {
         return this.element;
     }
-
     /**
      * Получить HTML компонента. Внимание! Все обработчики событий будут потеряны.
      */
     getElementHtml() {
         return this.element.innerHTML;
     }
-
     /**
      * Установить новые пропсы компонента. Предназначено для вызова снаружи.
      */
@@ -141,7 +137,6 @@ export class VComponent {
             this.eventBus.emit(VfcEvents.propsUpdated);
         }
     }
-
     /**
      * Оператор сравнения пропсов. Опционально определяется пользователем.
      * @param oldProps

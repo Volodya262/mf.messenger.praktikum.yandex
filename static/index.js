@@ -91,6 +91,7 @@ class MyComponent extends VComponent {
 document.addEventListener("DOMContentLoaded", function () {
     const users = { users: [{ name: 'vasua' }] };
     const myBlock = new MyBlock(users);
+    myBlock.init();
     // setTimeout(() => {
     //     myBlock.setProps({users: [{name: 'olga'}]})
     // }, 3000);
