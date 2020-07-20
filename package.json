@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "tsc && jest",
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "tsc && postcss static/main.css -o static/bundle.css"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,8 @@
     "jest": "^26.1.0",
     "jest-config": "^26.1.0",
     "node-dev": "^4.0.0",
+    "postcss-cli": "^7.1.1",
+    "postcss-import": "^12.0.1",
     "typescript": "^3.9.7"
   },
   "dependencies": {
