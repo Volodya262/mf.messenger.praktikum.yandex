@@ -22,7 +22,6 @@ export function queryStringify(obj) {
     }
     return '';
 }
-
 /**
  * Преобразовывает объект person: {age: 15, cars: {favouriteCar: 'bmw', dailyCar: 'hyundai'}}
  * к виду person[age]=15&person[cars][favouriteCar]='bmw'&person[cars][dailyCar]='huyndai'

@@ -57,7 +57,7 @@ export class ChatPageComponent extends VComponent {
             <div class="chat-window">
                 <div class="chat-list-and-search-input-container">
                     <div class="search-container">
-                        <input class="search-container__input" type="text"/>
+                        <input class="search-container__input" type="text" disabled/>
                         <div class="search-container__send-button-container">
                             <button class="search__send-button">
                                 <i class="fas fa-search fa-2x"></i>
@@ -97,7 +97,6 @@ export class ChatPageComponent extends VComponent {
             messageListComponent: this.messageListComponent,
             messageListComponentProps: {messages: ((_c = this.getState()) === null || _c === void 0 ? void 0 : _c.selectedChatMessages) || []}
         };
-        console.log('page');
         return { context: context, template: template };
     }
 }

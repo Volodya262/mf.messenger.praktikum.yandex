@@ -46,7 +46,6 @@ export class ChatPageComponent extends VComponent<IChatProps, IChatState> {
         }
 
         this.setState({selectedChatId: id})
-
         this.loadChatMessages(id).then(msgs => this.setState({selectedChatMessages: msgs}))
     };
 
@@ -85,7 +84,7 @@ export class ChatPageComponent extends VComponent<IChatProps, IChatState> {
             <div class="chat-window">
                 <div class="chat-list-and-search-input-container">
                     <div class="search-container">
-                        <input class="search-container__input" type="text"/>
+                        <input class="search-container__input" type="text" disabled/>
                         <div class="search-container__send-button-container">
                             <button class="search__send-button">
                                 <i class="fas fa-search fa-2x"></i>

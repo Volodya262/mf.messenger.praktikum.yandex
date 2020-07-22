@@ -5,7 +5,6 @@
 export function isObject(obj) {
     return typeof obj === 'object' && obj !== null;
 }
-
 /** Заглушка */
 export function noop(...args) {
 }

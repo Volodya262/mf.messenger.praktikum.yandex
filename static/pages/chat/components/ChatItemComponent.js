@@ -20,7 +20,11 @@ export class ChatItemComponent extends VComponent {
             chat: chat,
             isSelected: isSelected
         };
-        const eventListeners = [{ querySelector: '.chat-item', event: 'click', func: () => onChatSelected(chat.id) }];
+        const eventListeners = [{
+                querySelector: '.chat-item',
+                event: 'click',
+                func: () => onChatSelected(chat.id)
+            }];
         return { context: context, template: template, eventListeners: eventListeners };
     }
 }
