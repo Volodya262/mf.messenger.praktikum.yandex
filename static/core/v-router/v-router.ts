@@ -8,7 +8,7 @@ export class VRouter {
     private routes: VRoute[] = [];
     private history = window.history;
 
-    constructor(private rootNode: HTMLElement) {
+    constructor(private rootNode: HTMLElement) { // просто копипастнул код из тренажера
         if (VRouter.instance) {
             return VRouter.instance;
         }

@@ -1,16 +1,12 @@
 /**
  * [1, 2, 3, 4] => 1
  */
-export function first(list) {
-    if (list == null || !Array.isArray(list)) {
+export function first(list: unknown[]) {
+    if (list == null) {
         return undefined;
     }
 
-    if (list.length === 0) {
-        return undefined;
-    }
-
-    return list[0]
+    return list[0];
 }
 
 /**

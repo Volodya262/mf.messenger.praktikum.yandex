@@ -30,7 +30,13 @@ export function queryStringify(obj: object) {
     return '';
 }
 
-function transformObjectEntriesToArrayString(name, obj) {
+/**
+ * Преобразовывает объект person: {age: 15, cars: {favouriteCar: 'bmw', dailyCar: 'hyundai'}}
+ * к виду person[age]=15&person[cars][favouriteCar]='bmw'&person[cars][dailyCar]='huyndai'
+ * @param name
+ * @param obj
+ */
+function transformObjectEntriesToArrayString(name, obj): string { // большого смысла я в такой функции не вижу, копирнул из тренажера
     const entries = Object.entries(obj);
     return entries.reduce((acc, [key, value], index) => {
         if (index > 0) {
