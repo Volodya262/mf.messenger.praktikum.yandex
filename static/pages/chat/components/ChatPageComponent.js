@@ -1,10 +1,18 @@
 import {VComponent} from "../../../core/v-react/v-component.js";
 import {ChatListComponent} from "./ChatListComponent.js";
 import {MessageListComponent} from "./MessageListComponent.js";
+import {noop} from "../../../utils/common-utils.js";
 
 export class ChatPageComponent extends VComponent {
     constructor(props, chatApi) {
         super(props);
+        this.onChatSelected = (id) => {
+            if (id === this.state.selectedChatId) {
+                return;
+            }
+            this.setState({selectedChatId: id});
+            this.loadChatMessages(id).then(msgs => this.setState({selectedChatMessages: msgs}));
+        };
         if (chatApi == null) {
             throw new TypeError(`Expected chatApi, but got ${chatApi}`);
         }
@@ -12,21 +20,15 @@ export class ChatPageComponent extends VComponent {
         this.componentDidMount.bind(this);
     }
     loadChats() {
-        return this.chatApi.getChats().then(chats => {
-            if (chats.length > 0) {
-                chats[1].isSelected = true;
-            }
-            return chats;
-        });
+        return this.chatApi.getChats();
     }
     loadChatMessages(id) {
         return this.chatApi.getChatMessages(id);
     }
     componentDidMount() {
-        const selectedChatId = 2;
         this.loadChats().then(chats => {
             if (chats != null && chats.length > 0) {
-                this.loadChatMessages(selectedChatId).then(messages => {
+                this.loadChatMessages(chats[0]).then(messages => {
                     this.setState({
                         chats: chats,
                         selectedChatId: chats[0],
@@ -36,16 +38,15 @@ export class ChatPageComponent extends VComponent {
             }
             else {
                 this.setState({
-                    chats: chats,
-                    selectedChatId: chats[0]
+                    chats: chats
                 });
             }
         });
     }
     render(props) {
-        var _a, _b;
+        var _a, _b, _c;
         if (this.chatListComponent == null) {
-            this.chatListComponent = this.createChildComponent(ChatListComponent, { chats: [] });
+            this.chatListComponent = this.createChildComponent(ChatListComponent, {chats: [], onChatSelected: noop});
         }
         if (this.messageListComponent == null) {
             this.messageListComponent = this.createChildComponent(MessageListComponent, { messages: [] });
@@ -88,10 +89,15 @@ export class ChatPageComponent extends VComponent {
         `;
         const context = {
             chatListComponent: this.chatListComponent,
-            chatListComponentProps: { chats: ((_a = this.getState()) === null || _a === void 0 ? void 0 : _a.chats) || [] },
+            chatListComponentProps: {
+                chats: ((_a = this.getState()) === null || _a === void 0 ? void 0 : _a.chats) || [],
+                onChatSelected: this.onChatSelected,
+                selectedChatId: (_b = this.getState()) === null || _b === void 0 ? void 0 : _b.selectedChatId
+            },
             messageListComponent: this.messageListComponent,
-            messageListComponentProps: { messages: ((_b = this.getState()) === null || _b === void 0 ? void 0 : _b.selectedChatMessages) || [] }
+            messageListComponentProps: {messages: ((_c = this.getState()) === null || _c === void 0 ? void 0 : _c.selectedChatMessages) || []}
         };
+        console.log('page');
         return { context: context, template: template };
     }
 }

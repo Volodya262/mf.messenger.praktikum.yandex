@@ -24,7 +24,6 @@ export class VRouter {
 
     start = () => {
         window.onpopstate = (event) => {
-            console.log('pop')
             if (document.location != null) {
                 this.handlePathChange(document.location.hash);
             }

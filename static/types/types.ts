@@ -30,7 +30,7 @@ export interface IChatPreview {
     author: string;
     message: string;
     date: Date;
-    isSelected?: boolean;
+    // isSelected?: boolean;
 }
 
 /**

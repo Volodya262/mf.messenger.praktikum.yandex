@@ -1,4 +1,4 @@
-import { isObject } from "../common-utils.js";
+import {isObject} from "../common-utils.js";
 // TODO добавить спец. обработчик для Date
 // TODO скорее всего надо будет делать экранирование для спец.символов
 export function queryStringify(obj) {
@@ -22,6 +22,13 @@ export function queryStringify(obj) {
     }
     return '';
 }
+
+/**
+ * Преобразовывает объект person: {age: 15, cars: {favouriteCar: 'bmw', dailyCar: 'hyundai'}}
+ * к виду person[age]=15&person[cars][favouriteCar]='bmw'&person[cars][dailyCar]='huyndai'
+ * @param name
+ * @param obj
+ */
 function transformObjectEntriesToArrayString(name, obj) {
     const entries = Object.entries(obj);
     return entries.reduce((acc, [key, value], index) => {

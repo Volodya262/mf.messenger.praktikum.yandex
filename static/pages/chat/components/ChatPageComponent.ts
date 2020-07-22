@@ -4,6 +4,7 @@ import {ComponentEventHandler} from "../../../core/v-react/types/component-event
 import {ChatListComponent, ChatListComponentProps} from "./ChatListComponent.js";
 import {MessageListComponent, MessageListComponentProps} from "./MessageListComponent.js";
 import {IChatApi} from "../../../api/types/i-chat-api.js";
+import {noop} from "../../../utils/common-utils.js";
 
 export interface IChatProps {
 
@@ -32,24 +33,27 @@ export class ChatPageComponent extends VComponent<IChatProps, IChatState> {
     }
 
     loadChats() {
-        return this.chatApi.getChats().then(chats => {
-            if (chats.length > 0) {
-                chats[1].isSelected = true;
-            }
-            return chats;
-        })
+        return this.chatApi.getChats();
     }
 
     loadChatMessages(id: number) {
         return this.chatApi.getChatMessages(id);
     }
 
-    componentDidMount() {
-        const selectedChatId = 2;
+    onChatSelected = (id: number) => {
+        if (id === this.state.selectedChatId) {
+            return;
+        }
 
+        this.setState({selectedChatId: id})
+
+        this.loadChatMessages(id).then(msgs => this.setState({selectedChatMessages: msgs}))
+    };
+
+    componentDidMount() {
         this.loadChats().then(chats => {
             if (chats != null && chats.length > 0) {
-                this.loadChatMessages(selectedChatId).then(messages => {
+                this.loadChatMessages(chats[0]).then(messages => {
                     this.setState({
                         chats: chats,
                         selectedChatId: chats[0],
@@ -58,8 +62,7 @@ export class ChatPageComponent extends VComponent<IChatProps, IChatState> {
                 });
             } else {
                 this.setState({
-                    chats: chats,
-                    selectedChatId: chats[0]
+                    chats: chats
                 })
             }
         });
@@ -67,11 +70,13 @@ export class ChatPageComponent extends VComponent<IChatProps, IChatState> {
 
     render(props: Readonly<IChatProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
         if (this.chatListComponent == null) {
-            this.chatListComponent = this.createChildComponent<ChatListComponent, ChatListComponentProps>(ChatListComponent, {chats: []});
+            this.chatListComponent = this.createChildComponent<ChatListComponent, ChatListComponentProps>(ChatListComponent,
+                {chats: [], onChatSelected: noop});
         }
 
         if (this.messageListComponent == null) {
-            this.messageListComponent = this.createChildComponent<MessageListComponent, MessageListComponentProps>(MessageListComponent, {messages: []})
+            this.messageListComponent = this.createChildComponent<MessageListComponent, MessageListComponentProps>(MessageListComponent,
+                {messages: []})
         }
 
         // TODO разбить на компоненты как в старом проекте на реакте: chat, chat-list, input-main, message-list, ...
@@ -113,11 +118,14 @@ export class ChatPageComponent extends VComponent<IChatProps, IChatState> {
 
         const context = {
             chatListComponent: this.chatListComponent,
-            chatListComponentProps: {chats: this.getState()?.chats || []},
+            chatListComponentProps: {
+                chats: this.getState()?.chats || [],
+                onChatSelected: this.onChatSelected,
+                selectedChatId: this.getState()?.selectedChatId
+            },
             messageListComponent: this.messageListComponent,
             messageListComponentProps: {messages: this.getState()?.selectedChatMessages || []}
         }
-
 
         return {context: context, template: template};
     }

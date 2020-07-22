@@ -5,3 +5,7 @@
 export function isObject(obj: unknown): boolean {
     return typeof obj === 'object' && obj !== null;
 }
+
+/** Заглушка */
+export function noop(...args: any): void {
+}

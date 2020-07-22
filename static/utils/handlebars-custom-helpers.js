@@ -6,8 +6,9 @@ export function registerAll(handlebars = null) {
     target.registerHelper('timeFormat', function (date) {
         return window.dateFns.format(date, 'HH:mm');
     });
-    target.registerHelper('createAndRenderComponent', function (componentClass, props, registerEventHandlers) {
+    target.registerHelper('renderFunctionalComponent', function (componentClass, props, registerEventHandlers) {
         const component = new componentClass(props, registerEventHandlers);
+        component.init();
         return component.getElementHtml();
     });
     target.registerHelper('renderComponentInstance', function (component, props) {

@@ -2,10 +2,7 @@
  * [1, 2, 3, 4] => 1
  */
 export function first(list) {
-    if (list == null || !Array.isArray(list)) {
-        return undefined;
-    }
-    if (list.length === 0) {
+    if (list == null) {
         return undefined;
     }
     return list[0];
