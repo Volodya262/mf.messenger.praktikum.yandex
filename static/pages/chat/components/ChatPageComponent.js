@@ -1,6 +1,7 @@
-import { VComponent } from "../../../core/v-react/v-component.js";
-import { ChatListComponent } from "./ChatListComponent.js";
-import { MessageListComponent } from "./MessageListComponent.js";
+import {VComponent} from "../../../core/v-react/v-component.js";
+import {ChatListComponent} from "./ChatListComponent.js";
+import {MessageListComponent} from "./MessageListComponent.js";
+
 export class ChatPageComponent extends VComponent {
     constructor(props, chatApi) {
         super(props);
@@ -9,8 +10,8 @@ export class ChatPageComponent extends VComponent {
         }
         this.chatApi = chatApi;
         this.componentDidMount.bind(this);
-        this.loadChats.bind(this); // почему-то если loadChats - стрелочная функция, то componentDidMount её не видит
-        this.loadChatMessages.bind(this);
+        //this.loadChats.bind(this); // почему-то если loadChats - стрелочная функция, то componentDidMount её не видит
+        //this.loadChatMessages.bind(this);
     }
     loadChats() {
         return this.chatApi.getChats().then(chats => {

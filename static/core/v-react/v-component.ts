@@ -55,7 +55,6 @@ export abstract class VComponent<TProps extends object, TState extends object> {
         this.element = document.createElement(this.tagName);
 
         this.setState.bind(this);
-        this.init.bind(this);
     }
 
     public init() {
@@ -99,7 +98,8 @@ export abstract class VComponent<TProps extends object, TState extends object> {
     /**
      * Вызывается после первого монтирования компонента в element
      */
-    abstract componentDidMount(): void;
+    componentDidMount() {
+    }
 
     protected registerChildEventListeners = (handlers: ComponentEventHandlerInternal[]) => {
         if (handlers == null) {

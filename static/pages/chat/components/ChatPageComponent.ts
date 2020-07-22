@@ -1,9 +1,9 @@
 import {VComponent} from "../../../core/v-react/v-component.js";
 import {IChatPreview, ISingleMessage} from "../../../types/types.js";
-import {IChatApi} from "../../../api/messages-api-stub.js";
 import {ComponentEventHandler} from "../../../core/v-react/types/component-event-handler.js";
 import {ChatListComponent, ChatListComponentProps} from "./ChatListComponent.js";
 import {MessageListComponent, MessageListComponentProps} from "./MessageListComponent.js";
+import {IChatApi} from "../../../api/types/i-chat-api.js";
 
 export interface IChatProps {
 
@@ -29,8 +29,6 @@ export class ChatPageComponent extends VComponent<IChatProps, IChatState> {
         this.chatApi = chatApi;
 
         this.componentDidMount.bind(this);
-        this.loadChats.bind(this); // почему-то если loadChats - стрелочная функция, то componentDidMount её не видит
-        this.loadChatMessages.bind(this);
     }
 
     loadChats() {

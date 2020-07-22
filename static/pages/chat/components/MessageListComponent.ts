@@ -10,15 +10,12 @@ export interface MessageListComponentProps {
 }
 
 export class MessageListComponent extends VComponent<MessageListComponentProps, NoState> {
-    componentDidMount(): void {
-    }
-
-    render({messages}: Readonly<MessageListComponentProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
-        const convertedMessages = this.convertMessagesToViewModel(messages);
-        const template = messagesListTemplate
-        const context = {messageDayGroups: convertedMessages};
-        return {context: context, template: template};
-    }
+        render({messages}: Readonly<MessageListComponentProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
+            const convertedMessages = this.convertMessagesToViewModel(messages);
+            const template = messagesListTemplate
+            const context = {messageDayGroups: convertedMessages};
+            return {context: context, template: template};
+        }
 
     convertMessagesToViewModel(messages: ISingleMessage[]) {
         // в реакте эта стена кода смотрелась гораздо органичнее. Если мы засидимся на шаблонизаторах, то придется это переписать

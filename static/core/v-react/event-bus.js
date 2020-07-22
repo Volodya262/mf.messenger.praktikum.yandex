@@ -1,5 +1,7 @@
 export class EventBus {
     constructor() {
+        // https://gist.github.com/jung-kim/83676b2310c7c2a9c3d8 сравнение производительности Map, Array, Object. Map быстрее.
+        // Я использовал Map из-за готового метода has и проверки на уникальность ключа.
         this.listeners = new Map();
     }
     on(event, callback) {

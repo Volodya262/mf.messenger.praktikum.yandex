@@ -1,4 +1,5 @@
-import { VRoute } from "./v-route.js";
+import {VRoute} from "./v-route.js";
+
 export class VRouter {
     constructor(rootNode) {
         this.rootNode = rootNode;
@@ -24,27 +25,34 @@ export class VRouter {
         this.routes.push(route);
         return this;
     }
-    handlePathChange(pathname) {
-        const route = this.getRoute(pathname);
-        if (route !== this.currentRoute && this.currentRoute != null) {
-            this.currentRoute.leave();
-        }
-        this.currentRoute = route;
-        route.render(this.rootNode);
-    }
     go(pathname) {
         // history.pushState({}, '', pathname)
         window.location.hash = pathname;
         this.handlePathChange(pathname);
     }
+
     back() {
         this.history.back();
     }
+
     forward() {
         this.history.forward();
     }
+
     getRoute(pathname) {
         return this.routes.find(route => route.match(pathname));
+    }
+
+    handlePathChange(pathname) {
+        const route = this.getRoute(pathname);
+        if (route == null) {
+            console.log(`route ${pathname} не найден`);
+        }
+        if (route !== this.currentRoute && this.currentRoute != null) {
+            this.currentRoute.leave();
+        }
+        this.currentRoute = route;
+        route === null || route === void 0 ? void 0 : route.render(this.rootNode);
     }
 }
 //# sourceMappingURL=v-router.js.map

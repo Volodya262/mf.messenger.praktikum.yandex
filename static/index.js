@@ -4,8 +4,6 @@ import { ChatPageComponent } from "./pages/chat/components/ChatPageComponent.js"
 import { ChatApiStub } from "./api/messages-api-stub.js";
 import { LoginPageComponent } from "./pages/login/components/LoginPageComponent.js";
 class MainPageComponent extends VComponent {
-    componentDidMount() {
-    }
     render(props) {
         const template = `
             <div>
@@ -14,7 +12,7 @@ class MainPageComponent extends VComponent {
                 Уважаемый код ревьюер! К сожалению, этот спринт занял какое-то огромное количество времени. Сейчас 5 утра и мне через 4 часа вставать на работу(((.
                 Полностью переехать на новый движок и покрыть все тестами у меня не получилось.
                 Единственная "честная" компонентная страничка - логин (зато какая, черт возьми! по синтаксису почти реакт). Чат - просто 3 огромных компонента. 
-                Все остальные страницы пока что даже не подключены к роутеру.
+                Все остальные страницы пока что даже не подключены к роутеру. Еще у всех чисто для галочки используется PostCSS. 
                 </p>
             </div>
         `;

@@ -8,12 +8,9 @@ export interface ChatListComponentProps {
 }
 
 export class ChatListComponent extends VComponent<ChatListComponentProps, object> {
-    componentDidMount(): void {
-    }
-
-    render({chats}: Readonly<ChatListComponentProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
-        const template = chatListTemplate;
-        const context = {chats: chats}
-        return {context: context, template: template};
-    }
+        render({chats}: Readonly<ChatListComponentProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
+            const template = chatListTemplate;
+            const context = {chats: chats}
+            return {context: context, template: template};
+        }
 }

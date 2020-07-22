@@ -1,15 +1,15 @@
-import { VComponent } from "../../../core/v-react/v-component.js";
-import { messagesListTemplate } from "../templates/messages-list-tmpl.js";
-import { groupByAsArray, sortBy, splitByPredicate } from "../../../utils/collections-utils.js";
+import {VComponent} from "../../../core/v-react/v-component.js";
+import {messagesListTemplate} from "../templates/messages-list-tmpl.js";
+import {groupByAsArray, sortBy, splitByPredicate} from "../../../utils/collections-utils.js";
+
 export class MessageListComponent extends VComponent {
-    componentDidMount() {
-    }
-    render({ messages }) {
+    render({messages}) {
         const convertedMessages = this.convertMessagesToViewModel(messages);
         const template = messagesListTemplate;
-        const context = { messageDayGroups: convertedMessages };
-        return { context: context, template: template };
+        const context = {messageDayGroups: convertedMessages};
+        return {context: context, template: template};
     }
+
     convertMessagesToViewModel(messages) {
         // в реакте эта стена кода смотрелась гораздо органичнее. Если мы засидимся на шаблонизаторах, то придется это переписать
         const groupedMessagesArray = groupByAsArray(messages || [], msg => window.dateFns.startOfDay(msg.date).getTime());

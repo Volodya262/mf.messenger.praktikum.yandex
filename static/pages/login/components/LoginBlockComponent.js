@@ -1,7 +1,8 @@
-import { VComponent } from "../../../core/v-react/v-component.js";
-import { LogoComponent } from "../../../common-components/LogoComponent.js";
-import { escapeXss, hasErrors, hasNoErrors, validateLogin, validatePassword } from "../../validation-common.js";
-import { ValidationErrorsComponent } from "../../../common-components/ValidationErrorsComponent.js";
+import {VComponent} from "../../../core/v-react/v-component.js";
+import {LogoComponent} from "../../../common-components/LogoComponent.js";
+import {escapeXss, hasErrors, hasNoErrors, validateLogin, validatePassword} from "../../validation-common.js";
+import {ValidationErrorsComponent} from "../../../common-components/ValidationErrorsComponent.js";
+
 export class LoginBlockComponent extends VComponent {
     constructor(props, parentEventHandlerRegistrar, notifyParentChildStateUpdated) {
         super(props, parentEventHandlerRegistrar, notifyParentChildStateUpdated);
@@ -34,8 +35,6 @@ export class LoginBlockComponent extends VComponent {
             loginHasErrors: false,
             passwordHasErrors: false
         };
-    }
-    componentDidMount() {
     }
     validateLoginAndUpdateState(login) {
         const loginValidateRes = validateLogin(login);

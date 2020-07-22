@@ -19,14 +19,11 @@ describe('VComponentTests: single component', function () {
     }
 
     class TestableComponent extends VComponent<TestProps, object> {
-        componentDidMount() {
-        };
-
-        public render(props: Readonly<TestProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
-            // language=Handlebars
-            const template = `<h1>Hello {{name}}</h1>`;
-            return {context: {name: props.name}, template: template};
-        }
+                public render(props: Readonly<TestProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
+                    // language=Handlebars
+                    const template = `<h1>Hello {{name}}</h1>`;
+                    return {context: {name: props.name}, template: template};
+                }
     }
 
     test('It should render simple template', function () {

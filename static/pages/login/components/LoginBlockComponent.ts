@@ -32,13 +32,10 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
         }
     }
 
-    componentDidMount(): void {
-    }
-
-    handleLoginBlur = (e: InputEvent) => {
-        const value = escapeXss((e.target as HTMLInputElement).value);
-        this.validateLoginAndUpdateState(value);
-    }
+        handleLoginBlur = (e: InputEvent) => {
+            const value = escapeXss((e.target as HTMLInputElement).value);
+            this.validateLoginAndUpdateState(value);
+        }
 
     validateLoginAndUpdateState(login: string) {
         const loginValidateRes = validateLogin(login);

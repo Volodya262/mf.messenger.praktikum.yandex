@@ -7,20 +7,17 @@ import {LoginBlockComponent} from "./LoginBlockComponent.js";
 export class LoginPageComponent extends VComponent<NoProps, NoState> {
     private loginBlockComponent: LoginBlockComponent;
 
-    componentDidMount(): void {
-    }
+        render(props: Readonly<NoProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
+            if (this.loginBlockComponent == null) {
+                this.loginBlockComponent = this.createChildComponent<LoginBlockComponent, NoProps>(LoginBlockComponent, {});
+            }
 
-    render(props: Readonly<NoProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
-        if (this.loginBlockComponent == null) {
-            this.loginBlockComponent = this.createChildComponent<LoginBlockComponent, NoProps>(LoginBlockComponent, {});
-        }
-
-        // language=Handlebars
-        const template = `
-            <div class="auth-window">
-                {{{renderComponentInstance loginBlockComponent noProps}}}
-            </div>
-        `;
+            // language=Handlebars
+            const template = `
+                <div class="auth-window">
+                    {{{renderComponentInstance loginBlockComponent noProps}}}
+                </div>
+            `;
 
         const context = {
             loginBlockComponent: this.loginBlockComponent,

@@ -108,7 +108,6 @@ export class VComponent {
         this.registerEvents(this.eventBus);
         this.element = document.createElement(this.tagName);
         this.setState.bind(this);
-        this.init.bind(this);
     }
     init() {
         // TODO добавить абстрактную функцию initChildComponents
@@ -137,6 +136,13 @@ export class VComponent {
             this.eventBus.emit(VfcEvents.propsUpdated);
         }
     }
+
+    /**
+     * Вызывается после первого монтирования компонента в element
+     */
+    componentDidMount() {
+    }
+
     /**
      * Оператор сравнения пропсов. Опционально определяется пользователем.
      * @param oldProps
@@ -145,6 +151,7 @@ export class VComponent {
     componentShouldUpdate(oldProps, newProps) {
         return oldProps !== newProps;
     }
+
     /**
      * Создать дочерний компонент со всеми привязками
      * @param componentClass Класс компонента
@@ -165,7 +172,6 @@ export class VComponent {
     getProps() {
         return this.props;
     }
-
     registerEvents(eventBus) {
         eventBus.on(VfcEvents.initComplete, this.renderInternal.bind(this)); // сразу после инициализации вызываем рендер
         eventBus.on(VfcEvents.componentMounted, () => this.componentDidMount()); // после маунта вызываем пользовательский componentDidMount
@@ -175,11 +181,9 @@ export class VComponent {
         eventBus.on(VfcEvents.childStateUpdated, this.stateUpdatedHandler.bind(this));
         eventBus.on(VfcEvents.childStateUpdatedRoot, this.renderInternal.bind(this));
     }
-
     show() {
         this.element.style.display = 'block';
     }
-
     hide() {
         this.element.style.display = 'none';
     }

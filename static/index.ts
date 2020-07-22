@@ -8,12 +8,9 @@ import {NoProps} from "./core/v-react/types/no-props.js";
 import {LoginPageComponent} from "./pages/login/components/LoginPageComponent.js";
 
 class MainPageComponent extends VComponent<NoProps, NoState> {
-    componentDidMount(): void {
-    }
+        render(props: Readonly<NoProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
 
-    render(props: Readonly<NoProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
-
-        const template = `
+            const template = `
             <div>
                 <h1>Главная страница</h1>
                 <p>
