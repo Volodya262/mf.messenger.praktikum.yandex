@@ -1,5 +1,9 @@
 import {EventBus} from "./event-bus.js";
-import {uuidv4} from "../../utils/uuid.js";
+import {
+    findAllTaggedElements,
+    findTargetElements,
+    tagAllElementsWithUniqueEventHandlerId
+} from "./helpers/event-handlers-helper.js";
 
 var VfcEvents;
 (function (VfcEvents) {
@@ -52,11 +56,9 @@ export class VComponent {
             if (this.childEventListeners == null || this.childEventListeners.length === 0) {
                 return;
             }
-            // TODO вынести всю эту логику с добавлением/удалением dataset в отдельную утилитку и покрыть тестами
-            const idQuerySelector = `[data-v-event-handler-id]`;
-            const elements = Array.from(this.element.querySelectorAll(idQuerySelector)); // нашли все ноды, которым надо будет что-то присвоить
+            const elements = findAllTaggedElements(this.getElement());
             for (let {event, func, id} of this.childEventListeners) {
-                const targetElements = elements.filter(item => item.dataset.vEventHandlerId === id);
+                const targetElements = findTargetElements(elements, id);
                 targetElements.forEach(item => item.addEventListener(event, func));
             }
         };
@@ -65,15 +67,7 @@ export class VComponent {
                 return;
             }
             if (this.parentEventHandlerRegistrar != null) {
-                const internalHandlers = [];
-                for (let {event, func, querySelector} of handlers) {
-                    const id = uuidv4();
-                    const elements = this.element.querySelectorAll(querySelector);
-                    // TODO добавить поддержку нескольких event handler на один объект
-                    // TODO вынести всю эту логику с добавлением/удалением dataset в отдельную утилитку и покрыть тестами
-                    elements.forEach(item => item.dataset.vEventHandlerId = id);
-                    internalHandlers.push({id: id, event: event, func: func});
-                }
+                const internalHandlers = tagAllElementsWithUniqueEventHandlerId(this.element, handlers);
                 this.parentEventHandlerRegistrar(internalHandlers);
             } else {
                 for (let {event, func, querySelector} of handlers) {
@@ -136,13 +130,11 @@ export class VComponent {
             this.eventBus.emit(VfcEvents.propsUpdated);
         }
     }
-
     /**
      * Вызывается после первого монтирования компонента в element
      */
     componentDidMount() {
     }
-
     /**
      * Оператор сравнения пропсов. Опционально определяется пользователем.
      * @param oldProps
@@ -151,7 +143,6 @@ export class VComponent {
     componentShouldUpdate(oldProps, newProps) {
         return oldProps !== newProps;
     }
-
     /**
      * Создать дочерний компонент со всеми привязками
      * @param componentClass Класс компонента

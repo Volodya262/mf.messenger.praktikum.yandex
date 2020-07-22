@@ -30,19 +30,15 @@ export class VRouter {
         window.location.hash = pathname;
         this.handlePathChange(pathname);
     }
-
     back() {
         this.history.back();
     }
-
     forward() {
         this.history.forward();
     }
-
     getRoute(pathname) {
         return this.routes.find(route => route.match(pathname));
     }
-
     handlePathChange(pathname) {
         const route = this.getRoute(pathname);
         if (route == null) {

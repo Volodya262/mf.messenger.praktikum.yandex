@@ -2,7 +2,7 @@ import {VComponent} from "./v-component.js";
 import {ComponentEventHandler} from "./types/component-event-handler.js";
 import crypto from '@trust/webcrypto';
 import * as Handlebars from 'handlebars'
-import {registerAll} from "../../utils/handlebars-custom-helpers";
+import {registerAll} from "../../utils/handlebars-custom-helpers.js";
 
 beforeAll(() => {
     window.Handlebars = Handlebars;

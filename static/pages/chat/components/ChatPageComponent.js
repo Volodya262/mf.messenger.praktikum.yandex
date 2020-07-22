@@ -10,8 +10,6 @@ export class ChatPageComponent extends VComponent {
         }
         this.chatApi = chatApi;
         this.componentDidMount.bind(this);
-        //this.loadChats.bind(this); // почему-то если loadChats - стрелочная функция, то componentDidMount её не видит
-        //this.loadChatMessages.bind(this);
     }
     loadChats() {
         return this.chatApi.getChats().then(chats => {

@@ -7,5 +7,4 @@ export class LogoComponent extends VComponent {
         return {context: {}, template: template};
     }
 }
-
 //# sourceMappingURL=LogoComponent.js.map

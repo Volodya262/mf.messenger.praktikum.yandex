@@ -1,5 +1,5 @@
 import { maxBy } from "../utils/collections-utils.js";
-import { chatMessages, imgUrl3, chatNames } from "./chat-stub-data.js";
+import { chatMessages, chatNames, imgUrl3 } from "./chat-stub-data.js";
 export class ChatApiStub {
     constructor() {
         this.chatNames = chatNames;

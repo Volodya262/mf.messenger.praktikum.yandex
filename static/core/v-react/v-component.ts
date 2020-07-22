@@ -1,8 +1,12 @@
 import {EventBus} from "./event-bus.js";
-import {ComponentEventHandler} from "./types/component-event-handler";
-import {ComponentEventHandlerInternal} from "./types/internal-component-event-handler";
-import {InternalEventHandlersRegistrar} from "./types/internal-event-handlers-registrar";
-import {uuidv4} from "../../utils/uuid.js";
+import {ComponentEventHandler} from "./types/component-event-handler.js";
+import {ComponentEventHandlerInternal} from "./types/internal-component-event-handler.js";
+import {InternalEventHandlersRegistrar} from "./types/internal-event-handlers-registrar.js";
+import {
+    findAllTaggedElements,
+    findTargetElements,
+    tagAllElementsWithUniqueEventHandlerId
+} from "./helpers/event-handlers-helper.js";
 
 enum VfcEvents {
     /** Все поля компонента проинициализированы */
@@ -157,7 +161,6 @@ export abstract class VComponent<TProps extends object, TState extends object> {
     }
 
     private registerEvents(eventBus: EventBus<VfcEvents>) {
-
         eventBus.on(VfcEvents.initComplete, this.renderInternal.bind(this)); // сразу после инициализации вызываем рендер
         eventBus.on(VfcEvents.componentMounted, () => this.componentDidMount()); // после маунта вызываем пользовательский componentDidMount
         eventBus.on(VfcEvents.rendered, this.componentAfterViewInit.bind(this)); // хз нужен ли этот ивент
@@ -171,12 +174,10 @@ export abstract class VComponent<TProps extends object, TState extends object> {
         if (this.childEventListeners == null || this.childEventListeners.length === 0) {
             return;
         }
-        // TODO вынести всю эту логику с добавлением/удалением dataset в отдельную утилитку и покрыть тестами
-        const idQuerySelector = `[data-v-event-handler-id]`;
-        const elements = Array.from(this.element.querySelectorAll(idQuerySelector)); // нашли все ноды, которым надо будет что-то присвоить
 
+        const elements = findAllTaggedElements(this.getElement())
         for (let {event, func, id} of this.childEventListeners) {
-            const targetElements = elements.filter(item => (item as HTMLElement).dataset.vEventHandlerId === id);
+            const targetElements = findTargetElements(elements, id);
             targetElements.forEach(item => item.addEventListener(event, func));
         }
     }
@@ -187,17 +188,7 @@ export abstract class VComponent<TProps extends object, TState extends object> {
         }
 
         if (this.parentEventHandlerRegistrar != null) {
-            const internalHandlers: ComponentEventHandlerInternal[] = [];
-
-            for (let {event, func, querySelector} of handlers) {
-                const id = uuidv4();
-                const elements = this.element.querySelectorAll(querySelector);
-                // TODO добавить поддержку нескольких event handler на один объект
-                // TODO вынести всю эту логику с добавлением/удалением dataset в отдельную утилитку и покрыть тестами
-                elements.forEach(item => (item as HTMLElement).dataset.vEventHandlerId = id);
-                internalHandlers.push({id: id, event: event, func: func});
-            }
-
+            const internalHandlers = tagAllElementsWithUniqueEventHandlerId(this.element, handlers);
             this.parentEventHandlerRegistrar(internalHandlers);
         } else {
             for (let {event, func, querySelector} of handlers) {

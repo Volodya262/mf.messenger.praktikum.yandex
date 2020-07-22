@@ -8,5 +8,4 @@ export class ChatListComponent extends VComponent {
         return {context: context, template: template};
     }
 }
-
 //# sourceMappingURL=ChatListComponent.js.map
