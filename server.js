@@ -3,16 +3,16 @@ const express = require('express');
 const app = express();
 const PORT = 4000;
 
-const myDir = 'static'
+const myDir = 'dist'
 
-app.use('/', express.static(`${__dirname}/${myDir}/`));
+app.use('/dist/', express.static(`${__dirname}/${myDir}/`));
 
-// app.get('/', (req, res) => {
-//     res.sendFile(`${__dirname}/${myDir}/index.html`);
-// })
+app.get('/', (req, res) => {
+    res.sendFile(`${__dirname}/index.html`);
+})
 
 app.get('/*', (req, res) => {
-    res.sendFile(`${__dirname}/${myDir}/not-found.html`);
+    res.sendFile(`${__dirname}/src/pages/not-found/not-found.html`);
 })
 
 app.listen(PORT, () => {

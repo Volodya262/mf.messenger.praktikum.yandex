@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <link href="../../bundle.css" rel="stylesheet">
+
+    <!-- Библиотеки -->
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-wCBClaCr6pJ7sGU5kfb3gQMOOcIZNzaWpWcj/lD9Vfk="
+            src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
+
+    <script src="../../../static/common-deps.js" type="module"></script>
+    <script src="../insert-logo.js" type="module"></script>
+    <script src="register.js" type="module"></script>
+</head>
+<body>
+<div class="auth-window">
+    <div class="auth-block">
+        <div id="logo-root">
+            <!-- Сюда insert-logo.js вставит логотип-->
+        </div>
+        <h1 class="auth-block__title">Регистрация</h1>
+        <form name="register">
+            <div class="auth-block__inputs-container">
+                <div class="auth-block__input-with-errors-container">
+                    <input class="auth-block__input" name="mail" placeholder="Почта"
+                           type="text"/>
+                    <div id="mail-errors-container">
+
+                    </div>
+                </div>
+                <div class="auth-block__input-with-errors-container">
+                    <input class="auth-block__input login-block__login-input" name="login" placeholder="Логин"
+                           type="text"/>
+                    <div id="login-errors-container">
+
+                    </div>
+                </div>
+                <div class="auth-block__input-with-errors-container">
+                    <input class="auth-block__input login-block__login-password" name="password" placeholder="Пароль"
+                           type="password"/>
+                    <div id="password-errors-container">
+
+                    </div>
+                </div>
+                <div class="auth-block__input-with-errors-container">
+                    <input class="auth-block__input login-block__login-password" name="password-confirmation"
+                           placeholder="Пароль еще раз"
+                           type="password"/>
+                    <div id="password-confirmation-errors-container">
+
+                    </div>
+                </div>
+            </div>
+            <div class="login-block__buttons-container">
+                <button class="auth-block__button auth-block__primary-button" type="submit">Зарегистрироваться</button>
+                <button class="auth-block__button auth-block__secondary-button">Войти</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
