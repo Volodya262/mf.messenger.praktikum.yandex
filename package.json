@@ -6,7 +6,11 @@
   "scripts": {
     "test": "tsc && jest",
     "start": "node server.js",
-    "build": "tsc && postcss src/main.css -o static/bundle.css"
+    "build": "npm run webpack:build",
+    "webpack:build": "webpack --mode production",
+    "webpack:build-dev": "webpack --mode development",
+    "webpack:watch": "npm run webpack:build-dev -- --watch",
+    "webpack:serve": "webpack-dev-server --mode development --open --watch"
   },
   "repository": {
     "type": "git",
@@ -27,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^3.8.0",
     "@typescript-eslint/parser": "^3.8.0",
     "babel-jest": "^26.1.0",
+    "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^4.2.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.0",
@@ -36,6 +41,7 @@
     "eslint-plugin-react-hooks": "^4.0.0",
     "express": "^4.17.1",
     "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-plugin": "^4.3.0",
     "jest": "^26.1.0",
     "jest-config": "^26.1.0",
     "mini-css-extract-plugin": "^0.9.0",
@@ -46,7 +52,8 @@
     "ts-loader": "^8.0.2",
     "typescript": "^3.9.7",
     "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",

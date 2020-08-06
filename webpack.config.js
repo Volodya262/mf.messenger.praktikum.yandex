@@ -1,16 +1,17 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    // entry: ['./src/index.ts', './src/main.css'],
     entry: {
         'scripts-bundle.js': './src/index.ts',
         'styles-bundle': './src/main.css'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "[name]"
+        filename: "[chunkhash]-[name]"
     },
     resolve: {
         extensions: ['.ts', '.js', '.json', '.css']
@@ -35,7 +36,26 @@ module.exports = {
             }
         ]
     },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors.js',
+                    chunks: 'all'
+                }
+            }
+        }
+    },
     plugins: [
         new MiniCssExtractPlugin(),
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            template: "index.html"
+        }),
+        new HtmlWebpackPlugin({
+            filename: "not-found.html",
+            template: "src/pages/not-found/not-found.html"
+        })
     ]
 };

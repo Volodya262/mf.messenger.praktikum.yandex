@@ -4,15 +4,16 @@ const app = express();
 const PORT = 4000;
 
 const myDir = 'dist'
+const dist = 'dist';
 
-app.use('/dist/', express.static(`${__dirname}/${myDir}/`));
+app.use('/', express.static(`${__dirname}/${myDir}/`));
 
 app.get('/', (req, res) => {
-    res.sendFile(`${__dirname}/index.html`);
+    res.sendFile(`${__dirname}/${dist}/index.html`);
 })
 
 app.get('/*', (req, res) => {
-    res.sendFile(`${__dirname}/src/pages/not-found/not-found.html`);
+    res.sendFile(`${__dirname}/${dist}/not-found.html`);
 })
 
 app.listen(PORT, () => {
