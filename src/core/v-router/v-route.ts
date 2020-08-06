@@ -15,16 +15,16 @@ export class VRoute {
         }
     }
 
-    public leave() {
+    public leave(): void {
         this.component.hide();
     }
 
-    match(pathname) {
+    match(pathname: string): boolean {
         pathname = pathname.replace('#', '');
         return isEqual(pathname, this.pathname);
     }
 
-    public render(node: HTMLElement) {
+    public render(node: HTMLElement): void {
         this.component.show();
         node.appendChild(this.component.getElement())
     }

@@ -18,6 +18,8 @@ export interface LoginBlockComponentState {
     passwordErrors?: string[]
 }
 
+type InputEventHandler = (e: InputEvent) => void;
+
 export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponentState> {
     private logoComponent: LogoComponent;
     private validationErrorsComponent: ValidationErrorsComponent;
@@ -32,12 +34,12 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
         }
     }
 
-        handleLoginBlur = (e: InputEvent) => {
-            const value = escapeXss((e.target as HTMLInputElement).value);
-            this.validateLoginAndUpdateState(value);
-        }
+    handleLoginBlur: InputEventHandler = (e: InputEvent) => {
+        const value = escapeXss((e.target as HTMLInputElement).value);
+        this.validateLoginAndUpdateState(value);
+    }
 
-    validateLoginAndUpdateState(login: string) {
+    validateLoginAndUpdateState(login: string): void {
         const loginValidateRes = validateLogin(login);
 
         this.setState({
@@ -47,7 +49,7 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
         })
     }
 
-    validatePasswordAndUpdateState(password: string) {
+    validatePasswordAndUpdateState(password: string): void {
         const passwordErrors = validatePassword(password);
 
         this.setState({
@@ -57,12 +59,12 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
         })
     }
 
-    handlePasswordBlur = (e: InputEvent) => {
+    handlePasswordBlur: InputEventHandler = (e: InputEvent) => {
         const value = escapeXss((e.target as HTMLInputElement).value);
         this.validatePasswordAndUpdateState(value);
     }
 
-    handleFormSubmit = (e) => {
+    handleFormSubmit: InputEventHandler = (e: InputEvent) => {
         const login = escapeXss(this.getState()?.login);
         const password = escapeXss(this.getState()?.password)
         const loginErrors = validateLogin(login);
@@ -81,7 +83,7 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
         e.preventDefault();
     }
 
-    render(props: Readonly<NoProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
+    render(props: Readonly<NoProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
         if (this.logoComponent == null) {
             this.logoComponent = this.createChildComponent(LogoComponent, {});
         }

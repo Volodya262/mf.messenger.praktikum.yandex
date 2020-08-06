@@ -1,21 +1,10 @@
 import {inputErrorMessagesListTemplate} from "./common/templates/input-error-message";
-
-export function validateEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}
+import Handlebars from 'handlebars'
 
 export const PASSWORD_LENGTH_MIN = 8;
 export const PASSWORD_LENGTH_MAX = 32;
 
-export function clearNode(id) {
-    const node = document.getElementById(id);
-    if (node != null) {
-        node.innerHTML = "";
-    }
-}
-
-export function toggleInputValid(element, errors) {
+export function toggleInputValid(element: HTMLElement, errors: string[]): void {
     if (element == null) {
         return;
     }
@@ -27,29 +16,29 @@ export function toggleInputValid(element, errors) {
     }
 }
 
-export function showErrorsInContainer(containerId, errors) {
+export function showErrorsInContainer(containerId: string, errors: string[]): void {
     if (errors?.length === 0) {
         return;
     }
 
-    const template = window.Handlebars.compile(inputErrorMessagesListTemplate);
+    const template = Handlebars.compile(inputErrorMessagesListTemplate);
     const context = {errors: errors};
 
     document.getElementById(containerId).innerHTML = template(context);
 }
 
-export function hasErrors(arr: string[]) {
+export function hasErrors(arr: string[]): boolean {
     return arr != null && arr.length > 0;
 }
 
-export function hasNoErrors(arr: string[]) {
+export function hasNoErrors(arr: string[]): boolean {
     return arr == null || arr.length === 0;
 }
 
 /**
  * Валидация логина. Возвращает список ошибок
  */
-export function validateLogin(login): string[] {
+export function validateLogin(login: string): string[] {
     if (login == null || login.length === 0) {
         return [requiredField]
     }
@@ -59,7 +48,7 @@ export function validateLogin(login): string[] {
     }
 }
 
-export function validatePassword(password) {
+export function validatePassword(password: string): string[] {
     if (password == null || password.length === 0) {
         return [requiredField]
     }
@@ -73,32 +62,14 @@ export function validatePassword(password) {
     }
 }
 
-export function validatePasswordConfirmation(password, passwordConfirmation) {
-    if (passwordConfirmation == null || passwordConfirmation.length === 0) {
-        return [requiredField]
-    }
-
-    if (passwordConfirmation !== password) {
-        return ["Пароли не совпадают"];
-    }
-}
-
-export function showValidateRes(errors, inputElement, errorsContainerId) {
+export function showValidateRes(errors: string[], inputElement: HTMLInputElement, errorsContainerId: string): void {
     showErrorsInContainer(errorsContainerId, errors);
     toggleInputValid(inputElement, errors);
 }
 
-export function addValidationEventListener(target, validateFn, errorsContainerId) {
-    target.addEventListener('blur', () => {
-        const value = escapeXss(target.value);
-        const res = validateFn(value);
-        showValidateRes(res, target, errorsContainerId)
-    });
-}
-
 export const requiredField = "Это поле обязательно для заполнения";
 
-export function escapeXss(s) {
+export function escapeXss(s: string): string {
     if (s == null) {
         return s
     }

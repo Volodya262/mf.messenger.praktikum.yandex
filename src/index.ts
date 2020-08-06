@@ -9,7 +9,7 @@ import {LoginPageComponent} from "./pages/login/components/LoginPageComponent";
 import {registerAll} from "./common/utils/handlebars-custom-helpers";
 
 class MainPageComponent extends VComponent<NoProps, NoState> {
-    render(props: Readonly<NoProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
+    render(props: Readonly<NoProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
 
         const template = `
             <div>
@@ -26,7 +26,6 @@ class MainPageComponent extends VComponent<NoProps, NoState> {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    debugger;
     registerAll();
 
     const mainPageComponent = new MainPageComponent({});
@@ -34,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const chatComponent = new ChatPageComponent({}, new ChatApiStub());
     chatComponent.init();
+
 
     const loginPageComponent = new LoginPageComponent({});
     loginPageComponent.init();

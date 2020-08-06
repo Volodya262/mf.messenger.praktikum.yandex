@@ -1,0 +1,6 @@
+/dist
+**/*.min.js
+~~/node_modules~~
+.eslintrc.js
+*.config*
+server.js

@@ -9,8 +9,8 @@ export interface ChatListComponentProps {
     onChatSelected: (number) => void;
 }
 
-export class ChatListComponent extends VComponent<ChatListComponentProps, object> {
-    render({chats, selectedChatId, onChatSelected}: Readonly<ChatListComponentProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
+export class ChatListComponent extends VComponent<ChatListComponentProps, Record<string, unknown>> {
+    render({chats, selectedChatId, onChatSelected}: Readonly<ChatListComponentProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
         // language=Handlebars
         const template =
                 `{{#each chats}}

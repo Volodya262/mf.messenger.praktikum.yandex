@@ -2,7 +2,7 @@ import {isObject} from "../../common/utils/common-utils";
 
 // TODO добавить спец. обработчик для Date
 // TODO скорее всего надо будет делать экранирование для спец.символов
-export function queryStringify(obj: object) {
+export function queryStringify(obj: Record<string, unknown>): string {
     if (!isObject(obj)) {
         throw new Error(`Expected object, but got ${obj}`);
     }

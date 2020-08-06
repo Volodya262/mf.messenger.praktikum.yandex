@@ -1,7 +1,7 @@
 /**
  * [1, 2, 3, 4] => 1
  */
-export function first(list: unknown[]) {
+export function first<T>(list: T[]): T {
     if (list == null) {
         return undefined;
     }
@@ -48,7 +48,7 @@ export interface Group<TData, TKey> {
     items: TData[]
 }
 
-export function last(list) {
+export function last<T>(list: T[]): T {
     if (list == null || !Array.isArray(list)) {
         return undefined;
     }
@@ -60,11 +60,11 @@ export function last(list) {
     return list[list.length - 1]
 }
 
-export function rangeRight(start, end, step) {
+export function rangeRight(start: number, end: number, step: number): number[] {
     return range(start, end, step, true);
 }
 
-export function range(start, end, step, isRight) {
+export function range(start: number, end: number, step: number, isRight: boolean = null): number[] {
     const res = [];
 
     if (start == null) {
@@ -157,7 +157,7 @@ export function splitByPredicate<TData>(arr: TData[], splitPredicate: (currEl: T
  * Пытается спарсить Number. Если получается NaN, то возвращает null
  * @param src
  */
-export function tryParseNumber(src) {
+export function tryParseNumber(src: number | string): number {
     if (typeof src === "number") {
         return src;
     }

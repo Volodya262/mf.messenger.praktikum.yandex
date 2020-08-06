@@ -10,7 +10,7 @@ export interface ChatItemComponentProps {
 }
 
 export class ChatItemComponent extends VComponent<ChatItemComponentProps, NoState> {
-    render({chat, isSelected, onChatSelected}: Readonly<ChatItemComponentProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
+    render({chat, isSelected, onChatSelected}: Readonly<ChatItemComponentProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
         // language=Handlebars
         const template = `
             <div class="chat-item {{#if isSelected}}chat-item__selected {{/if}}">

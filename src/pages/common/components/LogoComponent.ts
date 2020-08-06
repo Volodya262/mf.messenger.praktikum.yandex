@@ -5,7 +5,7 @@ import {ComponentEventHandler} from "../../../core/v-react/types/component-event
 import {logoTemplate} from '../templates/logo.tmpl'
 
 export class LogoComponent extends VComponent<NoProps, NoState> {
-    render(props: Readonly<NoProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
+    render(props: Readonly<NoProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
         const template = logoTemplate;
         return {context: {}, template: template};
     }

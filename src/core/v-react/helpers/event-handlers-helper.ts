@@ -28,7 +28,7 @@ export function tagElementWithEventHandlerId(elements: Element[] | NodeListOf<El
 export function tagAllElementsWithUniqueEventHandlerId(rootNode: HTMLElement, handlers: ComponentEventHandler[]): ComponentEventHandlerInternal[] {
     const internalHandlers: ComponentEventHandlerInternal[] = [];
 
-    for (let {event, func, querySelector} of handlers) {
+    for (const {event, func, querySelector} of handlers) {
         const id = uuidv4();
         const elements = rootNode.querySelectorAll(querySelector);
         // TODO добавить поддержку нескольких event handler на один объект

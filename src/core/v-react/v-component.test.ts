@@ -1,12 +1,13 @@
 import {VComponent} from "./v-component";
 import {ComponentEventHandler} from "./types/component-event-handler";
 import crypto from '@trust/webcrypto';
-import * as Handlebars from 'handlebars'
+import Handlebars from 'handlebars'
 import {registerAll} from "../../common/utils/handlebars-custom-helpers";
 
 beforeAll(() => {
     window.Handlebars = Handlebars;
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     // noinspection JSConstantReassignment
     window.crypto = crypto;
@@ -18,12 +19,12 @@ describe('VComponentTests: single component', function () {
         name: string;
     }
 
-    class TestableComponent extends VComponent<TestProps, object> {
-                public render(props: Readonly<TestProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
-                    // language=Handlebars
-                    const template = `<h1>Hello {{name}}</h1>`;
-                    return {context: {name: props.name}, template: template};
-                }
+    class TestableComponent extends VComponent<TestProps, Record<string, unknown>> {
+        public render(props: Readonly<TestProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
+            // language=Handlebars
+            const template = `<h1>Hello {{name}}</h1>`;
+            return {context: {name: props.name}, template: template};
+        }
     }
 
     test('It should render simple template', function () {
@@ -54,8 +55,8 @@ describe('VComponentTests: single component', function () {
     test('it should call componentDidMount only once', function () {
         const mockFunction = jest.fn();
 
-        class TestableComponent2 extends VComponent<TestProps, object> {
-            render(props: Readonly<TestProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
+        class TestableComponent2 extends VComponent<TestProps, Record<string, unknown>> {
+            render(props: Readonly<TestProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
                 return {context: undefined, template: '<div>hello</div>'};
             }
 

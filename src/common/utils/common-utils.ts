@@ -7,5 +7,6 @@ export function isObject(obj: unknown): boolean {
 }
 
 /** Заглушка */
-export function noop(...args: any): void {
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function noop(...args: unknown[]): void {
 }

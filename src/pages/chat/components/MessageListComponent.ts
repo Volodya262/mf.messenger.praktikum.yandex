@@ -10,16 +10,23 @@ export interface MessageListComponentProps {
     messages: ISingleMessage[]
 }
 
+type MessageListComponentViewModel = {
+    date: Date;
+    messageUserGroups: {
+        messages: { date: Date; message: string }[];
+        user: { avatarUrl: string; authorName: string; authorId: number }
+    }[]
+}[]
+
 export class MessageListComponent extends VComponent<MessageListComponentProps, NoState> {
-    render({messages}: Readonly<MessageListComponentProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
+    render({messages}: Readonly<MessageListComponentProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
         const convertedMessages = this.convertMessagesToViewModel(messages);
         const template = messagesListTemplate
         const context = {messageDayGroups: convertedMessages};
-            return {context: context, template: template};
-        }
+        return {context: context, template: template};
+    }
 
-    convertMessagesToViewModel(messages: ISingleMessage[]) {
-        // в реакте эта стена кода смотрелась гораздо органичнее. Если мы засидимся на шаблонизаторах, то придется это переписать
+    convertMessagesToViewModel(messages: ISingleMessage[]): MessageListComponentViewModel {
         const groupedMessagesArray = groupByAsArray(messages || [], msg => startOfDay(msg.date).getTime());
         return sortBy(groupedMessagesArray, group => group.key, (a, b) => a - b)
             .map(group => {

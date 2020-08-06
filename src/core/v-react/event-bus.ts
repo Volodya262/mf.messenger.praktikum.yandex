@@ -6,10 +6,7 @@ export class EventBus<TEvent> {
     // Я использовал Map из-за готового метода has и проверки на уникальность ключа.
     listeners = new Map<TEvent, myCallback[]>();
 
-    constructor() {
-    }
-
-    on(event: TEvent, callback: myCallback) {
+    on(event: TEvent, callback: myCallback): void {
         if (!this.listeners.has(event)) {
             this.listeners.set(event, []);
         }
@@ -17,7 +14,7 @@ export class EventBus<TEvent> {
         this.listeners.get(event).push(callback);
     }
 
-    off(event: TEvent, callback: myCallback) {
+    off(event: TEvent, callback: myCallback): void {
         if (!this.listeners.has(event)) {
             throw new Error(`Нет события: ${event}`);
         }
@@ -29,7 +26,7 @@ export class EventBus<TEvent> {
         this.listeners.set(event, filtered);
     }
 
-    emit(event: TEvent, ...args) {
+    emit(event: TEvent, ...args: any[]): void {
         if (!this.listeners.has(event)) {
             throw new Error(`Нет события: ${event}`);
         }

@@ -5,10 +5,7 @@ import {ChatListComponent, ChatListComponentProps} from "./ChatListComponent";
 import {MessageListComponent, MessageListComponentProps} from "./MessageListComponent";
 import {IChatApi} from "../../../api/types/i-chat-api";
 import {noop} from "../../../common/utils/common-utils";
-
-export interface IChatProps {
-
-}
+import {NoProps} from "../../../core/v-react/types/no-props";
 
 export interface IChatState {
     chats: IChatPreview[],
@@ -17,12 +14,12 @@ export interface IChatState {
     isLoading: boolean;
 }
 
-export class ChatPageComponent extends VComponent<IChatProps, IChatState> {
+export class ChatPageComponent extends VComponent<NoProps, IChatState> {
     private readonly chatApi;
     private chatListComponent: ChatListComponent;
     private messageListComponent: MessageListComponent;
 
-    constructor(props: IChatProps, chatApi: IChatApi) {
+    constructor(props: NoProps, chatApi: IChatApi) {
         super(props);
         if (chatApi == null) {
             throw new TypeError(`Expected chatApi, but got ${chatApi}`);
@@ -32,15 +29,15 @@ export class ChatPageComponent extends VComponent<IChatProps, IChatState> {
         this.componentDidMount.bind(this);
     }
 
-    loadChats() {
+    loadChats(): Promise<IChatPreview[]> {
         return this.chatApi.getChats();
     }
 
-    loadChatMessages(id: number) {
+    loadChatMessages(id: number): Promise<ISingleMessage[]> {
         return this.chatApi.getChatMessages(id);
     }
 
-    onChatSelected = (id: number) => {
+    onChatSelected: (id: number) => void = (id: number) => {
         if (id === this.state.selectedChatId) {
             return;
         }
@@ -49,13 +46,13 @@ export class ChatPageComponent extends VComponent<IChatProps, IChatState> {
         this.loadChatMessages(id).then(msgs => this.setState({selectedChatMessages: msgs}))
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.loadChats().then(chats => {
             if (chats != null && chats.length > 0) {
-                this.loadChatMessages(chats[0]).then(messages => {
+                this.loadChatMessages(chats[0].id).then(messages => {
                     this.setState({
                         chats: chats,
-                        selectedChatId: chats[0],
+                        selectedChatId: chats[0].id,
                         selectedChatMessages: messages
                     })
                 });
@@ -67,7 +64,7 @@ export class ChatPageComponent extends VComponent<IChatProps, IChatState> {
         });
     }
 
-    render(props: Readonly<IChatProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
+    render(props: Readonly<NoProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
         if (this.chatListComponent == null) {
             this.chatListComponent = this.createChildComponent<ChatListComponent, ChatListComponentProps>(ChatListComponent,
                 {chats: [], onChatSelected: noop});

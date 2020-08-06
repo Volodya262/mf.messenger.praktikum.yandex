@@ -16,13 +16,13 @@ export class VRouter {
         VRouter.instance = this;
     }
 
-    use(pathname: string, block: VComponent<any, any>) {
+    use(pathname: string, block: VComponent<any, any>): VRouter {
         const route = new VRoute(pathname, block);
         this.routes.push(route);
         return this;
     }
 
-    start = () => {
+    start: () => void = () => {
         window.onpopstate = (event) => {
             if (document.location != null) {
                 this.handlePathChange(document.location.hash);
@@ -32,28 +32,30 @@ export class VRouter {
         this.handlePathChange(document.location.hash);
     }
 
-    go(pathname) {
+    go(pathname: string): void {
         // history.pushState({}, '', pathname)
         window.location.hash = pathname;
         this.handlePathChange(pathname);
     }
 
-    back() {
+    back(): void {
         this.history.back();
     }
 
-    forward() {
+    forward(): void {
         this.history.forward();
     }
 
-    getRoute(pathname) {
+    getRoute(pathname: string): VRoute {
         return this.routes.find(route => route.match(pathname));
     }
 
     private handlePathChange(pathname: string) {
         const route = this.getRoute(pathname);
         if (route == null) {
-            console.log(`route ${pathname} не найден`);
+            const err = `route ${pathname} не найден`;
+            console.error(err);
+            throw new Error(err);
         }
 
         if (route !== this.currentRoute && this.currentRoute != null) {

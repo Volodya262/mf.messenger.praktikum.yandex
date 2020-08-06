@@ -13,7 +13,7 @@ const METHODS = {
  * Http транспорт из говна и палок. Использовать на свой страх и риск.
  */
 export class vFetch {
-    vGet<T>(url: string, queryParams: object = null): Promise<T> { // TODO добавить функционал хедеров и опционального таймаута
+    vGet<T>(url: string, queryParams: Record<string, unknown> = null): Promise<T> { // TODO добавить функционал хедеров и опционального таймаута
         return new Promise<T>((resolve, reject) => {
             const xhr = this.createDefaultXhr(resolve, reject);
 
@@ -24,7 +24,7 @@ export class vFetch {
         })
     }
 
-    vPost<T>(url: string, bodyParams: object): Promise<T> {
+    vPost<T>(url: string, bodyParams: Record<string, unknown>): Promise<T> {
         return new Promise<T>((resolve, reject) => {
             const xhr = this.createDefaultXhr(resolve, reject);
             xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -34,7 +34,7 @@ export class vFetch {
         })
     }
 
-    vPut<T>(url: string, queryParams: object, bodyParams: object): Promise<T> {
+    vPut<T>(url: string, queryParams: Record<string, unknown>, bodyParams: Record<string, unknown>): Promise<T> {
         return new Promise<T>((resolve, reject) => {
             const xhr = this.createDefaultXhr(resolve, reject);
             xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -45,7 +45,7 @@ export class vFetch {
         })
     }
 
-    vDelete<T>(url: string, queryParams: object): Promise<T> {
+    vDelete<T>(url: string, queryParams: Record<string, unknown>): Promise<T> {
         return new Promise<T>((resolve, reject) => {
             const xhr = this.createDefaultXhr(resolve, reject);
             xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');

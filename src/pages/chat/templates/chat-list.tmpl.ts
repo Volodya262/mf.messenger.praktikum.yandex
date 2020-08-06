@@ -1,3 +1,5 @@
+import Handlebars from 'handlebars'
+
 // language=Handlebars
 export const chatItemTemplate = `
     <div class="chat-item {{#if isSelected}}chat-item__selected {{/if}}">
@@ -14,7 +16,7 @@ export const chatItemTemplate = `
         </div>
     </div>`;
 
-window.Handlebars.registerPartial('chatItem', chatItemTemplate);
+Handlebars.registerPartial('chatItem', chatItemTemplate);
 
 export const chatListTemplate =
     `{{#each chats}}

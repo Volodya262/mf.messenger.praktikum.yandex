@@ -7,10 +7,7 @@ export interface ValidationErrorsComponentProps {
 }
 
 export class ValidationErrorsComponent extends VComponent<ValidationErrorsComponentProps, NoState> {
-    componentDidMount(): void {
-    }
-
-    render(props: Readonly<ValidationErrorsComponentProps>): { template: string; context: object; eventListeners?: ComponentEventHandler[] } {
+    render(props: Readonly<ValidationErrorsComponentProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
         // language=Handlebars
         const template = `
             <div>
