@@ -15,8 +15,6 @@ class MainPageComponent extends VComponent<NoProps, NoState> {
 
 
 
-
-
         const template = `
             <div>
                 <h1>Главная страница</h1>
