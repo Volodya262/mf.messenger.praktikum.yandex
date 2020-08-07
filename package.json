@@ -10,7 +10,6 @@
     "webpack:build": "webpack --mode production",
     "webpack:build-dev": "webpack --mode development",
     "webpack:watch": "npm run webpack:build-dev -- --watch",
-    "webpack:serve": "webpack-dev-server --mode development --open --watch",
     "docker:build": "sudo docker build -t volodya262/yandex-messenger .",
     "docker:run": "sudo docker run -p 4000:4000 -d volodya262/yandex-messenger"
   },
@@ -44,8 +43,10 @@
     "express": "^4.17.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "html-webpack-plugin": "^4.3.0",
+    "husky": "^4.2.5",
     "jest": "^26.1.0",
     "jest-config": "^26.1.0",
+    "lint-staged": "^10.2.11",
     "mini-css-extract-plugin": "^0.9.0",
     "node-dev": "^4.0.0",
     "postcss-cli": "^7.1.1",
