@@ -1,7 +1,7 @@
 const express = require('express');
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 const host = '0.0.0.0';
 
 const myDir = 'dist'
