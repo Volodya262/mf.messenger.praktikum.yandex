@@ -11,6 +11,7 @@ import {registerAll} from "./common/utils/handlebars-custom-helpers";
 class MainPageComponent extends VComponent<NoProps, NoState> {
     render(props: Readonly<NoProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
 
+
         const template = `
             <div>
                 <h1>Главная страница</h1>
