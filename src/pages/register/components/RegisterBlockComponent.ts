@@ -6,13 +6,16 @@ import {InternalEventHandlersRegistrar} from "../../../core/v-react/types/intern
 import {ValidationErrorsComponent} from "../../common/components/ValidationErrorsComponent";
 import {
     escapeXss,
-    hasErrors, hasNoErrors,
-    requiredField,
+    hasErrors,
+    hasNoErrors,
     validateLogin,
     validatePassword,
     validatePasswordConfirmation
 } from "../../validation-common";
 import {validateMail} from "../register";
+import {ChatApi} from "../../../api/chat-api";
+import {VOptions} from "../../../core/v-fetch/types/v-options";
+import {VResponse} from "../../../core/v-fetch/types/v-response";
 
 export type fieldState = {
     value: string,
@@ -30,6 +33,8 @@ export interface RegisterBlockState {
 type InputEventHandler = (e: InputEvent) => void;
 
 export class RegisterBlockComponent extends VComponent<NoProps, RegisterBlockState> {
+    private readonly api = new ChatApi(); // todo надо инжектить это через конструктор
+
     constructor(props: NoProps,
                 parentEventHandlerRegistrar: InternalEventHandlersRegistrar,
                 notifyParentChildStateUpdated: () => void) {
@@ -127,16 +132,43 @@ export class RegisterBlockComponent extends VComponent<NoProps, RegisterBlockSta
         this.validatePasswordConfirmationAndUpdateState(password, passwordConfirmation);
 
         if (hasNoErrors(loginErrors) && hasNoErrors(passwordErrors) && hasNoErrors(mailErrors) && hasNoErrors(passwordConfirmationErrors)) {
-            console.log({
+            const data = {
                 login: login,
                 password: password,
                 mail: mail,
                 passwordConfirmation: passwordConfirmation
-            })
-            alert(`Принято! login: ${login}, password: ${password}`)
+            };
+            this.sendRegisterRequest(data);
+            // alert(`Принято! login: ${login}, password: ${password}`)
         }
 
         e.preventDefault();
+    }
+
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    sendRegisterRequest(data: any): void { // todo типы
+        const req = {
+            data: {
+                first_name: data.name || 'vova', // todo поля
+                login: data.login,
+                second_name: data.secondname || 'gorbatov',
+                email: data.mail,
+                password: data.password,
+                phone: data.phone || '12345678',
+            },
+        };
+        this.api.signup(req as VOptions)
+            .then((res: Response) => {
+                if (res.status === 200) {
+                    alert('Registered!') // todo сделать нормальную реакцию
+                } else {
+                    alert("Failed to register. Reason: " + JSON.stringify(res)) // todo нормальная обработка ошибки
+                }
+            })
+            .catch((err: VResponse) => {
+                console.error(err); // todo нормальная обработка ошибки
+                alert(err);
+            });
     }
 
     render(props: Readonly<NoProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {

@@ -8,6 +8,8 @@ import {
     ValidationErrorsComponent,
     ValidationErrorsComponentProps
 } from "../../common/components/ValidationErrorsComponent";
+import {ChatApi} from "../../../api/chat-api";
+import {VOptions} from "../../../core/v-fetch/types/v-options";
 
 export interface LoginBlockComponentState {
     login?: string,
@@ -23,6 +25,7 @@ type InputEventHandler = (e: InputEvent) => void;
 export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponentState> {
     private logoComponent: LogoComponent;
     private validationErrorsComponent: ValidationErrorsComponent;
+    private readonly api = new ChatApi();
 
     constructor(props: NoProps,
                 parentEventHandlerRegistrar: InternalEventHandlersRegistrar,
@@ -73,14 +76,40 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
         this.validatePasswordAndUpdateState(password);
 
         if (hasNoErrors(loginErrors) && hasNoErrors(passwordErrors)) {
-            console.log({
+            const data = {
                 login: login,
                 password: password,
-            })
-            alert(`Принято! login: ${login}, password: ${password}`)
+            };
+            this.sendLoginReq(data);
         }
 
         e.preventDefault();
+    }
+
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    sendLoginReq(data: any): void {
+        const req = {
+            data: {
+                first_name: data.name || 'vova', // todo поля
+                login: data.login,
+                second_name: data.secondname || 'gorbatov',
+                email: data.mail,
+                password: data.password,
+                phone: data.phone || '12345678',
+            },
+        };
+        this.api.signIn(req as VOptions)
+            .then((res: Response) => {
+                if (res.status === 200) {
+                    // this.$router.go('/');
+                    alert('success!')
+                } else {
+                    alert("failed:" + JSON.stringify(res)); // todo обработка ошибки
+                }
+            })
+            .catch((err: unknown) => {
+                alert("error:" + JSON.stringify(err)); // todo обработка ошибки
+            });
     }
 
     render(props: Readonly<NoProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
