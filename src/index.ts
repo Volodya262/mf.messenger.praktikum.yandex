@@ -7,6 +7,7 @@ import {ChatApiStub} from "./api/messages-api-stub";
 import {NoProps} from "./core/v-react/types/no-props";
 import {LoginPageComponent} from "./pages/login/components/LoginPageComponent";
 import {registerAll} from "./common/utils/handlebars-custom-helpers";
+import {RegisterPageComponent} from "./pages/register/components/RegisterPageComponent";
 
 class MainPageComponent extends VComponent<NoProps, NoState> {
     render(props: Readonly<NoProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
@@ -37,9 +38,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const loginPageComponent = new LoginPageComponent({});
     loginPageComponent.init();
 
+    const registerPageComponent = new RegisterPageComponent({});
+    registerPageComponent.init();
+
     const router = new VRouter(document.getElementById('root'));
     router.use('', mainPageComponent)
     router.use('chat', chatComponent)
     router.use('login', loginPageComponent)
+    router.use('register', registerPageComponent)
     router.start();
 });

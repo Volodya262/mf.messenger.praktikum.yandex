@@ -3,7 +3,7 @@
 Ссылки на все страницы находятся на главной. 
 
 Приложение билдится через webpack: ```build``` 
-```webpack:build``` ```webpack:build-dev``` ```webpack:watch```.
+```webpack:build``` ```webpack:build-dev``` ```webpack:watch``` (не работает :( ).
 
 Для запуска express надо набрать ``npm start``. 
 Приложение хостится на порте 4000.

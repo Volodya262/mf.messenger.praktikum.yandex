@@ -1,31 +1,5 @@
-import {inputErrorMessagesListTemplate} from "./common/templates/input-error-message";
-import Handlebars from 'handlebars'
-
 export const PASSWORD_LENGTH_MIN = 8;
 export const PASSWORD_LENGTH_MAX = 32;
-
-export function toggleInputValid(element: HTMLElement, errors: string[]): void {
-    if (element == null) {
-        return;
-    }
-
-    if (errors == null || errors.length === 0) {
-        element.classList.remove('input__has-error');
-    } else {
-        element.classList.add('input__has-error');
-    }
-}
-
-export function showErrorsInContainer(containerId: string, errors: string[]): void {
-    if (errors?.length === 0) {
-        return;
-    }
-
-    const template = Handlebars.compile(inputErrorMessagesListTemplate);
-    const context = {errors: errors};
-
-    document.getElementById(containerId).innerHTML = template(context);
-}
 
 export function hasErrors(arr: string[]): boolean {
     return arr != null && arr.length > 0;
@@ -62,11 +36,6 @@ export function validatePassword(password: string): string[] {
     }
 }
 
-export function showValidateRes(errors: string[], inputElement: HTMLInputElement, errorsContainerId: string): void {
-    showErrorsInContainer(errorsContainerId, errors);
-    toggleInputValid(inputElement, errors);
-}
-
 export const requiredField = "Это поле обязательно для заполнения";
 
 export function escapeXss(s: string): string {
@@ -82,4 +51,20 @@ export function escapeXss(s: string): string {
     return s.replace(/[&<>]/g, function (tag) {
         return tagsToReplace[tag] || tag;
     });
+}
+
+export function validatePasswordConfirmation(password: string, passwordConfirmation: string): string[] {
+    if (passwordConfirmation == null || passwordConfirmation.length === 0) {
+        return [requiredField]
+    }
+
+    if (passwordConfirmation !== password) {
+        return ["Пароли не совпадают"];
+    }
+}
+
+export function validateEmail(email: string): boolean {
+    // eslint-disable-next-line no-useless-escape
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
 }
