@@ -57,6 +57,10 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: "not-found.html",
             template: "src/pages/not-found/not-found.html"
+        }),
+        new HtmlWebpackPlugin({
+            filename: "internal-error.html",
+            template: "src/pages/internal-error/internal-error.html"
         })
     ]
 };

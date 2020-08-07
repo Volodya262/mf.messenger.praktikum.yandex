@@ -7,7 +7,7 @@ import {VOptions} from "./types/v-options";
 /**
  * Http транспорт
  */
-export class vFetch {
+export class VFetch {
     baseOptions: InstanceOptions;
 
     constructor(instance: InstanceOptions = {baseUrl: ''}) {
@@ -23,23 +23,23 @@ export class vFetch {
     }
 
     vGet(url: string, options: VOptions = {method: METHODS.GET}): Promise<unknown> {
-        const assign = this.mergeOptions(options);
-        return this.vRequest(this.baseOptions.baseUrl + url, {...assign, method: METHODS.GET}, options.timeout);
+        const allOptions = this.mergeOptions(options);
+        return this.vRequest(this.baseOptions.baseUrl + url, {...allOptions, method: METHODS.GET}, options.timeout);
     }
 
     vPost(url: string, options: VOptions = {method: METHODS.POST}): Promise<unknown> {
-        const assign = this.mergeOptions(options);
-        return this.vRequest(this.baseOptions.baseUrl + url, {...assign, method: METHODS.POST}, options.timeout);
+        const allOptions = this.mergeOptions(options);
+        return this.vRequest(this.baseOptions.baseUrl + url, {...allOptions, method: METHODS.POST}, options.timeout);
     }
 
     vPut(url: string, options: VOptions = {method: METHODS.PUT}): Promise<unknown> {
-        const assign = this.mergeOptions(options);
-        return this.vRequest(this.baseOptions.baseUrl + url, {...assign, method: METHODS.PUT}, options.timeout);
+        const allOptions = this.mergeOptions(options);
+        return this.vRequest(this.baseOptions.baseUrl + url, {...allOptions, method: METHODS.PUT}, options.timeout);
     }
 
     vDelete(url: string, options: VOptions = {method: METHODS.DELETE}): Promise<unknown> {
-        const assign = this.mergeOptions(options);
-        return this.vRequest(this.baseOptions.baseUrl + url, {...assign, method: METHODS.DELETE}, options.timeout);
+        const allOptions = this.mergeOptions(options);
+        return this.vRequest(this.baseOptions.baseUrl + url, {...allOptions, method: METHODS.DELETE}, options.timeout);
     }
 
     private vRequest(url: string, options: InstanceOptions & VOptions = {method: METHODS.GET}, timeout = 5000) {
