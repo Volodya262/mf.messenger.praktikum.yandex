@@ -2,32 +2,38 @@ import {isObject} from "../../common/utils/common-utils";
 
 // TODO добавить спец. обработчик для Date
 // TODO скорее всего надо будет делать экранирование для спец.символов
-export function queryStringify(obj: Record<string, unknown>): string {
-    if (!isObject(obj)) {
-        throw new Error(`Expected object, but got ${obj}`);
+export function queryStringify(obj: {}): string {
+    if (typeof obj !== 'object') {
+        throw new Error('');
     }
 
-    const entries = Object.entries(obj);
-
-    if (entries.length > 0) {
-        return entries.reduce((acc, [key, value], index) => {
-            if (index > 0) {
-                acc += '&'
+    let result = '?';
+    for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            if (typeof obj[key] === 'object') {
+                result += queryHelper(obj[key], key);
+            } else {
+                result += `${key}=${obj[key]}&`;
             }
-
-            if (Array.isArray(value)) {
-                return acc + value.reduce((acc, arrValue, arrIndex) => acc += `${arrIndex > 0 ? '&' : ''}${key}[${arrIndex}]=${arrValue}`, '')
-            }
-
-            if (typeof value === 'object') {
-                return acc + transformObjectEntriesToArrayString(key, value)
-            }
-
-            return acc + `${key}=${value}`
-        }, '?')
+        }
     }
 
-    return '';
+    return result.replace(/&$/, '');
+}
+
+function queryHelper(obj: {}, querykey: string) {
+    let query = '';
+    for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            if (typeof obj[key] === 'object') {
+                query += queryHelper(obj[key], `${querykey}[${key}]`);
+            } else {
+                query += `${querykey}[${key}]=${obj[key]}&`;
+            }
+        }
+    }
+
+    return query;
 }
 
 /**

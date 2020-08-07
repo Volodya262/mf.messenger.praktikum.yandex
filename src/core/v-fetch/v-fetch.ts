@@ -1,69 +1,94 @@
 import {queryStringify} from "./query-stringify";
+import {VResponse} from "./types/v-response";
+import {InstanceOptions} from "./types/instance-options";
+import {METHODS} from "./types/methods";
+import {VOptions} from "./types/v-options";
 
-const METHODS = {
-    GET: 'GET',
-    POST: 'POST',
-    PUT: 'PUT',
-    DELETE: 'DELETE'
-}
-
-// если честно, я кроме get в этом классе ничего не проверял.
-// честного хождения в сеть в проекте пока нет
 /**
- * Http транспорт из говна и палок. Использовать на свой страх и риск.
+ * Http транспорт
  */
 export class vFetch {
-    vGet<T>(url: string, queryParams: Record<string, unknown> = null): Promise<T> { // TODO добавить функционал хедеров и опционального таймаута
-        return new Promise<T>((resolve, reject) => {
-            const xhr = this.createDefaultXhr(resolve, reject);
+    baseOptions: InstanceOptions;
 
-            const paramsString = queryParams != null ? queryStringify(queryParams) : '';
+    constructor(instance: InstanceOptions = {baseUrl: ''}) {
+        if (typeof instance.baseUrl !== 'string') {
+            throw new Error(`Failed to create vFetch: expected baseUrl:string, but got ${instance.baseUrl}`);
+        }
 
-            xhr.open(METHODS.GET, url + paramsString);
-            xhr.send();
-        })
+        this.baseOptions = instance;
     }
 
-    vPost<T>(url: string, bodyParams: Record<string, unknown>): Promise<T> {
-        return new Promise<T>((resolve, reject) => {
-            const xhr = this.createDefaultXhr(resolve, reject);
-            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-
-            xhr.open(METHODS.POST, url);
-            xhr.send(JSON.stringify(bodyParams || {}));
-        })
+    mergeOptions(options: VOptions): VOptions & InstanceOptions {
+        return {...options, ...this.baseOptions}
     }
 
-    vPut<T>(url: string, queryParams: Record<string, unknown>, bodyParams: Record<string, unknown>): Promise<T> {
-        return new Promise<T>((resolve, reject) => {
-            const xhr = this.createDefaultXhr(resolve, reject);
-            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-            const paramsString = queryParams != null ? queryStringify(queryParams) : '';
-
-            xhr.open(METHODS.PUT, url + paramsString);
-            xhr.send(JSON.stringify(bodyParams || {}));
-        })
+    vGet(url: string, options: VOptions = {method: METHODS.GET}): Promise<unknown> {
+        const assign = this.mergeOptions(options);
+        return this.vRequest(this.baseOptions.baseUrl + url, {...assign, method: METHODS.GET}, options.timeout);
     }
 
-    vDelete<T>(url: string, queryParams: Record<string, unknown>): Promise<T> {
-        return new Promise<T>((resolve, reject) => {
-            const xhr = this.createDefaultXhr(resolve, reject);
-            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-            const paramsString = queryParams != null ? queryStringify(queryParams) : '';
-            xhr.open(METHODS.DELETE, url + paramsString);
-            xhr.send();
-        })
+    vPost(url: string, options: VOptions = {method: METHODS.POST}): Promise<unknown> {
+        const assign = this.mergeOptions(options);
+        return this.vRequest(this.baseOptions.baseUrl + url, {...assign, method: METHODS.POST}, options.timeout);
     }
 
-    private createDefaultXhr<T>(resolve: (value?: (T | PromiseLike<T>)) => void, reject: (reason?: any) => void): XMLHttpRequest {
-        const xhr = new XMLHttpRequest();
-        xhr.timeout = 60000;
-        xhr.onload = () => resolve(JSON.parse(xhr.response));
-        const handleError = err => reject(err);
-        xhr.onabort = handleError;
-        xhr.onerror = handleError;
-        xhr.ontimeout = handleError;
+    vPut(url: string, options: VOptions = {method: METHODS.PUT}): Promise<unknown> {
+        const assign = this.mergeOptions(options);
+        return this.vRequest(this.baseOptions.baseUrl + url, {...assign, method: METHODS.PUT}, options.timeout);
+    }
 
-        return xhr;
+    vDelete(url: string, options: VOptions = {method: METHODS.DELETE}): Promise<unknown> {
+        const assign = this.mergeOptions(options);
+        return this.vRequest(this.baseOptions.baseUrl + url, {...assign, method: METHODS.DELETE}, options.timeout);
+    }
+
+    private vRequest(url: string, options: InstanceOptions & VOptions = {method: METHODS.GET}, timeout = 5000) {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            let requestUrl = url;
+            if (options.query && options.method === METHODS.GET) {
+                requestUrl += queryStringify(options.query);
+            }
+            xhr.withCredentials = true;
+            xhr.open(options.method, requestUrl);
+            if (options.headers) {
+                const {headers} = options;
+                for (const key in headers) {
+                    if (Object.prototype.hasOwnProperty.call(headers, key)) {
+                        xhr.setRequestHeader(key, headers[key]);
+                    }
+                }
+            }
+
+            xhr.onload = function onl() {
+                let responseData: {};
+                try {
+                    responseData = JSON.parse(xhr.response);
+                } catch {
+                    responseData = xhr.response;
+                }
+
+                const data: VResponse = {
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    data: responseData,
+                };
+                if (String(xhr.status).startsWith('2')) {
+                    return resolve(data);
+                }
+
+                return reject(data);
+            };
+
+            xhr.timeout = timeout;
+            xhr.onabort = reject;
+            xhr.onerror = reject;
+            xhr.ontimeout = reject;
+            if (options.method === METHODS.GET) {
+                xhr.send();
+            } else {
+                xhr.send(JSON.stringify(options.data));
+            }
+        })
     }
 }
