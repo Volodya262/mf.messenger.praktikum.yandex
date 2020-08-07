@@ -11,7 +11,8 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "[chunkhash]-[name]"
+        filename: "[chunkhash]-[name]",
+        publicPath: "/"
     },
     resolve: {
         extensions: ['.ts', '.js', '.json', '.css']

@@ -10,7 +10,9 @@
     "webpack:build": "webpack --mode production",
     "webpack:build-dev": "webpack --mode development",
     "webpack:watch": "npm run webpack:build-dev -- --watch",
-    "webpack:serve": "webpack-dev-server --mode development --open --watch"
+    "webpack:serve": "webpack-dev-server --mode development --open --watch",
+    "docker:build": "sudo docker build -t volodya262/yandex-messenger .",
+    "docker:run": "sudo docker run -p 4000:4000 -d volodya262/my-node-app"
   },
   "repository": {
     "type": "git",
