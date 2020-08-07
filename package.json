@@ -11,7 +11,9 @@
     "webpack:build-dev": "webpack --mode development",
     "webpack:watch": "npm run webpack:build-dev -- --watch",
     "docker:build": "sudo docker build -t volodya262/yandex-messenger .",
-    "docker:run": "sudo docker run -p 4000:4000 -d volodya262/yandex-messenger"
+    "docker:run": "sudo docker run -p 4000:4000 -d volodya262/yandex-messenger",
+    "eslint": "eslint .",
+    "eslint:fix": "eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -63,5 +65,15 @@
     "date-fns": "^2.14.0",
     "handlebars": "^4.7.6",
     "express": "^4.17.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run eslint"
+    }
+  },
+  "lint-staged": {
+    "*.{ts}": [
+      "eslint"
+    ]
   }
 }

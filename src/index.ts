@@ -11,10 +11,6 @@ import {registerAll} from "./common/utils/handlebars-custom-helpers";
 class MainPageComponent extends VComponent<NoProps, NoState> {
     render(props: Readonly<NoProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
 
-
-
-
-
         const template = `
             <div>
                 <h1>Главная страница</h1>
@@ -22,7 +18,7 @@ class MainPageComponent extends VComponent<NoProps, NoState> {
                 Отработал по замечаниям, добавил в чат возможность выбора чата. Всю эту неделю думал что эта работа у меня уже сдана)))
                 </p>
             </div>
-        `
+        `;
 
         return {context: {}, template: template};
     }
@@ -37,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const chatComponent = new ChatPageComponent({}, new ChatApiStub());
     chatComponent.init();
-
 
     const loginPageComponent = new LoginPageComponent({});
     loginPageComponent.init();

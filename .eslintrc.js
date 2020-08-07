@@ -16,6 +16,6 @@ module.exports = {
         "@typescript-eslint/no-explicit-any": 0,
         "@typescript-eslint/no-unused-vars": 0,
         "@typescript-eslint/ban-types": 0,
-        "no-multiple-empty-lines": ["error", {max: 2}]
+        "no-multiple-empty-lines": ["error", {max: 1}]
     }
 };

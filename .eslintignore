@@ -4,3 +4,4 @@
 .eslintrc.js
 *.config*
 server.js
+lint-staged.config.js
