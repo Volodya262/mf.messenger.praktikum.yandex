@@ -1,10 +1,8 @@
+import {v4 as uuid} from 'uuid';
+
 /**
- * Создает уникальный id, нашел где-то на StackOverflow. Должен гарантировать уникальность.
+ * Создает уникальный id, гарантирует уникальность
  */
 export function uuidv4(): string {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-        (c ^ window.crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-    );
+    return uuid();
 }
