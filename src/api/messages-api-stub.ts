@@ -60,6 +60,7 @@ export class ChatApiStub implements IChatApi { // интерфейс на слу
         const previews = [];
         for (const chat of chatNames) {
             const chatMessages = allChatsMessages.find(msgs => msgs.chatId === chat.id)?.messages;
+            // о проверках на null написано в "о проверках на null.md"
             if (chatMessages == null || chatMessages.length === 0) {
                 const preview = {
                     id: chat.id,

@@ -2,11 +2,7 @@
  * [1, 2, 3, 4] => 1
  */
 export function first<T>(list: T[]): T {
-    if (list == null) {
-        return undefined;
-    }
-
-    return list[0];
+    return list == null ? undefined : list[0];
 }
 
 /**
@@ -49,11 +45,7 @@ export interface Group<TData, TKey> {
 }
 
 export function last<T>(list: T[]): T {
-    if (list == null || !Array.isArray(list)) {
-        return undefined;
-    }
-
-    if (list.length === 0) {
+    if (!Array.isArray(list) || list.length === 0) {
         return undefined;
     }
 
@@ -117,7 +109,7 @@ export function sortBy<TData, TKey>(arr: TData[],
     const sortedKeys = arr.map(keySelector).sort(compareFn);
     for (const key of sortedKeys) {
         const items = arr.filter(item => keySelector(item) === key);
-        if (items == null) {
+        if (items.length === 0) {
             throw new Error('Unexpected error occured');
         }
         res.push(...items);
@@ -151,27 +143,6 @@ export function splitByPredicate<TData>(arr: TData[], splitPredicate: (currEl: T
     }
 
     return res;
-}
-
-/**
- * Пытается спарсить Number. Если получается NaN, то возвращает null
- * @param src
- */
-export function tryParseNumber(src: number | string): number {
-    if (typeof src === "number") {
-        return src;
-    }
-
-    try {
-        if (src != null) {
-            const res = Number(src);
-            return isNaN(res) ? null : res;
-        }
-    } catch {
-        return null;
-    }
-
-    return null;
 }
 
 /**

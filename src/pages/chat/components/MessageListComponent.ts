@@ -1,5 +1,5 @@
 import {VComponent} from "../../../core/v-react/v-component";
-import {ISingleMessage} from "../../../common/types/types";
+import {ISingleMessage, IUserMessagesGroup} from "../../../common/types/types";
 import {NoState} from "../../../core/v-react/types/no-state";
 import {ComponentEventHandler} from "../../../core/v-react/types/component-event-handler";
 import {messagesListTemplate} from "../templates/messages-list-tmpl";
@@ -33,7 +33,7 @@ export class MessageListComponent extends VComponent<MessageListComponentProps, 
                 const rawMessages = group.items;
                 const splitPredicate = (currMsg, prevMsg) => currMsg.authorId !== prevMsg.authorId;
                 const userGroupedMessagesArray = splitByPredicate(rawMessages, splitPredicate); // [[msg1, msg2, msg3],[msg4],[msg5]]
-                const userMessageGroups = userGroupedMessagesArray.map(userMsgArray => (
+                const userMessageGroups: IUserMessagesGroup[] = userGroupedMessagesArray.map(userMsgArray => (
                     {
                         user: {
                             avatarUrl: userMsgArray[0].avatarUrl,
