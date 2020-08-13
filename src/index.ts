@@ -66,7 +66,17 @@ class MainPageComponent extends VComponent<NoProps, MainPageState> {
             <div>
                 <h1>Главная страница</h1>
                 <p>
-
+                    Отработал по всем замечаниям, кроме {context: context, template: template} и == null.
+                </p>
+                <p>
+                    Про проверки на null через двойное равно я уже писал в файлик "о проверках на null" в корне проекта,
+                    Если явно не указывать имя в анонимном объекте, то можно поймать баг при рефакторе, если нет
+                    проверки типов
+                    (например, в параметрах для sql-запроса).
+                </p>
+                <p>
+                    "Настоящий" чат не работает, т.к. в апи вообще нет методов, связанных с сообщениями, кек.
+                    https://ya-praktikum.tech/api-docs#/
                 </p>
                 <div>
                     <button id="user-info-button">get user info</button>
