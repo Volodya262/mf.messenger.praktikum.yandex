@@ -12,7 +12,7 @@ export function findAllTaggedElements(rootNode: HTMLElement): HTMLElement[] {
 
 /** Найти все элементы, которым надо присвоить конкретный обработчик события */
 export function findTargetElements(elements: HTMLElement[], eventHandlerId: string): HTMLElement[] {
-    return elements.filter(item => (item as HTMLElement).dataset[eventHandlerIdTag] === eventHandlerId)
+    return elements.filter(item => (item as HTMLElement).dataset[eventHandlerIdTag] === eventHandlerId);
 }
 
 /** Добавить элементу event handler id */
@@ -32,7 +32,7 @@ export function tagAllElementsWithUniqueEventHandlerId(rootNode: HTMLElement, ha
         const id = uuidv4();
         const elements = rootNode.querySelectorAll(querySelector);
         // TODO добавить поддержку нескольких event handler на один объект
-        tagElementWithEventHandlerId(elements, id)
+        tagElementWithEventHandlerId(elements, id);
         internalHandlers.push({id: id, event: event, func: func});
     }
 

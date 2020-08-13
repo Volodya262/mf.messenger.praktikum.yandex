@@ -7,7 +7,7 @@ import {
     validateLogin,
     validatePassword,
     validatePasswordConfirmation
-} from "../validation-common.js";
+} from "../validation-common";
 
 let loginElement;
 let nameElement;
@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", function () {
         (passwordConfirmation) => validatePasswordConfirmation(escapeXss(passwordElement.value), passwordConfirmation),
         passwordConfirmationErrorsContainerId);
 
-    form.addEventListener('submit', onSubmit)
-})
+    form.addEventListener('submit', onSubmit);
+});
 
 function onSubmit(e) {
     const name = escapeXss(nameElement.value);
@@ -53,9 +53,9 @@ function onSubmit(e) {
             oldPassword: oldPassword,
             password: password,
             passwordConfirmation: passwordConfirmation
-        })
+        });
     }
-    e.preventDefault()
+    e.preventDefault();
 }
 
 function validateAll(name, login, oldPassword, password, passwordConfirmation) {
@@ -65,7 +65,7 @@ function validateAll(name, login, oldPassword, password, passwordConfirmation) {
         oldPassword: validatePassword(oldPassword),
         password: validatePassword(password),
         passwordConfirmation: validatePasswordConfirmation(password, passwordConfirmation)
-    })
+    });
 }
 
 function showValidateResAll(validateRes) {
@@ -78,7 +78,7 @@ function showValidateResAll(validateRes) {
 
 function validateName(name) {
     if (name == null || name.length === 0) {
-        return [requiredField]
+        return [requiredField];
     }
 }
 

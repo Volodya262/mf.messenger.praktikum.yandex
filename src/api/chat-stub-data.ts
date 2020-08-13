@@ -22,7 +22,7 @@ export const chatNames = [
         id: 4,
         title: 'Пустой чатик'
     },
-]
+];
 
 export const chatMessages: IChatMessages[] = [
     {
@@ -110,4 +110,4 @@ export const chatMessages: IChatMessages[] = [
             }
         ]
     },
-]
+];

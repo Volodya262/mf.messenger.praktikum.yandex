@@ -9,8 +9,8 @@ describe('collection-utils: first', function () {
         const res = first(a);
 
         // verify
-        expect(res).toBe(1)
-    })
+        expect(res).toBe(1);
+    });
 
     test.each`
     input
@@ -23,6 +23,6 @@ describe('collection-utils: first', function () {
 
         // verify
         expect(res == null).toBeTruthy();
-    })
-})
+    });
+});
 

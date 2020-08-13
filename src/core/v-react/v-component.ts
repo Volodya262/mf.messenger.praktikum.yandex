@@ -7,7 +7,7 @@ import {
     findTargetElements,
     tagAllElementsWithUniqueEventHandlerId
 } from "./helpers/event-handlers-helper";
-import Handlebars from 'handlebars'
+import Handlebars from 'handlebars';
 
 enum VfcEvents {
     /** Все поля компонента проинициализированы */
@@ -52,7 +52,7 @@ export abstract class VComponent<TProps extends object, TState extends object> {
                 notifyParentChildStateUpdated: () => void = null,
                 tagName = 'v-component') {
         this.tagName = tagName;
-        this.props = {...props}
+        this.props = {...props};
         this.parentEventHandlerRegistrar = parentEventHandlerRegistrar;
         this.notifyParentChildStateUpdated = notifyParentChildStateUpdated;
 
@@ -96,7 +96,7 @@ export abstract class VComponent<TProps extends object, TState extends object> {
         const oldProps = this.props;
         this.props = newProps;
         if (this.componentShouldUpdate(oldProps, newProps)) {
-            this.eventBus.emit(VfcEvents.propsUpdated)
+            this.eventBus.emit(VfcEvents.propsUpdated);
         }
     }
 
@@ -113,7 +113,7 @@ export abstract class VComponent<TProps extends object, TState extends object> {
     }
 
     public hide(): void {
-        this.element.style.display = 'none'
+        this.element.style.display = 'none';
     }
 
     protected registerChildEventListeners: (handlers: ComponentEventHandlerInternal[]) => void = (handlers: ComponentEventHandlerInternal[]) => {
@@ -187,7 +187,7 @@ export abstract class VComponent<TProps extends object, TState extends object> {
             return;
         }
 
-        const elements = findAllTaggedElements(this.getElement())
+        const elements = findAllTaggedElements(this.getElement());
         for (const {event, func, id} of this.childEventListeners) {
             const targetElements = findTargetElements(elements, id);
             targetElements.forEach(item => item.addEventListener(event, func));
@@ -217,7 +217,7 @@ export abstract class VComponent<TProps extends object, TState extends object> {
         } else {
             for (const {event, func, querySelector} of handlers) {
                 const elements = this.element.querySelectorAll(querySelector);
-                elements.forEach(item => item.addEventListener(event, func))
+                elements.forEach(item => item.addEventListener(event, func));
             }
         }
     }
@@ -227,7 +227,7 @@ export abstract class VComponent<TProps extends object, TState extends object> {
 
         const {context, template, eventListeners} = this.render(this.props);
         const compiledTemplate = Handlebars.compile(template);
-        this.element.innerHTML = compiledTemplate(context || {})
+        this.element.innerHTML = compiledTemplate(context || {});
         this.registerEventListeners(eventListeners);
         this.registerChildEventListenersInternal();
         this.eventBus.emit(VfcEvents.rendered);

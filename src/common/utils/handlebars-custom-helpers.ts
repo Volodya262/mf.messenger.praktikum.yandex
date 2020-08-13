@@ -8,12 +8,12 @@ export function registerAll(): void {
     const handlebars = Handlebars;
 
     handlebars.registerHelper('dateFormat', function (date) {
-        return format(date, 'dd.MM.yyyy')
-    })
+        return format(date, 'dd.MM.yyyy');
+    });
 
     handlebars.registerHelper('timeFormat', function (date) {
-        return format(date, 'HH:mm')
-    })
+        return format(date, 'HH:mm');
+    });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handlebars.registerHelper('renderFunctionalComponent', function (componentClass: new (...args: any) => VComponent<any, NoState>,
@@ -23,7 +23,7 @@ export function registerAll(): void {
         const component = new componentClass(props, registerEventHandlers);
         component.init();
         return component.getElementHtml();
-    })
+    });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handlebars.registerHelper('renderComponentInstance', function (component: VComponent<any, any>,
@@ -31,5 +31,5 @@ export function registerAll(): void {
         // any убрать не получится, registerHelper - стандартная функция Handlebars и не имеет дженериков
         component.setProps(props);
         return component.getElementHtml();
-    })
+    });
 }

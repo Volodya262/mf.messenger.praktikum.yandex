@@ -19,7 +19,7 @@ export class ValidationErrorsComponent extends VComponent<ValidationErrorsCompon
 
         const context = {
             errors: props?.errors || []
-        }
+        };
 
         return {context: context, template: template};
     }

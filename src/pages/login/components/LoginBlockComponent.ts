@@ -35,7 +35,7 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
         this.state = {
             loginHasErrors: false,
             passwordHasErrors: false
-        }
+        };
     }
 
     handleLoginBlur: InputEventHandler = (e: InputEvent) => {
@@ -50,7 +50,7 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
             login: login,
             loginHasErrors: hasErrors(loginValidateRes),
             loginErrors: loginValidateRes
-        })
+        });
     }
 
     validatePasswordAndUpdateState(password: string): void {
@@ -60,7 +60,7 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
             password: password,
             passwordErrors: passwordErrors,
             passwordHasErrors: hasErrors(passwordErrors)
-        })
+        });
     }
 
     handlePasswordBlur: InputEventHandler = (e: InputEvent) => {
@@ -70,7 +70,7 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
 
     handleFormSubmit: InputEventHandler = (e: InputEvent) => {
         const login = escapeXss(this.getState()?.login);
-        const password = escapeXss(this.getState()?.password)
+        const password = escapeXss(this.getState()?.password);
         const loginErrors = validateLogin(login);
         const passwordErrors = validatePassword(password);
         this.validateLoginAndUpdateState(login);
@@ -88,7 +88,7 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
         this.api.signIn(login, password)
             .then((res: VResponse<IDefaultResponse>) => {
                 if (res.status === 200) {
-                    alert('success!')
+                    alert('success!');
                 } else {
                     alert("failed:" + JSON.stringify(res)); // todo обработка ошибки
                 }
@@ -160,7 +160,7 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
                 querySelector: 'form',
                 event: 'submit',
                 func: this.handleFormSubmit
-            }]
+            }];
 
         return {context: context, template: template, eventListeners: handlers};
     }

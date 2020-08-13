@@ -21,7 +21,7 @@ type MessageListComponentViewModel = {
 export class MessageListComponent extends VComponent<MessageListComponentProps, NoState> {
     render({messages}: Readonly<MessageListComponentProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
         const convertedMessages = this.convertMessagesToViewModel(messages);
-        const template = messagesListTemplate
+        const template = messagesListTemplate;
         const context = {messageDayGroups: convertedMessages};
         return {context, template};
     }

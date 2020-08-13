@@ -22,7 +22,7 @@ export class LoginPageComponent extends VComponent<NoProps, NoState> {
         const context = {
             loginBlockComponent: this.loginBlockComponent,
             noProps: {}
-        }
+        };
 
         return {context: context, template: template};
     }

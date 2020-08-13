@@ -7,11 +7,11 @@ function isEqual(lhs, rhs) {
 export class VRoute {
     constructor(private pathname: string, private component: VComponent<any, any>) {
         if (pathname == null) {
-            throw new TypeError(`expected component, but got ${pathname}`)
+            throw new TypeError(`expected component, but got ${pathname}`);
         }
 
         if (component == null) {
-            throw new TypeError(`expected component, but got ${component}`)
+            throw new TypeError(`expected component, but got ${component}`);
         }
     }
 
@@ -26,6 +26,6 @@ export class VRoute {
 
     public render(node: HTMLElement): void {
         this.component.show();
-        node.appendChild(this.component.getElement())
+        node.appendChild(this.component.getElement());
     }
 }

@@ -51,7 +51,7 @@ export class VFetch {
     }
 
     private mergeOptions<T>(options: Partial<VOptions<T>>): Partial<VOptions<T>> & BaseOptions {
-        return {...options, ...this.baseOptions}
+        return {...options, ...this.baseOptions};
     }
 
     private vRequest<TReq, TResp>(url: string, options: BaseOptions & VOptions<TReq> = {method: METHODS.GET}, timeout = 5000): Promise<VResponse<TResp>> {
@@ -101,6 +101,6 @@ export class VFetch {
             } else {
                 xhr.send(JSON.stringify(options.data));
             }
-        })
+        });
     }
 }

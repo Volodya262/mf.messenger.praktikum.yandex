@@ -29,7 +29,7 @@ function queryStringifyInnerObject(obj: {}, querykey: string) {
             query += queryStringifyInnerObject(obj[key], `${querykey}[${key}]`);
         } else {
             const safeKey = encodeURIComponent(key);
-            const safeValue = encodeURIComponent(obj[key])
+            const safeValue = encodeURIComponent(obj[key]);
             query += `${queryKeySafe}[${safeKey}]=${safeValue}&`;
         }
     }

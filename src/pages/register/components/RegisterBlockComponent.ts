@@ -9,10 +9,10 @@ import {
     hasErrors,
     hasNoErrors,
     validateLogin,
+    validateMail,
     validatePassword,
     validatePasswordConfirmation
 } from "../../validation-common";
-import {validateMail} from "../register";
 import {ChatApi} from "../../../api/chat-api";
 import {ISignUpArg} from "../../../api/types/i-sign-up-arg";
 
@@ -43,7 +43,7 @@ export class RegisterBlockComponent extends VComponent<NoProps, RegisterBlockSta
             login: {errors: [], value: ''},
             password: {errors: [], value: ''},
             passwordConfirmation: {errors: [], value: ''},
-        }
+        };
     }
 
     private logoComponent: LogoComponent;
@@ -62,7 +62,7 @@ export class RegisterBlockComponent extends VComponent<NoProps, RegisterBlockSta
                 hasErrors: hasErrors(validateRes),
                 errors: validateRes
             }
-        })
+        });
     }
 
     handleLoginBlur: InputEventHandler = (e: InputEvent) => {
@@ -79,7 +79,7 @@ export class RegisterBlockComponent extends VComponent<NoProps, RegisterBlockSta
                 hasErrors: hasErrors(loginValidateRes),
                 errors: loginValidateRes
             }
-        })
+        });
     }
 
     handlePasswordBlur: InputEventHandler = (e: InputEvent) => {
@@ -96,7 +96,7 @@ export class RegisterBlockComponent extends VComponent<NoProps, RegisterBlockSta
                 errors: passwordErrors,
                 hasErrors: hasErrors(passwordErrors)
             }
-        })
+        });
     }
 
     handlePasswordConfirmationBlur: InputEventHandler = (e: InputEvent) => {
@@ -113,14 +113,14 @@ export class RegisterBlockComponent extends VComponent<NoProps, RegisterBlockSta
                 hasErrors: hasErrors(passwordConfirmationErrors),
                 errors: passwordConfirmationErrors
             }
-        })
+        });
     }
 
     handleFormSubmit: InputEventHandler = (e: InputEvent) => {
         const mail = escapeXss(this.getState()?.mail?.value || '');
         const login = escapeXss(this.getState()?.login?.value || '');
-        const password = escapeXss(this.getState()?.password?.value || '')
-        const passwordConfirmation = escapeXss(this.getState()?.passwordConfirmation?.value || '')
+        const password = escapeXss(this.getState()?.password?.value || '');
+        const passwordConfirmation = escapeXss(this.getState()?.passwordConfirmation?.value || '');
         const loginErrors = validateLogin(login);
         const passwordErrors = validatePassword(password);
         const mailErrors = validatePassword(mail);
@@ -145,7 +145,7 @@ export class RegisterBlockComponent extends VComponent<NoProps, RegisterBlockSta
     sendRegisterRequest(data: ISignUpArg): void {
         this.api.signUp(data)
             .then((res) => {
-                alert('Registered!' + JSON.stringify(res)) // todo сделать нормальную реакцию
+                alert('Registered!' + JSON.stringify(res)); // todo сделать нормальную реакцию
             })
             .catch((err) => {
                 alert(JSON.stringify(err));
@@ -245,7 +245,7 @@ export class RegisterBlockComponent extends VComponent<NoProps, RegisterBlockSta
                 event: 'submit',
                 func: this.handleFormSubmit
             }
-        ]
+        ];
 
         return {context: context, template: template, eventListeners: handlers};
     }

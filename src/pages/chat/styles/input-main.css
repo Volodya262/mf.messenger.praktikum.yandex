@@ -26,16 +26,15 @@
 }
 
 .input__send-button {
-    background-color: DodgerBlue; /* Blue background */
+    background-color: DodgerBlue;
     outline-style: none;
     border-radius: 8px;
-    border: none; /* Remove borders */
-    color: white; /* White text */
-    padding: 8px; /* Some padding */
-    cursor: pointer; /* Mouse pointer on hover */
+    border: none;
+    color: white;
+    padding: 8px;
+    cursor: pointer;
 }
 
-/* Darker background on mouse-over */
 .input__send-button:hover {
     background-color: RoyalBlue;
 }

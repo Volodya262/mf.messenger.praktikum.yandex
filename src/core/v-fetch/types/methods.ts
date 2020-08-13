@@ -3,4 +3,4 @@ export const METHODS = {
     POST: 'POST',
     PUT: 'PUT',
     DELETE: 'DELETE'
-}
+};

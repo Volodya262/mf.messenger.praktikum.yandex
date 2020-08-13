@@ -1,4 +1,4 @@
-import Handlebars from 'handlebars'
+import Handlebars from 'handlebars';
 
 // language=Handlebars
 export const chatItemTemplate = `

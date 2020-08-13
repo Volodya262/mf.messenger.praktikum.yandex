@@ -14,25 +14,25 @@ export function hasNoErrors(arr: string[]): boolean {
  */
 export function validateLogin(login: string): string[] {
     if (login == null || login.length === 0) {
-        return [requiredField]
+        return [requiredField];
     }
 
     if (login.indexOf(' ') > -1) {
-        return ["Логин не может содержать пробелы"]
+        return ["Логин не может содержать пробелы"];
     }
 }
 
 export function validatePassword(password: string): string[] {
     if (password == null || password.length === 0) {
-        return [requiredField]
+        return [requiredField];
     }
 
     if (password.length < PASSWORD_LENGTH_MIN) {
-        return [`Пароль должен быть длиннее ${PASSWORD_LENGTH_MIN} символов`]
+        return [`Пароль должен быть длиннее ${PASSWORD_LENGTH_MIN} символов`];
     }
 
     if (password.length > PASSWORD_LENGTH_MAX) {
-        return [`Пароль должен быть длиннее ${PASSWORD_LENGTH_MAX} символов`]
+        return [`Пароль должен быть длиннее ${PASSWORD_LENGTH_MAX} символов`];
     }
 }
 
@@ -40,7 +40,7 @@ export const requiredField = "Это поле обязательно для за
 
 export function escapeXss(s: string): string {
     if (s == null) {
-        return s
+        return s;
     }
 
     const tagsToReplace = {
@@ -55,7 +55,7 @@ export function escapeXss(s: string): string {
 
 export function validatePasswordConfirmation(password: string, passwordConfirmation: string): string[] {
     if (passwordConfirmation == null || passwordConfirmation.length === 0) {
-        return [requiredField]
+        return [requiredField];
     }
 
     if (passwordConfirmation !== password) {
@@ -63,8 +63,18 @@ export function validatePasswordConfirmation(password: string, passwordConfirmat
     }
 }
 
-export function validateEmail(email: string): boolean {
+export function isValidMail(email: string): boolean {
     // eslint-disable-next-line no-useless-escape
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+}
+
+export function validateMail(mail: string): string[] {
+    if (mail == null || mail.length === 0) {
+        return [requiredField];
+    }
+
+    if (!isValidMail(mail)) {
+        return ["Некорректный email"];
+    }
 }

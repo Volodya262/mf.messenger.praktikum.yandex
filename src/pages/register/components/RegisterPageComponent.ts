@@ -22,7 +22,7 @@ export class RegisterPageComponent extends VComponent<NoProps, NoState> {
         const context = {
             registerBlockComponent: this.registerBlockComponent,
             noProps: {}
-        }
+        };
 
         return {context: context, template: template};
     }

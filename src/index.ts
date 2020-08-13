@@ -19,9 +19,9 @@ class MainPageComponent extends VComponent<NoProps, MainPageState> {
     getUserInfo = () => { // TODO убрать это непотребство
         this.api.getUserInfo().then(res => {
             console.log(res);
-            this.setState({userinfo: JSON.stringify(res)})
+            this.setState({userinfo: JSON.stringify(res)});
         }).catch(err => {
-            this.setState({userinfo: JSON.stringify(err)})
+            this.setState({userinfo: JSON.stringify(err)});
             console.log(err);
         });
     };
@@ -32,8 +32,8 @@ class MainPageComponent extends VComponent<NoProps, MainPageState> {
                 alert(JSON.stringify(res));
             })
             .catch((err) => {
-                alert(JSON.stringify(err))
-            })
+                alert(JSON.stringify(err));
+            });
     }
 
     getChats = () => {
@@ -41,13 +41,13 @@ class MainPageComponent extends VComponent<NoProps, MainPageState> {
             .then((res) => {
                 this.setState({
                     chatsInfo: JSON.stringify(res)
-                })
+                });
             })
             .catch((err) => {
                 this.setState({
                     chatsInfo: JSON.stringify(err)
-                })
-            })
+                });
+            });
     }
 
     addChat = () => {
@@ -56,8 +56,8 @@ class MainPageComponent extends VComponent<NoProps, MainPageState> {
                 alert(JSON.stringify(res));
             })
             .catch((err) => {
-                alert(JSON.stringify(err))
-            })
+                alert(JSON.stringify(err));
+            });
     }
 
     render(props: Readonly<NoProps>): { template: string; context: Record<string, unknown>; eventListeners?: ComponentEventHandler[] } {
@@ -108,12 +108,12 @@ class MainPageComponent extends VComponent<NoProps, MainPageState> {
                 event: 'click',
                 func: this.addChat
             }
-        ]
+        ];
 
         const context = {
             userInfo: this.getState()?.userinfo,
             chatsInfo: this.getState()?.chatsInfo
-        }
+        };
 
         return {context: context, template: template, eventListeners: handlers};
     }
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
     registerAll();
 
     const mainPageComponent = new MainPageComponent({});
-    mainPageComponent.init()
+    mainPageComponent.init();
 
     const chatComponent = new ChatPageComponent({}, new ChatApiStub());
     chatComponent.init();
@@ -136,9 +136,9 @@ document.addEventListener("DOMContentLoaded", function () {
     registerPageComponent.init();
 
     const router = new VRouter(document.getElementById('root'));
-    router.use('', mainPageComponent)
-    router.use('chat', chatComponent)
-    router.use('login', loginPageComponent)
-    router.use('register', registerPageComponent)
+    router.use('', mainPageComponent);
+    router.use('chat', chatComponent);
+    router.use('login', loginPageComponent);
+    router.use('register', registerPageComponent);
     router.start();
 });

@@ -22,7 +22,7 @@ export class VRouter {
             if (document.location != null) {
                 this.handlePathChange(document.location.hash);
             }
-        }
+        };
 
         this.handlePathChange(document.location.hash);
     }

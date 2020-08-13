@@ -27,7 +27,7 @@ export class ChatApi {
             this.http.vGet<NoArgs, IGetChatsResponse[]>('/chats')
                 .then(resp => resolve(createIChatPreviewFromDto(resp.data)))
                 .catch(err => reject(err));
-        })
+        });
     }
 
     getUserInfo(): Promise<IUserInfo> {
@@ -41,7 +41,7 @@ export class ChatApi {
     addChat(title: string): Promise<unknown> {
         const params: Partial<VOptions<IAddChatRequestArg>> = {
             data: {title: title}
-        }
+        };
 
         return this.http.vPost('/chats', params);
     }

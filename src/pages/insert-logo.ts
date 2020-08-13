@@ -1,5 +1,5 @@
 import {logoTemplate} from "./common/templates/logo.tmpl.js";
-import Handlebars from 'handlebars'
+import Handlebars from 'handlebars';
 
 // TODO удалить когда весь проект переедет на компоненты
 const template = Handlebars.compile(logoTemplate);

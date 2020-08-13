@@ -1,6 +1,6 @@
 import Handlebars from 'handlebars';
 
-const handlebars = Handlebars
+const handlebars = Handlebars;
 // language=Handlebars
 const messageItemTemplate = `
     <div class="message-user-group__message-row">
@@ -44,4 +44,4 @@ export const messagesListTemplate =
     {{#each messageDayGroups}}
             {{> messagesDayGroup}}
         {{/each}}
-    `
+    `;

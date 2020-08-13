@@ -3,7 +3,7 @@ import {IGetChatsResponse} from "../types/i-get-chats-response";
 
 export function createIChatPreviewFromDto(resp: IGetChatsResponse[]): IChatPreview[] {
     if (resp == null) {
-        return []
+        return [];
     }
 
     return resp.map(item => ({

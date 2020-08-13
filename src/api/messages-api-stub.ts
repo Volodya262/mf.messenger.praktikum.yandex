@@ -16,10 +16,10 @@ export class ChatApiStub implements IChatApi { // интерфейс на слу
     }
 
     public getChats(): Promise<IChatPreview[]> {
-        const chats = this.makeChatPreviews(this.chatNames, this.chatsMessages)
+        const chats = this.makeChatPreviews(this.chatNames, this.chatsMessages);
         return new Promise(resolve => {
             setTimeout(() => resolve(chats), 100);
-        })
+        });
     }
 
     public sendMessage(chatId: number, messageText: string, userId: number, userName: string): Promise<void> {
@@ -29,7 +29,7 @@ export class ChatApiStub implements IChatApi { // интерфейс на слу
             authorId: userId,
             authorName: userName,
             message: messageText
-        }
+        };
 
         // const newChatsMessages = _.cloneDeep(this.chatsMessages); // TODO добавить клонирование
         const newChatsMessages = this.chatsMessages;
@@ -53,7 +53,7 @@ export class ChatApiStub implements IChatApi { // интерфейс на слу
 
         return new Promise(resolve => {
             setTimeout(() => resolve(), 500);
-        })
+        });
     }
 
     private makeChatPreviews(chatNames: IChatCoreInfo[], allChatsMessages: IChatMessages[]): IChatPreview[] {
@@ -80,7 +80,7 @@ export class ChatApiStub implements IChatApi { // интерфейс на слу
                     message: lastMessage.message,
                     author: lastMessage.authorName,
                     date: lastMessage.date
-                }
+                };
                 previews.push(preview);
             }
         }

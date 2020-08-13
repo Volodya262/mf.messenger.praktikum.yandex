@@ -26,7 +26,7 @@ export class ChatListComponent extends VComponent<ChatListComponentProps, Record
             chats: sortedChatsWithSelectedInfo,
             chatItemComponentClass: ChatItemComponent,
             eventRegistrar: this.registerChildEventListeners
-        }
+        };
         return {context: context, template: template};
     }
 }

@@ -12,5 +12,5 @@ export function createUserInfoFromDto(resp: IGetUserInfoResponse): IUserInfo {
         email: resp.email,
         firstName: resp.first_name,
         secondName: resp.second_name
-    }
+    };
 }

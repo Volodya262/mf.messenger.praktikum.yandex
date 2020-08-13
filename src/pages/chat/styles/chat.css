@@ -33,9 +33,6 @@
     background-color: #587983;
 }
 
-.messages-list-container {
-}
-
 .messages-list-container-wrapper {
     overflow: auto;
     flex-grow: 1;

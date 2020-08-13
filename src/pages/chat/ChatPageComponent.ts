@@ -42,8 +42,8 @@ export class ChatPageComponent extends VComponent<NoProps, IChatState> {
             return;
         }
 
-        this.setState({selectedChatId: id})
-        this.loadChatMessages(id).then(msgs => this.setState({selectedChatMessages: msgs}))
+        this.setState({selectedChatId: id});
+        this.loadChatMessages(id).then(msgs => this.setState({selectedChatMessages: msgs}));
     };
 
     componentDidMount(): void {
@@ -54,12 +54,12 @@ export class ChatPageComponent extends VComponent<NoProps, IChatState> {
                         chats: chats,
                         selectedChatId: chats[0].id,
                         selectedChatMessages: messages
-                    })
+                    });
                 });
             } else {
                 this.setState({
                     chats: chats
-                })
+                });
             }
         });
     }
@@ -72,7 +72,7 @@ export class ChatPageComponent extends VComponent<NoProps, IChatState> {
 
         if (this.messageListComponent == null) {
             this.messageListComponent = this.createChildComponent<MessageListComponent, MessageListComponentProps>(MessageListComponent,
-                {messages: []})
+                {messages: []});
         }
 
         // TODO разбить на компоненты как в старом проекте на реакте: chat, chat-list, input-main, message-list, ...
@@ -121,7 +121,7 @@ export class ChatPageComponent extends VComponent<NoProps, IChatState> {
             },
             messageListComponent: this.messageListComponent,
             messageListComponentProps: {messages: this.getState()?.selectedChatMessages || []}
-        }
+        };
 
         return {context: context, template: template};
     }

@@ -1,7 +1,7 @@
 import {VComponent} from "./v-component";
 import {ComponentEventHandler} from "./types/component-event-handler";
 import crypto from '@trust/webcrypto';
-import Handlebars from 'handlebars'
+import Handlebars from 'handlebars';
 import {registerAll} from "../../common/utils/handlebars-custom-helpers";
 
 beforeAll(() => {
@@ -12,7 +12,7 @@ beforeAll(() => {
     // noinspection JSConstantReassignment
     window.crypto = crypto;
     registerAll();
-})
+});
 
 describe('VComponentTests: single component', function () {
     interface TestProps {
@@ -36,21 +36,21 @@ describe('VComponentTests: single component', function () {
         const element = myComponent.getElement();
 
         // verify
-        expect(element.innerHTML).toBe('<h1>Hello vasya</h1>')
+        expect(element.innerHTML).toBe('<h1>Hello vasya</h1>');
     });
 
     test('It should update template after setProps', function () {
         // setup
         const myComponent = new TestableComponent({name: 'vasya'});
         myComponent.init();
-        myComponent.setProps({name: 'vova'})
+        myComponent.setProps({name: 'vova'});
 
         // act
         const element = myComponent.getElement();
 
         // verify
-        expect(element.innerHTML).toBe('<h1>Hello vova</h1>')
-    })
+        expect(element.innerHTML).toBe('<h1>Hello vova</h1>');
+    });
 
     test('it should call componentDidMount only once', function () {
         const mockFunction = jest.fn();
@@ -69,12 +69,12 @@ describe('VComponentTests: single component', function () {
         myComponent.init();
 
         // act
-        myComponent.setProps({name: 'vova'})
+        myComponent.setProps({name: 'vova'});
 
         // verify
         expect(mockFunction).toBeCalledTimes(1);
-    })
-})
+    });
+});
 
 describe('VComponentTests: nested components', function () {
     // TODO тест что компонент в компоненте рендерится
@@ -84,4 +84,4 @@ describe('VComponentTests: nested components', function () {
     // TODO тест что навешиваются event handlerы на дочерний компонент
     // TODO тест что event handlerы дочернего компонента не теряются после перерендера
     // TODO тест что event handlerы не задваиваются после каждого рендера
-})
+});

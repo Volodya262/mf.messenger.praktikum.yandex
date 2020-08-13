@@ -24,7 +24,7 @@ export function groupBy<TData, TKey>(arr: TData[], keySelector: (item: TData) =>
         }
 
         return groups;
-    }, new Map())
+    }, new Map());
 }
 
 /**
@@ -49,7 +49,7 @@ export function last<T>(list: T[]): T {
         return undefined;
     }
 
-    return list[list.length - 1]
+    return list[list.length - 1];
 }
 
 export function rangeRight(start: number, end: number, step: number): number[] {
@@ -154,7 +154,7 @@ export function splitByPredicate<TData>(arr: TData[], splitPredicate: (currEl: T
 export function maxBy<TData, TKey>(arr: TData[], keySelector: (item: TData) => TKey,
                                    compareFn: ((a: TKey, b: TKey) => number)): TData {
     if (arr.length === 0) {
-        throw new Error('Expected non-empty array')
+        throw new Error('Expected non-empty array');
     }
     let currMax = arr[0];
     let currMaxKey = keySelector(currMax);
