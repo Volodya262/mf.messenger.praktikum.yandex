@@ -18,10 +18,6 @@ export class VFetch {
         this.baseOptions = options;
     }
 
-    mergeOptions<T>(options: Partial<VOptions<T>>): Partial<VOptions<T>> & BaseOptions {
-        return {...options, ...this.baseOptions}
-    }
-
     vGet<TReq, TResp>(url: string, options: Partial<VOptions<TReq>> = {method: METHODS.GET}): Promise<VResponse<TResp>> {
         const allOptions = this.mergeOptions(options);
         return this.vRequest<TReq, TResp>(this.baseOptions.baseUrl + url, {
@@ -52,6 +48,10 @@ export class VFetch {
             ...allOptions,
             method: METHODS.DELETE
         }, options.timeout);
+    }
+
+    private mergeOptions<T>(options: Partial<VOptions<T>>): Partial<VOptions<T>> & BaseOptions {
+        return {...options, ...this.baseOptions}
     }
 
     private vRequest<TReq, TResp>(url: string, options: BaseOptions & VOptions<TReq> = {method: METHODS.GET}, timeout = 5000): Promise<VResponse<TResp>> {
