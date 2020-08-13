@@ -1,5 +1,5 @@
 module.exports = {
     linters: {
-        '*': 'eslint --fix'
+        '*': 'eslint'
     },
 };

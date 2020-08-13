@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "tsc && jest",
-    "start": "node server.js",
+    "start": "npm run webpack:build-dev && node server.js",
     "build": "npm run webpack:build",
     "webpack:build": "webpack --mode production",
     "webpack:build-dev": "webpack --mode development",
