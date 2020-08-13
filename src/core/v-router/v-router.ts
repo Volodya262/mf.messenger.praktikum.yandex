@@ -8,12 +8,7 @@ export class VRouter {
     private routes: VRoute[] = [];
     private history = window.history;
 
-    constructor(private rootNode: HTMLElement) { // просто копипастнул код из тренажера
-        if (VRouter.instance) {
-            return VRouter.instance;
-        }
-
-        VRouter.instance = this;
+    constructor(private rootNode: HTMLElement) {
     }
 
     use(pathname: string, block: VComponent<any, any>): VRouter {
@@ -23,7 +18,7 @@ export class VRouter {
     }
 
     start: () => void = () => {
-        window.onpopstate = (event) => {
+        window.onpopstate = () => {
             if (document.location != null) {
                 this.handlePathChange(document.location.hash);
             }
@@ -33,7 +28,6 @@ export class VRouter {
     }
 
     go(pathname: string): void {
-        // history.pushState({}, '', pathname)
         window.location.hash = pathname;
         this.handlePathChange(pathname);
     }

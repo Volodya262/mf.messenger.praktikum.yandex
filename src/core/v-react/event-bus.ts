@@ -1,9 +1,7 @@
 type myCallback = ((...args: any) => void);
 
 export class EventBus<TEvent> {
-    // https://codeburst.io/array-vs-set-vs-map-vs-object-real-time-use-cases-in-javascript-es6-47ee3295329b
-    // https://gist.github.com/jung-kim/83676b2310c7c2a9c3d8 сравнение производительности Map, Array, Object. Map быстрее.
-    // Я использовал Map из-за готового метода has и проверки на уникальность ключа.
+    // ссылки были для предыдущего код-ревьюера :)
     listeners = new Map<TEvent, myCallback[]>();
 
     on(event: TEvent, callback: myCallback): void {
