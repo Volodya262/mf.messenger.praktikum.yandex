@@ -1,11 +1,29 @@
 // TODO раскидать эти типы по папочкам и разным файлам когда будет webpack
 
 /**
- * Информация о чате, как она бы хранилась в БД
+ * Информация о чате без доп. информации
  */
 export interface IChatCoreInfo {
     id: number,
     title: string
+    logoUrl?: string;
+}
+
+/**
+ * Расширенная информация о чате
+ */
+export interface IChatPreview extends IChatCoreInfo {
+    author: string;
+    message: string;
+    date: Date;
+}
+
+export interface IUserInfo {
+    login: string;
+    email: string;
+    firstName: string;
+    secondName: string;
+    displayName: string;
 }
 
 export interface IChatMessages {
@@ -18,19 +36,6 @@ export interface IChatMessages {
      * Сообщения этого чата
      */
     messages: ISingleMessage[];
-}
-
-/**
- * Превьюха чата в окне выбора чатов
- */
-export interface IChatPreview {
-    id: number;
-    logoUrl: string;
-    title: string;
-    author: string;
-    message: string;
-    date: Date;
-    // isSelected?: boolean;
 }
 
 /**

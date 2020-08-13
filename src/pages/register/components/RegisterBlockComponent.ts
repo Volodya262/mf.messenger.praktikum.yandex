@@ -14,8 +14,7 @@ import {
 } from "../../validation-common";
 import {validateMail} from "../register";
 import {ChatApi} from "../../../api/chat-api";
-import {VOptions} from "../../../core/v-fetch/types/v-options";
-import {VResponse} from "../../../core/v-fetch/types/v-response";
+import {ISignUpArg} from "../../../api/types/i-sign-up-arg";
 
 export type fieldState = {
     value: string,
@@ -136,38 +135,20 @@ export class RegisterBlockComponent extends VComponent<NoProps, RegisterBlockSta
                 login: login,
                 password: password,
                 mail: mail,
-                passwordConfirmation: passwordConfirmation
             };
             this.sendRegisterRequest(data);
-            // alert(`Принято! login: ${login}, password: ${password}`)
         }
 
         e.preventDefault();
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    sendRegisterRequest(data: any): void { // todo типы
-        const req = {
-            data: {
-                first_name: data.name || 'vova', // todo поля
-                login: data.login,
-                second_name: data.secondname || 'gorbatov',
-                email: data.mail,
-                password: data.password,
-                phone: data.phone || '12345678',
-            },
-        };
-        this.api.signup(req as VOptions)
-            .then((res: Response) => {
-                if (res.status === 200) {
-                    alert('Registered!') // todo сделать нормальную реакцию
-                } else {
-                    alert("Failed to register. Reason: " + JSON.stringify(res)) // todo нормальная обработка ошибки
-                }
+    sendRegisterRequest(data: ISignUpArg): void {
+        this.api.signUp(data)
+            .then((res) => {
+                alert('Registered!' + JSON.stringify(res)) // todo сделать нормальную реакцию
             })
-            .catch((err: VResponse) => {
-                console.error(err); // todo нормальная обработка ошибки
-                alert(err);
+            .catch((err) => {
+                alert(JSON.stringify(err));
             });
     }
 

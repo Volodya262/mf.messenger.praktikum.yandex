@@ -1,7 +1,9 @@
-export interface VResponse {
+type ErrorDataType = {
+    reason?: string
+}
+
+export interface VResponse<TData> {
     status: number,
     statusText: string,
-    data: {
-        reason?: string
-    }
+    data: TData & ErrorDataType
 }

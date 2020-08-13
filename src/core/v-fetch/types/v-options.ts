@@ -1,7 +1,7 @@
-export type VOptions = {
+export type VOptions<TData> = {
     method: string;
     query?: string;
-    data?: unknown;
+    data?: TData;
     timeout?: number;
     headers?: { [key: string]: string };
 };

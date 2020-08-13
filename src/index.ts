@@ -8,7 +8,6 @@ import {LoginPageComponent} from "./pages/login/components/LoginPageComponent";
 import {registerAll} from "./common/utils/handlebars-custom-helpers";
 import {RegisterPageComponent} from "./pages/register/components/RegisterPageComponent";
 import {ChatApi} from "./api/chat-api";
-import {VOptions} from "./core/v-fetch/types/v-options";
 
 interface MainPageState {
     userinfo: string;
@@ -52,8 +51,7 @@ class MainPageComponent extends VComponent<NoProps, MainPageState> {
     }
 
     addChat = () => {
-        const req = {data: {title: 'some new title'}};
-        this.api.addChat(req as VOptions)
+        this.api.addChat('some new title')
             .then((res) => {
                 alert(JSON.stringify(res));
             })
@@ -68,12 +66,7 @@ class MainPageComponent extends VComponent<NoProps, MainPageState> {
             <div>
                 <h1>Главная страница</h1>
                 <p>
-                    "Работают" страницы логин и регистрация. Чат всё еще на заглушках.
-                    Через кнопочки ниже можно получить информацию о текущем юзере, разлогиниться,
-                    получить список чатов пользователя и добавить новый чат.
-                </p>
-                <p>
-                    Прекрасно понимаю что всё ОЧЕНЬ сырое, но у меня регистрация в ЗАГСе через 12 часов)))))))))00000
+
                 </p>
                 <div>
                     <button id="user-info-button">get user info</button>

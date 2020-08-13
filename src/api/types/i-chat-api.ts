@@ -1,6 +1,6 @@
 import {IChatPreview, ISingleMessage} from "../../common/types/types";
 
-export interface IChatApi {
+export interface IChatApi { // deprecated. Реальный API совсем другой(
     /**
      * Получить список чатов
      */

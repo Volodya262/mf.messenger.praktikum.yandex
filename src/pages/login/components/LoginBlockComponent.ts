@@ -9,7 +9,8 @@ import {
     ValidationErrorsComponentProps
 } from "../../common/components/ValidationErrorsComponent";
 import {ChatApi} from "../../../api/chat-api";
-import {VOptions} from "../../../core/v-fetch/types/v-options";
+import {VResponse} from "../../../core/v-fetch/types/v-response";
+import {IDefaultResponse} from "../../../api/types/i-default-response";
 
 export interface LoginBlockComponentState {
     login?: string,
@@ -76,32 +77,17 @@ export class LoginBlockComponent extends VComponent<NoProps, LoginBlockComponent
         this.validatePasswordAndUpdateState(password);
 
         if (hasNoErrors(loginErrors) && hasNoErrors(passwordErrors)) {
-            const data = {
-                login: login,
-                password: password,
-            };
-            this.sendLoginReq(data);
+            this.sendLoginReq(login, password);
         }
 
         e.preventDefault();
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    sendLoginReq(data: any): void {
-        const req = {
-            data: {
-                first_name: data.name || 'vova', // todo поля
-                login: data.login,
-                second_name: data.secondname || 'gorbatov',
-                email: data.mail,
-                password: data.password,
-                phone: data.phone || '12345678',
-            },
-        };
-        this.api.signIn(req as VOptions)
-            .then((res: Response) => {
+    sendLoginReq(login: string, password: string): void {
+        this.api.signIn(login, password)
+            .then((res: VResponse<IDefaultResponse>) => {
                 if (res.status === 200) {
-                    // this.$router.go('/');
                     alert('success!')
                 } else {
                     alert("failed:" + JSON.stringify(res)); // todo обработка ошибки
