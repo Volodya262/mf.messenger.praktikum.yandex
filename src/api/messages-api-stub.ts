@@ -5,7 +5,7 @@ import {chatMessages, chatNames, imgUrl3} from "./chat-stub-data";
 
 export class ChatApiStub implements IChatApi { // интерфейс на случай если захочется сделать красивый мок
     chatNames = chatNames;
-    chatsMessages = chatMessages;
+    chatsMessages: IChatMessages[] = chatMessages;
 
     public getChatMessages(chatId: number): Promise<ISingleMessage[]> {
         const res = this.chatsMessages.find(msgs => msgs.chatId === chatId);
@@ -37,6 +37,9 @@ export class ChatApiStub implements IChatApi { // интерфейс на слу
 
         let chatMessages;
         if (chatMessagesIndex === -1) {
+            // намеренно нигде не использую синтаксис {chatId, []}
+            // на случай если не будет проверки типов. Как, например, здесь.
+            // Даже ни смотря на указанный тип у this.chatsMessages, ошибки не возникает
             chatMessages = {chatId: chatId, messages: []};
         } else {
             chatMessages = newChatsMessages[chatMessagesIndex];
@@ -44,6 +47,7 @@ export class ChatApiStub implements IChatApi { // интерфейс на слу
         }
         chatMessages.messages.push(newMsg);
         newChatsMessages.push(chatMessages);
+        newChatsMessages.push({chatId: 123, messages: []});
 
         this.chatsMessages = newChatsMessages;
 

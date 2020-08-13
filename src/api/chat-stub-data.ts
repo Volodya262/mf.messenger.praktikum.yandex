@@ -1,3 +1,5 @@
+import {IChatMessages} from "../common/types/types";
+
 export const ipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua';
 export const imgUrl1 = 'https://placekitten.com/200/200';
 export const imgUrl2 = 'https://placekitten.com/250/250';
@@ -22,7 +24,7 @@ export const chatNames = [
     },
 ]
 
-export const chatMessages = [
+export const chatMessages: IChatMessages[] = [
     {
         chatId: 1,
         messages: [
