@@ -1,11 +1,11 @@
-import {VComponent} from "../../../core/v-react/v-component";
-import {IChatPreview, ISingleMessage} from "../../../common/types/types";
-import {ComponentEventHandler} from "../../../core/v-react/types/component-event-handler";
-import {ChatListComponent, ChatListComponentProps} from "./ChatListComponent";
-import {MessageListComponent, MessageListComponentProps} from "./MessageListComponent";
-import {IChatApi} from "../../../api/types/i-chat-api";
-import {noop} from "../../../common/utils/common-utils";
-import {NoProps} from "../../../core/v-react/types/no-props";
+import {VComponent} from "../../core/v-react/v-component";
+import {IChatPreview, ISingleMessage} from "../../common/types/types";
+import {ComponentEventHandler} from "../../core/v-react/types/component-event-handler";
+import {ChatListComponent, ChatListComponentProps} from "./components/ChatListComponent";
+import {MessageListComponent, MessageListComponentProps} from "./components/MessageListComponent";
+import {IChatApi} from "../../api/types/i-chat-api";
+import {noop} from "../../common/utils/common-utils";
+import {NoProps} from "../../core/v-react/types/no-props";
 
 export interface IChatState {
     chats: IChatPreview[],

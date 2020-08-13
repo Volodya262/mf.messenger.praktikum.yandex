@@ -23,7 +23,7 @@ export class MessageListComponent extends VComponent<MessageListComponentProps, 
         const convertedMessages = this.convertMessagesToViewModel(messages);
         const template = messagesListTemplate
         const context = {messageDayGroups: convertedMessages};
-        return {context: context, template: template};
+        return {context, template};
     }
 
     convertMessagesToViewModel(messages: ISingleMessage[]): MessageListComponentViewModel {
